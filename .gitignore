@@ -1,0 +1,51 @@
+# Dependencias
+/node_modules
+/.pnp
+.pnp.js
+
+# Archivos de configuración del entorno
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Directorios de Docker
+/docker/volumes/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Directorio de salida de compilación
+/dist
+/build
+
+# Directorios y archivos específicos de Vite
+.vite/
+vite.config.js
+
+# Sistema de archivos de MacOS
+.DS_Store
+
+# Sistema de archivos de Windows
+Thumbs.db
+
+# Archivos de editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Archivos de base de datos
+*.sql
+*.sqlite
+
+# Archivos de certificados SSL
+*.pem
+
+# Docker Compose File
+docker-compose.yml
