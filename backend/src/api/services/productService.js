@@ -1,4 +1,4 @@
-import Product from "../../models/productModel";
+import Product from "../../models/productModel.js";
 
 const createProduct = async (product) => {
     try {
@@ -54,3 +54,11 @@ const deleteProduct = async (id) => {
         throw error;
     }
 }
+
+export default {
+    createProduct,
+    getProducts,
+    getProductById,
+    updateProduct,
+    deleteProduct,
+};

@@ -49,15 +49,6 @@ logs/
 /docker/volumes/
 docker-compose.yml
 
-### Base de datos ###
-# Archivos de volcado de base de datos
-*.sql
-*.sql.gz
-*.sqlite
-# Data dirs
-.pgdata/
-.mongodata/
-/db/
 
 ### Sistemas Operativos ###
 .DS_Store

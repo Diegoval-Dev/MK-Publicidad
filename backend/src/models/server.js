@@ -1,6 +1,10 @@
 import express from 'express';
 import cors from 'cors';
-import path from 'path';
+import { fileURLToPath } from 'url'
+import { dirname, join } from 'path'
+import { testConnection } from '../database/config.js';
+import adminRoutes from '../api/routes/admin.routes.js';
+import userRoutes from '../api/routes/user.routes.js';
 //import corsOprions from '../config/config.js';
 
 class Server{
@@ -12,19 +16,18 @@ class Server{
         this.routes();
         this.middlewares();
     }
+    async dbConnection(){
+        await testConnection();
+    }
 
     middlewares(){
-        // CORS
         this.app.use(cors());
         this.app.use(express.json());
     }
 
     routes(){
-        this.app.use(this.paths.auth, require('../routes/auth'));
-        this.app.use(this.paths.categories, require('../routes/categories'));
-        this.app.use(this.paths.products, require('../routes/products'));
-        this.app.use(this.paths.search, require('../routes/search'));
-        this.app.use(this.paths.users, require('../routes/users'));
+        this.app.use(this.adminPath, adminRoutes);
+        this.app.use(this.userPath, userRoutes);
     }
 
     listen(){
@@ -33,3 +36,5 @@ class Server{
         });
     }
 }
+
+export default Server;
