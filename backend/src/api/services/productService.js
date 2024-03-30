@@ -11,6 +11,7 @@ const createProduct = async (product) => {
 
 const getProducts = async () => {
     try {
+        console.log("aqui")
         const products = await Product.findAll();
         return products;
     } catch (error) {

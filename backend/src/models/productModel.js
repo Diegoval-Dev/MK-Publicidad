@@ -33,7 +33,8 @@ const Product = db.define(
         }
     },{
         tableName: 'productos',
-        paranoid: true
+        paranoid: true,
+        timestamps: false
     }
 );
 
