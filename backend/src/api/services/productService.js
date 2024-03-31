@@ -71,9 +71,22 @@ const getProductsByName = async (name) => {
 
 const getProductsByCategory = async (category) => {
     try {
-        const prodcuts = await Product.findAll({
+        const products = await Product.findAll({
             where: {
                 category: category 
+            }
+        });
+        return products;
+    } catch (error) {
+        throw error;
+    }
+}
+
+const getProductsByMaterial = async (material) => {
+    try {
+        const products = await Product.findAll({
+            where: {
+                material: material
             }
         });
         return products;
@@ -90,4 +103,5 @@ export default {
     deleteProduct,
     getProductsByName,
     getProductsByCategory,
+    getProductsByMaterial,
 };
