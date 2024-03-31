@@ -69,6 +69,19 @@ const deleteProduct = async (id) => {
     }
 }
 
+const getProductsByName = async (name) => {
+    try {
+        const products = await Product.findAll({
+            where: {
+                name: name
+            }
+        });
+        return products;
+    } catch (error) {
+        throw error;
+    }
+};
+
 export default {
     createProduct,
     getProducts,
@@ -76,4 +89,5 @@ export default {
     getProductsByMaterial,
     updateProduct,
     deleteProduct,
+    getProductsByName,
 };
