@@ -28,19 +28,6 @@ const getProductById = async (id) => {
     }
 }
 
-const getProductsByMaterial = async (material) => {
-    try {
-        const products = await Product.findAll({
-            where: {
-                material: material
-            }
-        });
-        return products;
-    } catch (error) {
-        throw error;
-    }
-};
-
 const updateProduct = async (id, product) => {
     try {
         const productToUpdate = await Product.update(product, {
@@ -80,14 +67,27 @@ const getProductsByName = async (name) => {
     } catch (error) {
         throw error;
     }
-};
+}
+
+const getProductsByCategory = async (category) => {
+    try {
+        const prodcuts = await Product.findAll({
+            where: {
+                category: category 
+            }
+        });
+        return products;
+    } catch (error) {
+        throw error;
+    }
+}
 
 export default {
     createProduct,
     getProducts,
     getProductById,
-    getProductsByMaterial,
     updateProduct,
     deleteProduct,
     getProductsByName,
+    getProductsByCategory,
 };
