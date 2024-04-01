@@ -29,10 +29,32 @@ const getAllProductsByMaterial = async (req, res) => {
     }
 };
 
+const getAllProductsByName = async (req, res) => {
+    try {
+        const { name } = req.query;
+        const products = await productService.getProductsByName(name);
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+const getAllProductsByCategory = async (req, res) => {
+    try {
+        const { category } = req.query;
+        const products = await productService.getProductsByCategory(category);
+        res.status(200).json(products);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 
 export default {
     getAllProducts,
     getAllProductsByMaterial,
+    getAllProductsByCategory,
+    getAllProductsByName
 };
 
 
