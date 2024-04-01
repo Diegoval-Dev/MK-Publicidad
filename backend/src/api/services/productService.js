@@ -56,11 +56,15 @@ const deleteProduct = async (id) => {
     }
 }
 
+const { Op } = require("sequelize");
+
 const getProductsByName = async (name) => {
     try {
         const products = await Product.findAll({
             where: {
-                name: name
+                name: {
+                    [Op.like]: `%${name}%`
+                }
             }
         });
         return products;
