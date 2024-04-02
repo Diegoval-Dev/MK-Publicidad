@@ -8,6 +8,8 @@ router.get('/products/:material', productController.getAllProductsByMaterial);
 router.get('/products/byName', productController.getAllProductsByName);
 router.get('/products/byCategory', productController.getAllProductsByCategory);
 
+router.post('/products', productController.createProduct);
+
 
 
 export default router;
