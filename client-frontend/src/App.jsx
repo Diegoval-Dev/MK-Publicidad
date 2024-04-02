@@ -1,7 +1,7 @@
 import { useState } from 'react'
 //import Product from '../../backend/src/models/productModel'
 import './App.css'
-import { Cards, VerifyCards, Banner, BannerSearch, Buttons, ButtonsLogIn, Background } from './styled'
+import { Cards, VerifyCards, Banner, BannerSearch, Buttons, ButtonsLogIn, Background } from './styles/styled'
 
 function App() {
   const [screen, setScreen] = useState("home")
@@ -81,48 +81,7 @@ function homePage(setScreen) {
 function catalogPage() {
 
   // Objeto de Prueba
-  const Product = [
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-para-Sublimar1.jpg",
-      "category": "Sudaderos"
-    },
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg"
-    },
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg"
-    },
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg"
-    },
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg"
-    },
-  ]
-    return (
-      <div style={{display: "flex", alignItems: "center", flexDirection: "column"}}>
-        <img src="src\assets\imgs\mk_logo.png" alt="Logo de MK" width={"40%"}/>
-        <Background>
-          <h2>{Product.category}</h2>
-          {Product.map((product, index) => {
-            return (
-              <>
-                <Cards key={index} className='card'>
-                  <img src={product.image} alt="Imagen del producto." width={"200px"}/>
-                  <p>{product.name}</p>
-                  <p>Q250.00 c/u</p>
-                </Cards>
-              </>
-            )
-          })}
-        </Background>
-      </div>
-    )
+
 }
 
 function productPage() {

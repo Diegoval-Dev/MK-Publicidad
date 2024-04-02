@@ -1,6 +1,6 @@
 /*Referencia: https://www.w3schools.com/css/css_rwd_mediaqueries.asp */
 import styled from 'styled-components';
-import './assets/styles/styles.css'
+import '../styles/styles.css'
 
 export const Background = styled.div`
     display: flex;
