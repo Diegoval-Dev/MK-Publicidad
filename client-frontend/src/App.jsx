@@ -15,6 +15,8 @@ function App() {
 }
 
 function homePage(setScreen) {
+
+  // Objeto de Prueba
   const Product = [
     {
       "name": "Sudadero Personalizado",
@@ -77,6 +79,8 @@ function homePage(setScreen) {
 }
 
 function catalogPage() {
+
+  // Objeto de Prueba
   const Product = [
     {
       "name": "Sudadero Personalizado",
@@ -101,8 +105,8 @@ function catalogPage() {
     },
   ]
     return (
-      <>
-        <h1>MK Publicidad</h1>
+      <div style={{display: "flex", alignItems: "center", flexDirection: "column"}}>
+        <img src="src\assets\imgs\mk_logo.png" alt="Logo de MK" width={"40%"}/>
         <Background>
           <h2>{Product.category}</h2>
           {Product.map((product, index) => {
@@ -117,8 +121,12 @@ function catalogPage() {
             )
           })}
         </Background>
-      </>
+      </div>
     )
+}
+
+function productPage() {
+  
 }
 
 export default App
