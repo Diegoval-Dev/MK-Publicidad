@@ -1,4 +1,5 @@
 import Product from "../../models/productModel.js";
+import { Op } from "sequelize";
 
 const createProduct = async (product) => {
     try {
@@ -55,8 +56,6 @@ const deleteProduct = async (id) => {
         throw error;
     }
 }
-
-const { Op } = require("sequelize");
 
 const getProductsByName = async (name) => {
     try {
