@@ -1,7 +1,3 @@
-/*
-@Ruth
-@Silvia
-*/
 function Filtro(){
     return (
         <div>
