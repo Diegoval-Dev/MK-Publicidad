@@ -26,7 +26,7 @@ const Product = db.define(
             type: DataTypes.TEXT
         },
         image:{
-            type: DataTypes.BLOB
+            type: DataTypes.BLOB('long') 
         },
         deletedAt:{
             type: DataTypes.DATE

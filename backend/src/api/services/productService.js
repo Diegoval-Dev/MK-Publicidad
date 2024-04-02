@@ -2,6 +2,7 @@ import Product from "../../models/productModel.js";
 import { Op } from "sequelize";
 
 const createProduct = async (product) => {
+    console.log("Hola desde servicio",product);
     try {
         const newProduct = await Product.create(product);
         return newProduct;
@@ -12,7 +13,6 @@ const createProduct = async (product) => {
 
 const getProducts = async () => {
     try {
-        console.log("aqui")
         const products = await Product.findAll();
         return products;
     } catch (error) {

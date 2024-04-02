@@ -12,9 +12,9 @@ class Server{
         this.app = express();
         this.port = process.env.PORT;
         this.adminPath='/admin'
-        this.userPath='/user'
-        this.routes();
+        this.userPath='/user',
         this.middlewares();
+        this.routes();
     }
     async dbConnection(){
         await testConnection();
@@ -22,7 +22,8 @@ class Server{
 
     middlewares(){
         this.app.use(cors());
-        this.app.use(express.json());
+        this.app.use(express.json({ limit: '50mb' }));
+        this.app.use(express.urlencoded({ limit: '50mb', extended: true }));
     }
 
     routes(){

@@ -7,3 +7,5 @@ create table productos (
     image blob,
     deletedAt timestamp null
 );
+
+ALTER TABLE productos MODIFY COLUMN image LONGBLOB;

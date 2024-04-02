@@ -2,13 +2,16 @@ import service from '../services/productService.js';
 
 
 const createProduct = async (req, res) => {
+    console.log(req)
     try {
+        console.log("hola desde controller en body",req.body)
         const name = req.body.name;
         const category = req.body.category;
         const material = req.body.material;
         const description = req.body.description;
         const image = req.body.image;
         const product = { name, category, material, description, image };
+        console.log("hola desde controller",product)
         const newProduct = await service.createProduct(product);
         res.status(201).json(newProduct);
     } catch (error) {
