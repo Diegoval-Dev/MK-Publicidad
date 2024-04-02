@@ -3,7 +3,12 @@ import service from '../services/productService.js';
 
 const createProduct = async (req, res) => {
     try {
-        const product = req.body;
+        const name = req.body.name;
+        const category = req.body.category;
+        const material = req.body.material;
+        const description = req.body.description;
+        const image = req.body.image;
+        const product = { name, category, material, description, image };
         const newProduct = await service.createProduct(product);
         res.status(201).json(newProduct);
     } catch (error) {
