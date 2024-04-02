@@ -1,4 +1,5 @@
 import Card from '../components/Card'
+import '../styles/styles.css'
 
 function Catalogue() {
 
@@ -65,10 +66,10 @@ function Catalogue() {
     },
   ]
     return (
-      <div style={{display: "flex", alignItems: "center", flexDirection: "column", flexWrap: "nowrap", width: "auto"}}>
+      <div style={{display: "flex", alignItems: "center", flexDirection: "column"}}>
         <img src="src\assets\imgs\mk_logo.png" alt="Logo de MK" width={"40%"}/>
-          {/* <h2>{Product.category}</h2> */}
-          <div style={{display: "flex", flexDirection: "row", justifyContent: "center"}}>
+          <h2 className='titleAdmin' style={{alignSelf: "flex-start", fontSize: "25px", margin: "2%"}}>{Product[0].category}</h2>
+          <div style={{display: "flex", flexDirection: "row", justifyContent: "center", flexWrap: "wrap", }}>
           {Product.map((product, index) => {
             return (
               <div key={index} style={{margin: "1%"}}>
