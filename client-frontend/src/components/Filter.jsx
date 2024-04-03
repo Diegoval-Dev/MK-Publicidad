@@ -1,41 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FilterDrop from './Filterdropdown'
 
 function Filter() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filters, setFilters] = useState({
-    category: '',
-    material: '',
-    technique: '',
-    size: '',
-    color: '',
+    category: [],
+    material: [],
+    technique: [],
+    size: [],
+    color: [],
   });
 
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
+  const [tempFilters, setTempFilters] = useState(filters);
+  
+  const handlerAppliyFilters = () => {
+    setFilters(tempFilters);
+  }
 
-  const handleFilterChange = (event) => {
-    const { name, value } = event.target;
-    setFilters({ ...filters, [name]: value });
-  };
+  useEffect(()=>{
+    console.log(filters)
+
+    //Aquí se hace la solicitud
+  }, [filters])
+
+  
 
   const handleClearFilters = () => {
-    setFilters({
-      category: '',
-      material: '',
-      technique: '',
-      size: '',
-      color: '',
-    });
+    const initialFilters = {
+      category: [],
+      material: [],
+      technique: [],
+      size: [],
+      color: [],
+    };
+    setFilters(initialFilters);
+    setTempFilters(initialFilters);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    
-    console.log('Search Term:', searchTerm);
-    console.log('Filters:', filters);
-  };
 
   return (
     <div className="w-1/3 h-full fixed top-0 right-0 bg-white shadow-md p-5 overflow-auto">
@@ -55,16 +56,60 @@ function Filter() {
         </div>
       </div>
       <hr className="my-5" />
-      <FilterDrop namefilter='Material' optionsfilter={["Plástico", "Metal", "Aluminio"]}></FilterDrop>
+      <FilterDrop 
+        namefilter='Material' 
+        optionsfilter={["Plástico", "Metal", "Aluminio"]}
+        selectedOptions={tempFilters.material}
+        onChange={(newMaterialFilters) => {
+          setTempFilters(temp => {
+            const updatedFilters = {...temp, material: newMaterialFilters};
+            return updatedFilters;
+          });
+        }}
+        >
+      </FilterDrop>
       <hr className="my-5" />
-      <FilterDrop namefilter='Técnica' optionsfilter={["Sublimado", "Impreso", "Bordado"]}></FilterDrop>
+      <FilterDrop 
+        namefilter='Técnica' 
+        optionsfilter={["Sublimado", "Impreso", "Bordado"]}
+        selectedOptions={tempFilters.technique}
+        onChange={(newTechniqueFilters) => {
+          setTempFilters(temp => {
+            const updatedFilters = {...temp, technique: newTechniqueFilters};
+            return updatedFilters;
+          });
+        }}
+        >
+      </FilterDrop>
       <hr className="my-5" />
-      <FilterDrop namefilter='Talla' optionsfilter={["XS","S","M","L","XXL"]}></FilterDrop>
+      <FilterDrop 
+        namefilter='Talla' 
+        optionsfilter={["XS","S","M","L","XXL"]}
+        selectedOptions={tempFilters.size}
+        onChange={(newSizeFilters) => {
+          setTempFilters(temp => {
+            const updatedFilters = {...temp, size: newSizeFilters};
+            return updatedFilters;
+          });
+        }}
+        >
+      </FilterDrop>
       <hr className="my-5" />
-      <FilterDrop namefilter='Color' optionsfilter={["Blanco", "Negro", "Azul", "Morada", "Roja"]}></FilterDrop>
+      <FilterDrop 
+        namefilter='Color' 
+        optionsfilter={["Blanco", "Negro", "Azul", "Morada", "Roja"]}
+        selectedOptions={tempFilters.color}
+        onChange={(newColorFilters) => {
+          setTempFilters(temp => {
+            const updatedFilters = {...temp, color: newColorFilters};
+            return updatedFilters;
+          });
+        }}
+        >
+      </FilterDrop>
       <div className="flex justify-between">
         <button onClick={handleClearFilters} className="py-2 px-5 rounded bg-[#f9f5eb] text-black border-none">Limpiar</button>
-        <button onClick={handleSubmit} className="py-2 px-5 rounded bg-black text-white border-none">Ver Resultados</button>
+        <button onClick={handlerAppliyFilters} className="py-2 px-5 rounded bg-black text-white border-none">Ver Resultados</button>
       </div>
     </div>
   );

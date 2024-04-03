@@ -1,30 +1,36 @@
 import React, { useState } from 'react';
 
-function FilterDropDown({ namefilter, optionsfilter }) {
-  const [selectedOptions, setSelectedOptions] = useState([]);
+function FilterDropDown({ namefilter, optionsfilter, selectedOptions, onChange}) {
+  const [isVisible, setIsVisible] = useState(false);
+
+  const handleDropState = () => {
+    setIsVisible(!isVisible)
+  }; 
 
   const handleCheckboxChange = (event) => {
-    const optionValue = event.target.value;
-    const isChecked = event.target.checked;
+    const { value, checked } = event.target;
+    let newSelectedOptions;
 
-    setSelectedOptions(prevSelectedOptions => {
-      if (isChecked) {
-        return [...prevSelectedOptions, optionValue];
-      } else {
-        return prevSelectedOptions.filter(option => option !== optionValue);
-      }
-    });
+    if (checked) {
+      newSelectedOptions = [...selectedOptions, value];
+    } else {
+      newSelectedOptions = selectedOptions.filter((option) => option !== value);
+    }
+
+    onChange(newSelectedOptions);
   };
+
 
   return (
     <div className="mb-10">
       <div className="flex justify-between mb-5">
         <span className="font-bold">{namefilter}</span>
-        <button className="border-none bg-none cursor-pointer text-xl">
-          +
+        <button onClick={handleDropState} className="border-none bg-none cursor-pointer text-xl">
+          {isVisible ? '-' : '+'}
         </button>
       </div>
-      <div className="dropdown-content flex flex-col justify-center items-start" >
+      {isVisible && (
+        <div className="dropdown-content flex flex-col justify-center items-start" >
         {optionsfilter.map((option, index) => (
           <div className="checkbox-option" key={index}>
             <input
@@ -32,13 +38,14 @@ function FilterDropDown({ namefilter, optionsfilter }) {
               id={option} 
               name={` option${index} `}
               value={option}
+              checked={selectedOptions.includes(option)}
               onChange={handleCheckboxChange}
-              checked={selectedOptions.includes(option)} 
             />
             <label className='ml-2' htmlFor={option}>{option}</label>
           </div>
         ))}
       </div>
+      )}
     </div>
   );
 }
