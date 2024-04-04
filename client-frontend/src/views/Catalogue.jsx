@@ -1,5 +1,8 @@
 import Card from '../components/Card'
+import Filter from '../components/Filter';
 import '../styles/styles.css'
+
+
 
 function Catalogue() {
 
@@ -69,6 +72,7 @@ function Catalogue() {
       <div style={{display: "flex", alignItems: "center", flexDirection: "column"}}>
         <img src="src\assets\imgs\mk_logo.png" alt="Logo de MK" width={"40%"}/>
           <h2 className='titleAdmin' style={{alignSelf: "flex-start", fontSize: "25px", margin: "2%"}}>{Product[0].category}</h2>
+          <Filter /> {/* Aquí se agrega el componente Filter */}
           <div style={{display: "flex", flexDirection: "row", justifyContent: "center", flexWrap: "wrap", }}>
           {Product.map((product, index) => {
             return (
