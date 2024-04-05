@@ -1,87 +1,61 @@
-import Card from '../components/Card'
+import { useState, useEffect } from 'react';
+import Banner from '../components/Banner';
+import ProductList from '../components/ProductList';
 import Filter from '../components/Filter';
 import '../styles/styles.css'
 
 
+function Catalogue({ setScreen }) {
+  const [isFilterVisible, setIsFilterVisible] = useState(false);
+  const [appliedFilters, setAppliedFilters] = useState({});
+  const [tempFilters, setTempFilters] = useState({
+    material: [],
+    technique: [],
+    size: [],
+    color: [],
+  });
 
-function Catalogue() {
+  const handleApplyFilters = () => {
+    setAppliedFilters(tempFilters);
+    toggleFilterVisibility();
+  };
 
-  // Objeto de Prueba
-  const Product = [
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-para-Sublimar1.jpg",
-      "category": "Sudaderos",
-      "material": "Algodón",
-      "description": "Sudadero cómodo y fresco."
-    },
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
-      "category": "Sudaderos",
-      "material": "Algodón",
-      "description": "Sudadero cómodo y fresco."
-    },
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
-      "category": "Sudaderos",
-      "material": "Algodón",
-      "description": "Sudadero cómodo y fresco."
-    },
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
-      "category": "Sudaderos",
-      "material": "Algodón",
-      "description": "Sudadero cómodo y fresco."
-    },
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
-      "category": "Sudaderos",
-      "material": "Algodón",
-      "description": "Sudadero cómodo y fresco."
-    },
+  const handleClearFilters = () => {
+    const initialFilters = {
+      material: [],
+      technique: [],
+      size: [],
+      color: [],
+    };
+    setTempFilters(initialFilters);
+    setAppliedFilters(initialFilters);
+  };
 
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
-      "category": "Sudaderos",
-      "material": "Algodón",
-      "description": "Sudadero cómodo y fresco."
-    },
+  const goToHomePage = () => {
+    setScreen("home")
+  }
 
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
-      "category": "Sudaderos",
-      "material": "Algodón",
-      "description": "Sudadero cómodo y fresco."
-    },
+  const toggleFilterVisibility = () => {
+    setIsFilterVisible(!isFilterVisible);
+  };
 
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
-      "category": "Sudaderos",
-      "material": "Algodón",
-      "description": "Sudadero cómodo y fresco."
-    },
-  ]
+  
     return (
       <div style={{display: "flex", alignItems: "center", flexDirection: "column"}}>
-        <img src="src\assets\imgs\mk_logo.png" alt="Logo de MK" width={"40%"}/>
-          <h2 className='titleAdmin' style={{alignSelf: "flex-start", fontSize: "25px", margin: "2%"}}>{Product[0].category}</h2>
-          <Filter /> {/* Aquí se agrega el componente Filter */}
-          <div style={{display: "flex", flexDirection: "row", justifyContent: "center", flexWrap: "wrap", }}>
-          {Product.map((product, index) => {
-            return (
-              <div key={index} style={{margin: "1%"}}>
-                {Card(product)}
-              </div>  
-                )
-              })}
-          </div>
+        <Banner />
+        <button onClick={goToHomePage} className="py-2 px-4 bg-blue-500 text-white rounded">Regresar</button>
+        <button onClick={toggleFilterVisibility} className="py-2 px-4 bg-blue-500 text-white rounded">
+          {isFilterVisible ? 'Cerrar Filtros' : 'Mostrar Filtros'}
+        </button>
+        {isFilterVisible && (
+          <Filter 
+            toggleFilterVisibility={toggleFilterVisibility} 
+            tempFilters={tempFilters}
+            setTempFilters={setTempFilters} 
+            handleApplyFilters={handleApplyFilters}
+            handleClearFilters={handleClearFilters}
+          />)}
+        <ProductList category={"A"} material={appliedFilters.material} technique={appliedFilters.technique} size={appliedFilters.size} color={appliedFilters.color} />
       </div>
     )
 }

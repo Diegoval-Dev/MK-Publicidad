@@ -1,76 +1,66 @@
-/*
-@Ruth
-@Silvia
-*/
-import React, { useState } from 'react';
+import FilterDrop from './Filterdropdown'
 
-function Filter() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filters, setFilters] = useState({
-    category: '',
-    material: '',
-    technique: '',
-    size: '',
-    color: '',
-  });
-
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
-
-  const handleFilterChange = (event) => {
-    const { name, value } = event.target;
-    setFilters({ ...filters, [name]: value });
-  };
-
-  const handleClearFilters = () => {
-    setFilters({
-      category: '',
-      material: '',
-      technique: '',
-      size: '',
-      color: '',
-    });
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    
-    console.log('Search Term:', searchTerm);
-    console.log('Filters:', filters);
+function Filter({toggleFilterVisibility, setTempFilters, tempFilters, handleApplyFilters, handleClearFilters}) {
+  
+  const handleChangeFilter = (filterName) => (newValue) => {
+    setTempFilters((currentFilters) => ({
+      ...currentFilters,
+      [filterName]: newValue,
+    }));
   };
 
   return (
-    <div style={{ width: '30%', height: '100%', position: 'fixed', top: 0, right: 0, backgroundColor: '#fff', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', padding: '20px' }}>
-      <div style={{ marginBottom: '30px' }}>
-        <h3 style={{ margin: '0', fontSize: '20px', fontWeight: 'bold', textAlign: 'center' }}>Filtrar</h3>
-        <button style={{ border: 'none', background: 'none', cursor: 'pointer', fontSize: '24px', position: 'absolute', top: '5px', right: '5px' }}>×</button>
+      <div className="w-1/3 h-full fixed top-0 right-0 bg-white shadow-md p-5 overflow-auto">
+      <div className="mb-7">
+        <h3 className="m-0 text-lg font-bold text-center">Filtrar</h3>
+        <button onClick={toggleFilterVisibility} className="text-3xl absolute top-1 right-1" aria-label="Cerrar">×</button>
       </div>
-      <hr style={{ margin: '20px 0' }} />
-      <div style={{ marginBottom: '40px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}>
-          <span style={{ fontWeight: 'bold' }}>Ordenar por:</span>
-          <select name="order" style={{ width: '60%', padding: '5px', borderRadius: '3px', border: '1px solid #ccc' }}>
+      {/* <hr className="my-5" />
+      <div className="mb-10">
+        <div className="flex justify-between mb-5">
+          <span className="font-bold">Ordenar por:</span>
+          <select name="order" className="w-3/5 p-1 rounded border border-gray-300">
             <option value="novedades">Novedades</option>
             <option value="precio">Precio</option>
             <option value="nuevo">Nuevo</option>
           </select>
         </div>
-      </div>
-
-
-      <div style={{ marginBottom: '40px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}><span style={{ fontWeight: 'bold' }}>Técnica</span><button style={{ border: 'none', background: 'none', cursor: 'pointer', fontSize: '20px' }}>+</button></div>
-      </div>
-      <div style={{ marginBottom: '40px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}><span style={{ fontWeight: 'bold' }}>Talla</span><button style={{ border: 'none', background: 'none', cursor: 'pointer', fontSize: '20px' }}>+</button></div>
-      </div>
-      <div style={{ marginBottom: '40px' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px' }}><span style={{ fontWeight: 'bold' }}>Color</span><button style={{ border: 'none', background: 'none', cursor: 'pointer', fontSize: '20px' }}>+</button></div>
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        <button onClick={handleClearFilters} style={{ padding: '10px 20px', borderRadius: '5px', backgroundColor: '#f9f5eb', color: '#000', border: 'none' }}>Limpiar</button>
-        <button onClick={handleSubmit} style={{ padding: '10px 20px', borderRadius: '5px', backgroundColor: '#000', color: '#fff', border: 'none' }}>Ver Resultados</button>
+      </div> */}
+      <hr className="my-5" />
+      <FilterDrop 
+        namefilter='Material' 
+        optionsfilter={["Plástico", "Metal", "Aluminio"]}
+        selectedOptions={tempFilters.material}
+        onChange={handleChangeFilter('material')}
+        >
+      </FilterDrop>
+      <hr className="my-5" />
+      <FilterDrop 
+        namefilter='Técnica' 
+        optionsfilter={["Sublimado", "Impreso", "Bordado"]}
+        selectedOptions={tempFilters.technique}
+        onChange={handleChangeFilter('technique')}
+        >
+      </FilterDrop>
+      <hr className="my-5" />
+      <FilterDrop 
+        namefilter='Talla' 
+        optionsfilter={["XS","S","M","L","XXL"]}
+        selectedOptions={tempFilters.size}
+        onChange={handleChangeFilter('size')}
+        >
+      </FilterDrop>
+      <hr className="my-5" />
+      <FilterDrop 
+        namefilter='Color' 
+        optionsfilter={["Blanco", "Negro", "Azul", "Morada", "Roja"]}
+        selectedOptions={tempFilters.color}
+        onChange={handleChangeFilter('color')}
+        >
+      </FilterDrop>
+      <div className="flex justify-between">
+        <button onClick={handleClearFilters} className="py-2 px-5 rounded bg-[#f9f5eb] text-black border-none">Limpiar</button>
+        <button onClick={handleApplyFilters} className="py-2 px-5 rounded bg-black text-white border-none">Ver Resultados</button>
       </div>
     </div>
   );
