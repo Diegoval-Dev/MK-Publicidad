@@ -8,6 +8,5 @@ router.get('/products/byMaterial/:material', productController.getAllProductsByM
 router.get('/products/byName/:name', productController.getAllProductsByName);
 router.get('/products/byCategory/:category', productController.getAllProductsByCategory);
 
-
 export default router;
 
