@@ -50,9 +50,14 @@ const getAllProductsByMaterial = async (req, res) => {
 
 const getAllProductsByName = async (req, res) => {
     try {
-        const { name } = req.query;
-        const products = await productService.getProductsByName(name);
-        res.status(200).json(products);
+        const name = req.params.name; 
+        const products = await service.getProductsByName(name);
+        
+        const response = {
+            status: 'OK',
+            data: products,
+        }
+        res.status(200).json(response);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -60,9 +65,14 @@ const getAllProductsByName = async (req, res) => {
 
 const getAllProductsByCategory = async (req, res) => {
     try {
-        const { category } = req.query;
-        const products = await productService.getProductsByCategory(category);
-        res.status(200).json(products);
+        const category = req.params.category; 
+        const products = await service.getProductsByCategory(category);
+        
+        const response = {
+            status: 'OK',
+            data: products,
+        }
+        res.status(200).json(response);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
