@@ -1,4 +1,4 @@
-import productService from '../services/productService.js'; // Asegúrate de que la ruta es correcta
+import productService from '../services/productService.js';
 
 const createProduct = async (req, res) => {
     try {
@@ -23,7 +23,7 @@ const getAllProducts = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-};
+}; 
 
 const getProductById = async (req, res) => {
     try {
