@@ -1,18 +1,10 @@
-import service from '../services/productService.js';
-
+import productService from '../services/productService.js';
 
 const createProduct = async (req, res) => {
-    console.log(req)
     try {
-        console.log("hola desde controller en body",req.body)
-        const name = req.body.name;
-        const category = req.body.category;
-        const material = req.body.material;
-        const description = req.body.description;
-        const image = req.body.image;
+        const { name, category, material, description, image } = req.body;
         const product = { name, category, material, description, image };
-        console.log("hola desde controller",product)
-        const newProduct = await service.createProduct(product);
+        const newProduct = await productService.createProduct(product);
         res.status(201).json(newProduct);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -21,70 +13,57 @@ const createProduct = async (req, res) => {
 
 const getAllProducts = async (req, res) => {
     try {
-        const products = await service.getProducts();
-        console.log(products)
-        const response = {
+        const { name, material, category } = req.query;
+        const filters = { name, material, category };
+        const products = await productService.getProducts(filters);
+        res.status(200).json({
             status: 'OK',
-            data: products,
-        }
-        res.status(200).json(response);
+            data: products
+        });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-};
+}; 
 
-const getAllProductsByMaterial = async (req, res) => {
+const getProductById = async (req, res) => {
     try {
-        const material = req.params.material; 
-        const products = await service.getProductsByMaterial(material);
-        
-        const response = {
-            status: 'OK',
-            data: products,
+        const id = req.params.id;
+        const product = await productService.getProductById(id);
+        if (product) {
+            res.status(200).json(product);
+        } else {
+            res.status(404).json({ message: 'Product not found' });
         }
-        res.status(200).json(response);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
 
-const getAllProductsByName = async (req, res) => {
+const updateProduct = async (req, res) => {
     try {
-        const name = req.params.name; 
-        const products = await service.getProductsByName(name);
-        
-        const response = {
-            status: 'OK',
-            data: products,
-        }
-        res.status(200).json(response);
+        const id = req.params.id;
+        const { name, category, material, description, image } = req.body;
+        const updatedProduct = await productService.updateProduct(id, { name, category, material, description, image });
+        res.status(200).json(updatedProduct);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
 
-const getAllProductsByCategory = async (req, res) => {
+const deleteProduct = async (req, res) => {
     try {
-        const category = req.params.category; 
-        const products = await service.getProductsByCategory(category);
-        
-        const response = {
-            status: 'OK',
-            data: products,
-        }
-        res.status(200).json(response);
+        const id = req.params.id;
+        const product = await productService.deleteProduct(id);
+        res.status(200).json(product);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
-
 
 export default {
     getAllProducts,
-    getAllProductsByMaterial,
-    getAllProductsByCategory,
-    getAllProductsByName,
+    getProductById,
     createProduct,
+    updateProduct,
+    deleteProduct
 };
-
-

@@ -1,15 +1,15 @@
 import express from 'express';
 import productController from '../controllers/productController.js';
 
-const router = express.Router();
+const adminRouter = express.Router();
 
-router.get('/products', productController.getAllProducts);
-router.get('/products/byMaterial/:material', productController.getAllProductsByMaterial);
-router.get('/products/byName/:name', productController.getAllProductsByName);
-router.get('/products/byCategory/:category', productController.getAllProductsByCategory);
+// Endpoint para crear un nuevo producto
+adminRouter.post('/products', productController.createProduct);
 
-router.post('/products', productController.createProduct);
+// Endpoint para actualizar un producto existente
+adminRouter.put('/products/:id', productController.updateProduct);
 
+// Endpoint para eliminar un producto
+adminRouter.delete('/products/:id', productController.deleteProduct);
 
-
-export default router;
+export default adminRouter;
