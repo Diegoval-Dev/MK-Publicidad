@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import Banner from '../components/Banner';
 import ProductList from '../components/ProductList';
 import NavigationButtons from '../components/NavigationButtons';
-import Filter from '../components/Filter';
+import FilterControls from '../components/FilterControls';
 import '../styles/styles.css'
 
 
@@ -43,20 +43,19 @@ function Catalogue({ setScreen }) {
   return (
     <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
       <Banner />
-      <NavigationButtons
-        goToHomePage={goToHomePage}
-        toggleFilterVisibility={toggleFilterVisibility}
-        isFilterVisible={isFilterVisible}
-      />
-      {isFilterVisible && (
-        <Filter
+      <div className="container flex justify-between w-full">
+        <NavigationButtons
+          goToHomePage={goToHomePage}
+        />
+        <FilterControls
           toggleFilterVisibility={toggleFilterVisibility}
+          isFilterVisible={isFilterVisible}
           tempFilters={tempFilters}
           setTempFilters={setTempFilters}
           handleApplyFilters={handleApplyFilters}
           handleClearFilters={handleClearFilters}
         />
-      )}
+      </div>
       <ProductList
         category={"A"}
         material={appliedFilters.material}
@@ -65,7 +64,8 @@ function Catalogue({ setScreen }) {
         color={appliedFilters.color}
       />
     </div>
-  )
+  );
+  
 }
 
 export default Catalogue;
