@@ -1,3 +1,4 @@
+import ProductCategory from "./ProductCategory";
 
 function ProductHomeList({products, goToCatalog}) {
 
@@ -10,16 +11,10 @@ return (
       const productImage = products.find(product => product.category === category);
       return (
         <div key={index} onClick={goToCatalog} className="cursor-pointer w-64 mx-4 my-4">
-        <div className="bg-white shadow-md rounded-lg overflow-hidden">
-          <img
-            src={productImage.image}
-            alt="Imagen de Categoría"
-            className="w-full h-48 object-cover"
+          <ProductCategory
+            image={productImage.image}
+            category={category}
           />
-          <div className="p-4">
-            <p className="text-lg font-semibold">{category}</p>
-          </div>
-        </div>
       </div>
       );
       })}
