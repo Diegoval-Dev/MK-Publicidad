@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 
 function ProductCategory({image, category}){
     return (
@@ -12,6 +13,11 @@ function ProductCategory({image, category}){
         </div>
       </div>
     )
+}
+
+ProductCategory.propTypes = {
+    image: PropTypes.string.isRequired,
+    category: PropTypes.string.isRequired
 }
 
 export default ProductCategory;

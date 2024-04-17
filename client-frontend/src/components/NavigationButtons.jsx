@@ -1,5 +1,6 @@
+import PropTypes from 'prop-types';
 
-function NavigationButtons({ goToHomePage, toggleFilterVisibility, isFilterVisible }) {
+function NavigationButtons({ goToHomePage}) {
     return (
       <div className=''>
         <button onClick={goToHomePage} className="py-2 px-4 bg-lime-500 text-black rounded">
@@ -10,5 +11,11 @@ function NavigationButtons({ goToHomePage, toggleFilterVisibility, isFilterVisib
       </div>
     );
   }
-  
-  export default NavigationButtons;
+
+NavigationButtons.propTypes = {
+  goToHomePage: PropTypes.func.isRequired,
+  toggleFilterVisibility: PropTypes.func.isRequired,
+  isFilterVisible: PropTypes.bool.isRequired,
+};
+
+export default NavigationButtons;

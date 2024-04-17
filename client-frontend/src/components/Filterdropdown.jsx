@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import { useState } from 'react';
 
 function FilterDropDown({ namefilter, optionsfilter, selectedOptions, onChange}) {
@@ -49,5 +50,12 @@ function FilterDropDown({ namefilter, optionsfilter, selectedOptions, onChange})
     </div>
   );
 }
+
+FilterDropDown.propTypes = {
+  namefilter: PropTypes.string.isRequired,
+  optionsfilter: PropTypes.array.isRequired,
+  selectedOptions: PropTypes.array.isRequired,
+  onChange: PropTypes.func.isRequired,
+};
 
 export default FilterDropDown;

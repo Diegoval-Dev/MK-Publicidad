@@ -1,4 +1,4 @@
-
+import PropTypes from 'prop-types';
 import Banner from '../components/Banner';
 import BannerSearch from '../components/BannerSearch'; 
 import Footer from '../components/Footer';
@@ -49,5 +49,9 @@ function HomePage({ setScreen }) {
     </div>
   );
 }
+
+HomePage.propTypes = {
+  setScreen: PropTypes.func.isRequired,
+};
 
 export default HomePage

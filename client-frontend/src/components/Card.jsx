@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 function Card({ name, category, material, description, image}) {
   return (
     <div className="w-60 h-96 flex flex-col justify-center items-center gap-1 bg-color-componentes border rounded-3xl border-color-contorno">
@@ -9,5 +11,14 @@ function Card({ name, category, material, description, image}) {
     </div>
   )
 }
+
+Card.propTypes = {
+  name: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired,
+  material: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  image: PropTypes.string.isRequired
+}
+
 
 export default Card

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import Filter from './Filter';
 
 function FilterControls({ toggleFilterVisibility, isFilterVisible, tempFilters, setTempFilters, handleApplyFilters, handleClearFilters }) {
@@ -21,5 +22,14 @@ function FilterControls({ toggleFilterVisibility, isFilterVisible, tempFilters, 
     </div>
   );
 }
+
+FilterControls.propTypes = {
+  toggleFilterVisibility: PropTypes.func.isRequired,
+  isFilterVisible: PropTypes.bool.isRequired,
+  tempFilters: PropTypes.object.isRequired,
+  setTempFilters: PropTypes.func.isRequired,
+  handleApplyFilters: PropTypes.func.isRequired,
+  handleClearFilters: PropTypes.func.isRequired,
+};
 
 export default FilterControls;

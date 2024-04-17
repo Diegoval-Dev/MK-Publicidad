@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useState, useEffect } from 'react';
 import Card from './Card';
 
-function ProductList({category, material, technique, size, color}) {
+function ProductList() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -101,6 +102,14 @@ function ProductList({category, material, technique, size, color}) {
       </div>
     </>
   );
+}
+
+ProductList.propTypes = {
+  category: PropTypes.string.isRequired,
+  material: PropTypes.string.isRequired,
+  technique: PropTypes.string.isRequired,
+  size: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired
 }
 
 export default ProductList;

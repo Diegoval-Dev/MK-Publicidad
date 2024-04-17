@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import FilterDrop from './Filterdropdown'
 
 function Filter({toggleFilterVisibility, setTempFilters, tempFilters, handleApplyFilters, handleClearFilters}) {
@@ -65,5 +66,13 @@ function Filter({toggleFilterVisibility, setTempFilters, tempFilters, handleAppl
     </div>
   );
 }
+
+Filter.propTypes = {
+  toggleFilterVisibility: PropTypes.func.isRequired,
+  setTempFilters: PropTypes.func.isRequired,
+  tempFilters: PropTypes.object.isRequired,
+  handleApplyFilters: PropTypes.func.isRequired,
+  handleClearFilters: PropTypes.func.isRequired,
+};
 
 export default Filter;

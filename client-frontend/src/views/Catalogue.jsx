@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useState } from 'react';
 import Banner from '../components/Banner';
 import ProductList from '../components/ProductList';
 import NavigationButtons from '../components/NavigationButtons';
@@ -67,5 +68,9 @@ function Catalogue({ setScreen }) {
   );
   
 }
+
+Catalogue.propTypes = {
+  setScreen: PropTypes.func.isRequired,
+};
 
 export default Catalogue;
