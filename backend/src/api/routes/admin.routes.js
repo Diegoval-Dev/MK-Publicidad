@@ -1,5 +1,6 @@
 import express from 'express';
 import productController from '../controllers/productController.js';
+import adminController from '../controllers/AdminController.js';
 
 const adminRouter = express.Router();
 
@@ -13,9 +14,9 @@ adminRouter.put('/products/:id', productController.updateProduct);
 adminRouter.delete('/products/:id', productController.deleteProduct);
 
 //Enlace para registrar un usuario
-router.post('/register', adminController.register);
+adminRouter.post('/register', adminController.register);
 
 //Enlace para iniciar sesion
-router.post('/login', adminController.login);
+adminRouter.post('/login', adminController.login);
 
 export default adminRouter;

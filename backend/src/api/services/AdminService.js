@@ -1,5 +1,5 @@
 // services/adminService.js
-import User from '../models/userModel.js';
+import userModel from '../../models/userModel.js';
 import bcrypt from 'bcryptjs';
 
 const registerUser = async (userData) => {
@@ -8,11 +8,11 @@ const registerUser = async (userData) => {
         ...userData,
         user_password: hashedPassword
     };
-    return await User.create(newUser);
+    return await userModel.create(newUser);
 };
 
 const authenticateUser = async (email, password) => {
-    const user = await User.findOne({ where: { user_email: email } });
+    const user = await userModel.findOne({ where: { user_email: email } });
     if (user && await bcrypt.compare(password, user.user_password)) {
         return user;
     }
