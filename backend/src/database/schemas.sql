@@ -8,4 +8,7 @@ create table productos (
     deletedAt timestamp null
 );
 
+create table users ()
+
+
 ALTER TABLE productos MODIFY COLUMN image LONGBLOB;
