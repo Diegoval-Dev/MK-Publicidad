@@ -4,8 +4,7 @@ import Banner from '../components/Banner';
 import ProductList from '../components/ProductList';
 import NavigationButtons from '../components/NavigationButtons';
 import FilterControls from '../components/FilterControls';
-import '../styles/styles.css'
-
+import '../styles/styles.css';
 
 function Catalogue({ setScreen }) {
   const [isFilterVisible, setIsFilterVisible] = useState(false);
@@ -16,6 +15,38 @@ function Catalogue({ setScreen }) {
     size: [],
     color: [],
   });
+
+  const loadAllProducts = () => {
+    async function getAllProducts() {
+      const apiURL = `http://localhost:3000/user/products`;
+      const [products, setProducts] = useState([]);
+      
+      try {
+          const response = await fetch(apiURL, {
+              method: 'GET',
+              headers: {
+                  'Content-type': 'application/json'
+              }
+          });
+          
+          if (response.ok) {
+              const data = await response.json();
+              setProducts(Array.from(data));
+              console.log("Éxito");
+              console.log(products);
+              
+          } else {
+              throw new Error("No fue posible obtener los productos.");
+              
+          };
+          
+      } catch (error) {
+          console.log("Ocurrió un error al obtener los productos:", error);
+      };
+  
+      return products;
+    };
+  }
 
   const handleApplyFilters = () => {
     setAppliedFilters(tempFilters);
