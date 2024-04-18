@@ -8,7 +8,7 @@ function ProductList() {
 
   useEffect(() => {
     // const fetchProducts = async () => {
-    //   const response = await fetch('http://localhost:3000/products');
+    //   const response = await fetch('http://localhost:3000/user/products');
     //   const data = await response.json();
     //   setProducts(data);
     //   setLoading(false);
@@ -17,6 +17,7 @@ function ProductList() {
 
     // Objeto de Prueba
     // Objeto de Prueba
+    
     const products = [
     {
       "name": "Sudadero Personalizado",
