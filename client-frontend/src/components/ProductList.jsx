@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import Card from './Card';
 
-function ProductList() {
+function ProductList({ setScreen, category, material, technique, size, color }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -82,6 +82,13 @@ function ProductList() {
     setLoading(false);
   }, []);
 
+  const handleCardClick = (product) => {
+    setScreen({
+      name: "customization",
+      product: product
+    });
+  }
+
   if (loading) {
     return <p>Loading...</p>;
   }
@@ -91,25 +98,23 @@ function ProductList() {
     <>
       <h2 className='titleAdmin' style={{alignSelf: "flex-start", fontSize: "25px", margin: "2%"}}>{products[0].category}</h2>
       <div style={{display: "flex", flexDirection: "row", justifyContent: "center", flexWrap: "wrap", }}>
-          {products.map((product, index) => {
-          return (
-                  <div key={index} style={{margin: "1%"}}>
-                      {Card(product)}
-                  </div>  
-              )
-              })
-          }
+        {products.map((product, index) => (
+              <div key={index} style={{margin: "1%"}} onClick={() => handleCardClick(product)}>
+                  <Card {...product} />
+              </div>  
+        ))}
       </div>
     </>
   );
 }
 
 ProductList.propTypes = {
+  setScreen: PropTypes.func.isRequired,
   category: PropTypes.string.isRequired,
-  material: PropTypes.string.isRequired,
-  technique: PropTypes.string.isRequired,
-  size: PropTypes.string.isRequired,
-  color: PropTypes.string.isRequired
+  material: PropTypes.array.isRequired,
+  technique: PropTypes.array.isRequired,
+  size: PropTypes.array.isRequired,
+  color: PropTypes.array.isRequired
 }
 
 export default ProductList;

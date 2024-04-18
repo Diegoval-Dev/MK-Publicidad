@@ -37,7 +37,9 @@ function HomePage({ setScreen }) {
 
 
   const goToCatalog = () => {
-    setScreen("catalog")
+    setScreen(
+      {name: "catalog", data: null}
+    )
   }
 
   return (

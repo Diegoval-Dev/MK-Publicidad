@@ -14,8 +14,6 @@ function NavigationButtons({ goToHomePage}) {
 
 NavigationButtons.propTypes = {
   goToHomePage: PropTypes.func.isRequired,
-  toggleFilterVisibility: PropTypes.func.isRequired,
-  isFilterVisible: PropTypes.bool.isRequired,
 };
 
 export default NavigationButtons;

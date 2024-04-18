@@ -1,13 +1,9 @@
-import React from 'react';
 import Banner from '../components/Banner';
 import Card from '../components/Card'; 
 
-const CustomizationPage = () => {
-  const product = {
-    name: "Sudadero Personalizado",
-    image: "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-para-Sublimar1.jpg",
-    category: "Sudaderos",
-  };
+const CustomizationPage = ({product}) => {
+
+  console.log(product);
 
   return (
     <div className="min-h-screen flex flex-col items-center pt-16 bg-white">
