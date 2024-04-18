@@ -13,11 +13,11 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     try {
         const { user_email, user_password } = req.body;
-        const user = await adminService.authenticateUser(user_email, user_password);
-        if (user) {
-            res.status(200).json({ message: "Inicio de sesión exitoso", user });
+        const authResult = await adminService.authenticateUser(user_email, user_password);
+        if (authResult) {
+            res.status(200).json({ message: "Inicio de sesión exitoso", ...authResult });
         } else {
-            res.status(401).json({ message: "Credenciales inválidas"});
+            res.status(401).json({ message: "Credenciales inválidas" });
         }
     } catch (error) {
         res.status(500).json({ error: error.message });
