@@ -8,7 +8,15 @@ create table productos (
     deletedAt timestamp null
 );
 
-create table users ()
+create table users (
+user_email VARCHAR(50) not null,
+user_password VARCHAR(150) not null,
+user_role VARCHAR(50) not null,
+user_name VARCHAR(50) not null,
+position VARCHAR(50) not null,
+user_phone VARCHAR(50) not null,
+user_officePhone VARCHAR(50) not null
+);
 
 
 ALTER TABLE productos MODIFY COLUMN image LONGBLOB;
