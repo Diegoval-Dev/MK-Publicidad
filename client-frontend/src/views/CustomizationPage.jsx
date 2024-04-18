@@ -54,11 +54,12 @@ const CustomizationPage = () => {
               <textarea id="additional-description" name="additional-description" placeholder="Ingresa una descripción adicional" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2"></textarea>
             </div>
             <button
-              type="submit"
-              className="mt-4 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+             type="submit"
+             className="mt-4 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded text-white bg-color-button hover:bg-color-button-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-color-button"
             >
-              Solicitar Cotización
+            Solicitar Cotización
             </button>
+
           </form>
         </div>
       </div>
