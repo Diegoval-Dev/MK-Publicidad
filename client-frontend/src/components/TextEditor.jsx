@@ -1,15 +1,6 @@
 import React, { useState } from 'react';
 
-const TextEditor = () => {
-  const [text, setText] = useState('');
-  const [font, setFont] = useState('Arial');
-  const [fontSize, setFontSize] = useState(16);
-  const [color, setColor] = useState('#000000');
-  const [alignment, setAlignment] = useState('left');
-
-
-
-
+const TextEditor = ({ text, setText, font, setFont, fontSize, setFontSize, color, setColor, alignment, setAlignment }) => {
   return (
     <div className="space-y-1">
       <div className="flex items-center justify-center space-x-2">
@@ -28,7 +19,7 @@ const TextEditor = () => {
           <option value="Arial">Arial</option>
           <option value="Times New Roman">Times New Roman</option>
           <option value="Verdana">Verdana</option>
-          {/* Agrega más opciones de fuente aquí si lo necesitas */}
+          {/* Agregar más opciones de fuente aquí si lo necesitamos */}
         </select>
         <input
           type="number"

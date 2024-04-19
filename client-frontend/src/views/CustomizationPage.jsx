@@ -6,34 +6,42 @@ import PropTypes from 'prop-types';
 import ImageUploader from '../components/ImageUploader';
 import { fabric } from 'fabric';
 
-const CustomizationPage = ({product}) => {
+
+const CustomizationPage = ({ product }) => {
   const [editorVisible, setEditorVisible] = useState(false);
   const [image, setImage] = useState(null);
-
+  const [text, setText] = useState('');
+  const [font, setFont] = useState('Arial');
+  const [fontSize, setFontSize] = useState(16);
+  const [color, setColor] = useState('#000000');
+  const [alignment, setAlignment] = useState('left');
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-white">
       <Banner />
-
       <div className="flex justify-center items-start w-full max-w-4xl px-4 mt-8">
         <div className="flex-1">
           <Canva backgroundImageUrl={product.image} uploadedImage={image} />
         </div>
-
         <div className="flex-1 ml-8 space-y-4">
-          {/* Botón que alterna la visibilidad del TextEditor */}
-          <button
-            onClick={() => setEditorVisible(!editorVisible)}
-            className="text-sm font-medium text-gray-700 p-2 border-b border-gray-300 w-full text-left"
-          >
+          <button onClick={() => setEditorVisible(!editorVisible)} className="text-sm font-medium text-gray-700 p-2 border-b border-gray-300 w-full text-left">
             Diseño
           </button>
-          
-          {/* TextEditor escondido/mostrado dependiendo del estado */}
-          {editorVisible && <TextEditor />}
+          {editorVisible && (
+            <TextEditor
+              text={text}
+              setText={setText}
+              font={font}
+              setFont={setFont}
+              fontSize={fontSize}
+              setFontSize={setFontSize}
+              color={color}
+              setColor={setColor}
+              alignment={alignment}
+              setAlignment={setAlignment}
+            />
+          )}
           {editorVisible && <ImageUploader setImage={setImage} />}
-
-          {/* Formulario para otros aspectos de personalización */}
           <form className="bg-white shadow-md rounded px-4 pt-4 pb-2">
             <div>
               <label htmlFor="color" className="block text-sm font-medium text-gray-700">Color:</label>
@@ -73,7 +81,6 @@ const CustomizationPage = ({product}) => {
     </div>
   );
 };
-
 
 
 CustomizationPage.propTypes = {
