@@ -20,6 +20,7 @@ export default {
         'color-contorno': '#E6E6E6',
         'color-contornoButtons': '#000000',
         'color-shadow': '#7a7a7a',
+        'color-button': '#99A3A4',
       },
     },
   },

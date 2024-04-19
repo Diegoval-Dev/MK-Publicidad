@@ -211,6 +211,7 @@ function Catalogue({ setScreen }) {
         />
       </div>
       <ProductList
+        setScreen={setScreen}
         category={"A"}
         material={appliedFilters.material}
         technique={appliedFilters.technique}
