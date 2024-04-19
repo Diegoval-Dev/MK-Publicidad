@@ -1,42 +1,52 @@
-import PropTypes from 'prop-types';
+import PropTypes, { array, func } from 'prop-types';
 import Banner from '../components/Banner';
 import BannerSearch from '../components/BannerSearch'; 
 import Footer from '../components/Footer';
 import ProductHomeList from '../components/ProducHomeList';
+import { useEffect, useState } from 'react';
 
 function HomePage({ setScreen }) {
+  const [products, setProducts] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  // Objeto de Prueba
-  const products = [
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-para-Sublimar1.jpg",
-      "category": "Sudaderos"
-    },
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://printto.com.gt/wp-content/uploads/2022/06/impresion-digital-lona-manta-vinilica-vinilo-adhesivo-guatemala.jpg",
-      "category": "Mantas"
-    },
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/03/Taza-Asa-Bicolor-Celeste.jpg",
-      "category": "Tazas Personalizadas"
-    },
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/03/Pachon-Blanco-Tapon-Negro.jpg",
-      "category": "Pachones Personalizados"
-    },
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://printto.com.gt/wp-content/uploads/2022/06/impresion-digital-lona-manta-vinilica-vinilo-adhesivo-guatemala.jpg",
-      "category": "Mantas"
-    },
-  ]
+  useEffect(() => {
+    async function loadAllProducts() {
+      try {
+          const response = await fetch('http://localhost:3000/user/products')
+
+          if (response.ok) {
+            const data = await response.json()
+            setProducts(Array.from(data))
+            setLoading(false)
+            console.log("Éxito")
+            console.log(products)
 
 
-  const goToCatalog = () => {
+          } else {
+            throw new Error("No fue posible obtener los productos.")
+
+          }
+
+      } catch (error) {
+        console.log("Ocurrió un error al obtener los productos:", error)
+      }
+    }
+
+    loadAllProducts()
+  }, [])
+
+  if (loading) {
+    return(
+      <div className="flex flex-col items-center">
+        <Banner />
+        <BannerSearch />
+        <p>Loading...</p>
+        <Footer/>
+      </div>
+    )
+  }
+
+  const goToCatalogue = () => {
     setScreen(
       {name: "catalog", data: null}
     )
@@ -46,7 +56,7 @@ function HomePage({ setScreen }) {
     <div className="flex flex-col items-center">
       <Banner />
       <BannerSearch />
-      <ProductHomeList products={products} goToCatalog={goToCatalog}/>
+      <ProductHomeList products={products} goToCatalog={goToCatalogue}/>
       <Footer/>
     </div>
   );
