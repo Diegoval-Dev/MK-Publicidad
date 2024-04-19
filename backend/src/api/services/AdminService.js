@@ -2,7 +2,8 @@
 import userModel from '../../models/userModel.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-const SECRET_KEY = 'Emprendimiento_de_Marielos'; 
+const SECRET_KEY = process.env.SECRET_KEY;
+
 
 const authenticateUser = async (email, password) => {
     const user = await userModel.findOne({ where: { user_email: email } });
