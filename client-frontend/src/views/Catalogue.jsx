@@ -34,7 +34,9 @@ function Catalogue({ setScreen }) {
   };
 
   const goToHomePage = () => {
-    setScreen("home")
+    setScreen(
+      {name: "home", data: null}
+    )
   }
 
   const toggleFilterVisibility = () => {
@@ -44,7 +46,7 @@ function Catalogue({ setScreen }) {
   return (
     <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
       <Banner />
-      <div className="container flex justify-between w-full">
+      <div className="container flex justify-between w-full p-4">
         <NavigationButtons
           goToHomePage={goToHomePage}
         />

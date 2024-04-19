@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { fabric } from 'fabric';
 
-const Canva = ({ backgroundImageUrl, uploadedImage }) => {
+const Canva = ({ backgroundImageUrl, uploadedImage, fabricText}) => {
     const canvasRef = useRef(null);
 
     useEffect(() => {
@@ -30,21 +30,15 @@ const Canva = ({ backgroundImageUrl, uploadedImage }) => {
                 canvas.renderAll();
             });
         }
-
-        // const text = new fabric.IText("textContent", {
-        //     left: 50,
-        //     top: 50,
-        //     fontFamily: 'Comic Sans',
-        //     fill: '#000000',
-        //     fontSize: 20
-        // });
-
-        //canvas.add(text);
+        
+        if (fabricText) {
+            canvas.add(fabricText);
+        }
 
         return () => {
             canvas.dispose();
         };
-    }, [backgroundImageUrl, uploadedImage]);
+    }, [backgroundImageUrl, uploadedImage, fabricText]);
 
     return (
         <canvas ref={canvasRef} />

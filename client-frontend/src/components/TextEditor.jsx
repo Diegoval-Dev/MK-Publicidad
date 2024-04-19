@@ -1,6 +1,19 @@
 import React, { useState } from 'react';
 
-const TextEditor = ({ text, setText, font, setFont, fontSize, setFontSize, color, setColor, alignment, setAlignment }) => {
+const TextEditor = ({ text, setText, font, setFont, fontSize, setFontSize, color, setColor, alignment, setAlignment, setFabricText }) => {
+  
+  const handleTextUpdate = () => {
+    const newText = new fabric.IText(text, {
+      left: 50,
+      top: 50,
+      fontFamily: font,
+      fill: color,
+      fontSize: parseInt(fontSize),
+      textAlign: alignment,
+    });
+    setFabricText(newText);
+  };
+  
   return (
     <div className="space-y-1">
       <div className="flex items-center justify-center space-x-2">
@@ -9,6 +22,7 @@ const TextEditor = ({ text, setText, font, setFont, fontSize, setFontSize, color
           className="flex-1 p-1 text-sm border border-gray-300 rounded shadow-sm"
           value={text}
           onChange={(e) => setText(e.target.value)}
+          onBlur={handleTextUpdate}
           placeholder="Escribe algo aquí..."
         />
         <select
