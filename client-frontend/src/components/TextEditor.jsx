@@ -16,66 +16,72 @@ const TextEditor = () => {
   };
 
   return (
-    <div className="space-y-2">
-      <div className="flex items-center space-x-2">
+    <div className="space-y-1">
+      <div className="flex items-center justify-center space-x-2">
         <input
           type="text"
-          className="flex-1 p-2 border border-gray-300 rounded shadow-sm"
+          className="flex-1 p-1 text-sm border border-gray-300 rounded shadow-sm"
           value={text}
           onChange={(e) => setText(e.target.value)}
-          placeholder="Texto"
+          placeholder="Escribe algo aquí..."
         />
         <select
-          className="p-2 border border-gray-300 rounded shadow-sm"
+          className="p-1 text-sm border border-gray-300 rounded shadow-sm"
           value={font}
           onChange={(e) => setFont(e.target.value)}
         >
           <option value="Arial">Arial</option>
           <option value="Times New Roman">Times New Roman</option>
           <option value="Verdana">Verdana</option>
+          {/* Agrega más opciones de fuente aquí si lo necesitas */}
         </select>
         <input
           type="number"
-          className="w-20 p-2 border border-gray-300 rounded shadow-sm"
+          className="p-1 text-sm border border-gray-300 rounded shadow-sm w-16"
           value={fontSize}
           onChange={(e) => setFontSize(e.target.value)}
-          placeholder="Tamaño"
+          placeholder="16"
         />
+      </div>
+      <div className="flex items-center justify-center space-x-2">
         <input
           type="color"
-          className="w-20 p-2 border border-gray-300 rounded shadow-sm"
+          className="w-10 p-1 border border-gray-300 rounded shadow-sm"
           value={color}
           onChange={(e) => setColor(e.target.value)}
         />
         <select
-          className="p-2 border border-gray-300 rounded shadow-sm"
+          className="p-1 text-sm border border-gray-300 rounded shadow-sm"
           value={alignment}
           onChange={(e) => setAlignment(e.target.value)}
         >
           <option value="left">Izquierda</option>
           <option value="center">Centro</option>
           <option value="right">Derecha</option>
+          {/* Agrega más opciones de alineación aquí si lo necesitas */}
         </select>
-      </div>
-      <div>
+        <button
+          type="button"
+          className="text-sm bg-green-500 text-white p-1 rounded hover:bg-green-600"
+          onClick={() => document.getElementById('file-upload').click()}
+        >
+          Seleccionar archivo
+        </button>
         <input
+          id="file-upload"
           type="file"
+          className="hidden"
           onChange={handleImageChange}
-          className="mt-2 block w-full text-sm text-gray-500
-          file:rounded file:border-0
-          file:py-2 file:px-4
-          file:text-sm file:font-semibold
-          file:bg-violet-50 file:text-violet-700
-          hover:file:bg-violet-100"
         />
-        {image && (
-          <img src={image} alt="Vista previa" className="mt-2 rounded" />
-        )}
       </div>
+      {image && (
+        <div className="mt-2 flex justify-center">
+          <img src={image} alt="Vista previa" className="rounded max-h-40 w-auto" />
+        </div>
+      )}
     </div>
   );
 };
 
 export default TextEditor;
-
 
