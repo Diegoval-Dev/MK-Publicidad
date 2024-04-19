@@ -1,28 +1,13 @@
-<<<<<<< HEAD
-=======
 import React, { useState } from 'react';
->>>>>>> 8219cebe6a3fb88f044f41b059df2208f389ecd5
 import Banner from '../components/Banner';
 import Card from '../components/Card';
 import TextEditor from '../components/TextEditor';
 
-<<<<<<< HEAD
 const CustomizationPage = ({product}) => {
-
-  console.log(product);
-=======
-const CustomizationPage = () => {
   const [editorVisible, setEditorVisible] = useState(false);
 
-  const product = {
-    name: "Sudadero Personalizado",
-    image: "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-para-Sublimar1.jpg",
-    category: "Sudaderos",
-  };
->>>>>>> 8219cebe6a3fb88f044f41b059df2208f389ecd5
-
   return (
-    <div className="min-h-screen flex flex-col items-center pt-16 bg-white">
+    <div className="min-h-screen flex flex-col items-center bg-white">
       <Banner />
 
       <div className="flex justify-center items-start w-full max-w-4xl px-4 mt-8">
