@@ -6,14 +6,9 @@ const TextEditor = () => {
   const [fontSize, setFontSize] = useState(16);
   const [color, setColor] = useState('#000000');
   const [alignment, setAlignment] = useState('left');
-  const [image, setImage] = useState(null);
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      setImage(URL.createObjectURL(file));
-    }
-  };
+
+
 
   return (
     <div className="space-y-2">
@@ -58,19 +53,6 @@ const TextEditor = () => {
         </select>
       </div>
       <div>
-        <input
-          type="file"
-          onChange={handleImageChange}
-          className="mt-2 block w-full text-sm text-gray-500
-          file:rounded file:border-0
-          file:py-2 file:px-4
-          file:text-sm file:font-semibold
-          file:bg-violet-50 file:text-violet-700
-          hover:file:bg-violet-100"
-        />
-        {image && (
-          <img src={image} alt="Vista previa" className="mt-2 rounded" />
-        )}
       </div>
     </div>
   );

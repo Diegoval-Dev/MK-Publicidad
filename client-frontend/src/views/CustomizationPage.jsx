@@ -1,10 +1,16 @@
 import React, { useState } from 'react';
 import Banner from '../components/Banner';
-import Card from '../components/Card';
+import Canva from '../components/Canva';
 import TextEditor from '../components/TextEditor';
+import PropTypes from 'prop-types';
+import { fabric } from 'fabric';
 
 const CustomizationPage = ({product}) => {
   const [editorVisible, setEditorVisible] = useState(false);
+  
+  const [image, setImage] = useState(null);
+
+
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-white">
@@ -12,7 +18,7 @@ const CustomizationPage = ({product}) => {
 
       <div className="flex justify-center items-start w-full max-w-4xl px-4 mt-8">
         <div className="flex-1">
-          <Card image={product.image} />
+          <Canva backgroundImageUrl={product.image} />
         </div>
 
         <div className="flex-1 ml-8 space-y-4">
@@ -66,6 +72,14 @@ const CustomizationPage = ({product}) => {
       </div>
     </div>
   );
+};
+
+
+
+CustomizationPage.propTypes = {
+  product: PropTypes.shape({
+    image: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default CustomizationPage;

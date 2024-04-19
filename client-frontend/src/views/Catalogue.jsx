@@ -9,12 +9,7 @@ import '../styles/styles.css'
 
 function Catalogue({ setScreen }) {
   const [isFilterVisible, setIsFilterVisible] = useState(false);
-  const [appliedFilters, setAppliedFilters] = useState({
-    material: [],
-    technique: [],
-    size: [],
-    color: [],
-  });
+  const [appliedFilters, setAppliedFilters] = useState({});
   const [tempFilters, setTempFilters] = useState({
     material: [],
     technique: [],
