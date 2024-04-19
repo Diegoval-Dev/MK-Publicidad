@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { fabric } from 'fabric';
 
-const Canva = ({ backgroundImageUrl, text}) => {
+const Canva = ({ backgroundImageUrl, uploadedImage }) => {
     const canvasRef = useRef(null);
 
     useEffect(() => {
@@ -18,21 +18,33 @@ const Canva = ({ backgroundImageUrl, text}) => {
                 });
             });
         }
+        if (uploadedImage) {
+            fabric.Image.fromURL(uploadedImage, (img) => {
+                img.set({
+                    left: (canvas.width - img.width * 0.5) / 2,
+                    top: (canvas.height - img.height * 0.5) / 2,
+                    scaleX: 0.5,
+                    scaleY: 0.5
+                });
+                canvas.add(img);
+                canvas.renderAll();
+            });
+        }
 
-        const text = new fabric.IText(textContent, {
-            left: 50,
-            top: 50,
-            fontFamily: 'Comic Sans',
-            fill: '#000000',
-            fontSize: 20
-        });
+        // const text = new fabric.IText("textContent", {
+        //     left: 50,
+        //     top: 50,
+        //     fontFamily: 'Comic Sans',
+        //     fill: '#000000',
+        //     fontSize: 20
+        // });
 
-        canvas.add(text);
+        //canvas.add(text);
 
         return () => {
             canvas.dispose();
         };
-    }, [backgroundImageUrl]);
+    }, [backgroundImageUrl, uploadedImage]);
 
     return (
         <canvas ref={canvasRef} />

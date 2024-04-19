@@ -3,13 +3,12 @@ import Banner from '../components/Banner';
 import Canva from '../components/Canva';
 import TextEditor from '../components/TextEditor';
 import PropTypes from 'prop-types';
+import ImageUploader from '../components/ImageUploader';
 import { fabric } from 'fabric';
 
 const CustomizationPage = ({product}) => {
   const [editorVisible, setEditorVisible] = useState(false);
-  
   const [image, setImage] = useState(null);
-
 
 
   return (
@@ -18,7 +17,7 @@ const CustomizationPage = ({product}) => {
 
       <div className="flex justify-center items-start w-full max-w-4xl px-4 mt-8">
         <div className="flex-1">
-          <Canva backgroundImageUrl={product.image} />
+          <Canva backgroundImageUrl={product.image} uploadedImage={image} />
         </div>
 
         <div className="flex-1 ml-8 space-y-4">
@@ -32,6 +31,7 @@ const CustomizationPage = ({product}) => {
           
           {/* TextEditor escondido/mostrado dependiendo del estado */}
           {editorVisible && <TextEditor />}
+          {editorVisible && <ImageUploader setImage={setImage} />}
 
           {/* Formulario para otros aspectos de personalización */}
           <form className="bg-white shadow-md rounded px-4 pt-4 pb-2">
