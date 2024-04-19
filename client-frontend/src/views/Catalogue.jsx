@@ -9,6 +9,7 @@ import '../styles/styles.css';
 function Catalogue({ setScreen }) {
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   const [appliedFilters, setAppliedFilters] = useState({});
+  const [products, setProducts] = useState([]);
   const [tempFilters, setTempFilters] = useState({
     material: [],
     technique: [],
@@ -16,36 +17,157 @@ function Catalogue({ setScreen }) {
     color: [],
   });
 
-  const loadAllProducts = () => {
-    async function getAllProducts() {
-      const apiURL = `http://localhost:3000/user/products`;
-      const [products, setProducts] = useState([]);
-      
-      try {
-          const response = await fetch(apiURL, {
-              method: 'GET',
-              headers: {
-                  'Content-type': 'application/json'
-              }
-          });
-          
-          if (response.ok) {
-              const data = await response.json();
-              setProducts(Array.from(data));
-              console.log("Éxito");
-              console.log(products);
-              
-          } else {
-              throw new Error("No fue posible obtener los productos.");
-              
-          };
-          
-      } catch (error) {
-          console.log("Ocurrió un error al obtener los productos:", error);
-      };
-  
-      return products;
+  const loadAllProducts = async () => {
+    const apiURL = `http://localhost:3000/user/products`;
+    
+    try {
+        const response = await fetch(apiURL, {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json'
+          }
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          setProducts(Array.from(data));
+          console.log("Éxito");
+          console.log(products);
+            
+        } else {
+          throw new Error("No fue posible obtener los productos.");
+            
+        };
+        
+    } catch (error) {
+      console.log("Ocurrió un error al obtener los productos:", error);
     };
+
+    return products;
+  };
+
+  const createNewProduct = async (productDetails) => {
+    const apiURL = `http://localhost:3000//products`;
+
+    try {
+      const response = await fetch(apiURL, {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({ 
+          name: productDetails.name,
+          category: productDetails.category,
+          material: productDetails.material,
+          description: productDetails.description,
+          image: productDetails.image
+        })
+      });
+
+    } catch (error) {
+      console.error(error)
+    }
+  };
+
+  const loadProductsByName = async (name) => {
+    const apiURL = `http://localhost:3000/user/products?name=${name}`;
+    
+    try {
+      const response = await fetch(apiURL, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setProducts(Array.from(data));
+        console.log("Éxito");
+        console.log(products);
+
+      } else {
+        throw new Error("Ocurrió un error al obtener los productos.")
+
+      };
+      
+    } catch (error) {
+      console.error(error);
+
+    }
+
+    return products;
+
+  };
+
+  const loadProductsByMaterial = async (material) => {
+    const apiURL = `http://localhost:3000/user/products?material=${material}`;
+    
+    try {
+      const response = await fetch(apiURL, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setProducts(Array.from(data));
+        console.log("Éxito");
+        console.log(products);
+
+      } else {
+        throw new Error("Ocurrió un error al obtener los productos.")
+
+      };
+      
+    } catch (error) {
+      console.error(error);
+      
+    }
+
+    return products;
+
+  };
+
+  const loadProductsByCategory = async (category) => {
+    const apiURL = `http://localhost:3000/user/products?category=${category}`;
+    
+    try {
+      const response = await fetch(apiURL, {
+        method: 'GET',
+        headers: {
+          'Content-type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setProducts(Array.from(data));
+        console.log("Éxito");
+        console.log(products);
+
+      } else {
+        throw new Error("Ocurrió un error al obtener los productos.")
+
+      };
+      
+    } catch (error) {
+      console.error(error);
+      
+    }
+
+    return products;
+
+  };
+
+  const renderProducts = async () => {
+
+  }
+
+  const selectProduct = async () => {
+
   }
 
   const handleApplyFilters = () => {
@@ -66,7 +188,7 @@ function Catalogue({ setScreen }) {
 
   const goToHomePage = () => {
     setScreen("home")
-  }
+  };
 
   const toggleFilterVisibility = () => {
     setIsFilterVisible(!isFilterVisible);
@@ -98,7 +220,7 @@ function Catalogue({ setScreen }) {
     </div>
   );
   
-}
+};
 
 Catalogue.propTypes = {
   setScreen: PropTypes.func.isRequired,
