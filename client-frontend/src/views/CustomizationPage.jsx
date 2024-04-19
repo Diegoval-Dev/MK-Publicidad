@@ -15,13 +15,23 @@ const CustomizationPage = ({ product }) => {
   const [fontSize, setFontSize] = useState(16);
   const [color, setColor] = useState('#000000');
   const [alignment, setAlignment] = useState('left');
+  
+  const [fabricText, setFabricText] = useState(null); 
+  const fabricTextObject = new fabric.IText(text, {
+    left: 50,
+    top: 50,
+    fontFamily: font,
+    fill: color,
+    fontSize: fontSize,
+    textAlign: alignment 
+  });
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-white">
       <Banner />
       <div className="flex justify-center items-start w-full max-w-4xl px-4 mt-8">
         <div className="flex-1">
-          <Canva backgroundImageUrl={product.image} uploadedImage={image} />
+          <Canva backgroundImageUrl={product.image} uploadedImage={image} fabricText={fabricTextObject}/>
         </div>
         <div className="flex-1 ml-8 space-y-4">
           <button onClick={() => setEditorVisible(!editorVisible)} className="text-sm font-medium text-gray-700 p-2 border-b border-gray-300 w-full text-left">
@@ -39,6 +49,7 @@ const CustomizationPage = ({ product }) => {
               setColor={setColor}
               alignment={alignment}
               setAlignment={setAlignment}
+              setFabricText={setFabricText}
             />
           )}
           {editorVisible && <ImageUploader setImage={setImage} />}
