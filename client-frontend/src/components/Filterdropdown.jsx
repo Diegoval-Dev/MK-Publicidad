@@ -23,8 +23,8 @@ function FilterDropDown({ namefilter, optionsfilter, selectedOptions, onChange})
 
 
   return (
-    <div className="pb select-none" onClick={handleDropState}>
-      <div className="flex justify-between mb-5">
+    <div className="pb select-none">
+      <div className="flex justify-between mb-5" onClick={handleDropState}>
         <span className="font-bold">{namefilter}</span>
         <button className="border-none bg-none cursor-pointer text-xl">
           {isVisible ? '-' : '+'}

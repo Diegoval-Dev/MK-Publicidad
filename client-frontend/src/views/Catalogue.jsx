@@ -33,12 +33,6 @@ function Catalogue({ setScreen }) {
     setAppliedFilters(initialFilters);
   };
 
-  const goToHomePage = () => {
-    setScreen(
-      {name: "home", data: null}
-    )
-  }
-
   const toggleFilterVisibility = () => {
     setIsFilterVisible(!isFilterVisible);
   };
@@ -48,7 +42,8 @@ function Catalogue({ setScreen }) {
       <Banner />
       <div className="container flex justify-between w-full p-4">
         <NavigationButtons
-          goToHomePage={goToHomePage}
+          destination="home"
+          setScreen={setScreen}
         />
         <FilterControls
           toggleFilterVisibility={toggleFilterVisibility}

@@ -4,6 +4,7 @@ import Canva from '../components/Canva';
 import TextEditor from '../components/TextEditor';
 import PropTypes from 'prop-types';
 import ImageUploader from '../components/ImageUploader';
+import NavigationButtons from '../components/NavigationButtons';
 import { fabric } from 'fabric';
 
 

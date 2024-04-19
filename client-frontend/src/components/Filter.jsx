@@ -14,7 +14,7 @@ function Filter({toggleFilterVisibility, setTempFilters, tempFilters, handleAppl
       <div className="w-1/3 h-full fixed top-0 right-0 bg-white shadow-md p-5 overflow-auto">
       <div className="mb-7">
         <h3 className="m-0 text-lg font-bold text-center">Filtrar</h3>
-        <button onClick={toggleFilterVisibility} className="text-3xl absolute top-1 right-1" aria-label="Cerrar">×</button>
+        <button onClick={toggleFilterVisibility} className="text-3xl absolute top-1 right-1 pr-3" aria-label="Cerrar">×</button>
       </div>
       {/* <hr className="my-5" />
       <div className="mb-10">
