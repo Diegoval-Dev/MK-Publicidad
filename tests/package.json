@@ -11,5 +11,8 @@
   "license": "ISC",
   "devDependencies": {
     "@cucumber/cucumber": "^10.5.1"
+  },
+  "dependencies": {
+    "selenium-webdriver": "^4.20.0"
   }
 }
