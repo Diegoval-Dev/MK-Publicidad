@@ -1,8 +1,10 @@
 import productService from '../services/productService.js';
 
+
 const createProduct = async (req, res) => {
     try {
-        const { name, category, material, description, image } = req.body;
+        const { name, category, material, description } = req.body;
+        const image = req.file.path;
         const product = { name, category, material, description, image };
         const newProduct = await productService.createProduct(product);
         res.status(201).json(newProduct);

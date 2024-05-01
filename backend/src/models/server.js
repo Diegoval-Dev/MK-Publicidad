@@ -15,6 +15,7 @@ class Server{
         this.userPath='/user',
         this.middlewares();
         this.routes();
+        
     }
     async dbConnection(){
         await testConnection();
