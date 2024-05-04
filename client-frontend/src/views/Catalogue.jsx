@@ -151,7 +151,7 @@ function Catalogue({ setScreen }) {
       } else {
         throw new Error("Ocurrió un error al obtener los productos.")
 
-      };
+      }
       
     } catch (error) {
       console.error(error);

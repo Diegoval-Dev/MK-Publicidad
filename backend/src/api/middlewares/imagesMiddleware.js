@@ -1,6 +1,10 @@
 import { v2 as cloudinary } from 'cloudinary';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 import multer from 'multer';
+import dotenv from 'dotenv';
+
+
+dotenv.config();
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
@@ -10,13 +14,18 @@ cloudinary.config({
 
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  params: {
-    folder: 'some-folder-name',
-    format: async (req, file) => 'png', 
-    public_id: (req, file) => 'computed-filename-using-request',
+  params: (req, file) => {
+    const public_id = req.body.name.trim();
+    return {
+      folder: req.body.category,
+      format: 'png', 
+      public_id: public_id,
+    }
   },
 });
 
 const parser = multer({ storage: storage });
+
+
 
 export default parser;

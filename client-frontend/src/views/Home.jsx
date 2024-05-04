@@ -16,7 +16,7 @@ function HomePage({ setScreen }) {
 
           if (response.ok) {
             const data = await response.json()
-            setProducts(Array.from(data))
+            setProducts(data["data"])
             setLoading(false)
             console.log("Éxito")
             console.log(products)

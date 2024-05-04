@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 function NavigationButtons({ destination, setScreen }) {
 
   const handleButtonClick = () => {
+    console.log("Clicked", destination);
     setScreen(destination);
   };
 

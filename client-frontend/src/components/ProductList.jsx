@@ -7,16 +7,7 @@ function ProductList({ setScreen, category, material, technique, size, color }) 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // const fetchProducts = async () => {
-    //   const response = await fetch('http://localhost:3000/user/products');
-    //   const data = await response.json();
-    //   setProducts(data);
-    //   setLoading(false);
-    // };
-    //fetchProducts();
 
-    // Objeto de Prueba
-    // Objeto de Prueba
     
     const products = [
     {
@@ -111,11 +102,11 @@ function ProductList({ setScreen, category, material, technique, size, color }) 
 
 ProductList.propTypes = {
   setScreen: PropTypes.func.isRequired,
-  category: PropTypes.string.isRequired,
-  material: PropTypes.array.isRequired,
-  technique: PropTypes.array.isRequired,
-  size: PropTypes.array.isRequired,
-  color: PropTypes.array.isRequired
+  category: PropTypes.string,
+  material: PropTypes.array,
+  technique: PropTypes.array,
+  size: PropTypes.array,
+  color: PropTypes.array
 }
 
 export default ProductList;

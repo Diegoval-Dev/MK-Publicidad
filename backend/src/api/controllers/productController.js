@@ -2,6 +2,7 @@ import productService from '../services/productService.js';
 
 
 const createProduct = async (req, res) => {
+    console.log("ENTRO Al controller")
     try {
         const { name, category, material, description } = req.body;
         const image = req.file.path;
