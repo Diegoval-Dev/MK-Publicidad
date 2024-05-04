@@ -4,7 +4,7 @@ create table productos (
     category varchar(50) not null,
     material varchar(50),
     description text,
-    image blob,
+    image varchar(255),
     deletedAt timestamp null
 );
 
@@ -19,9 +19,6 @@ position VARCHAR(50) not null,
 user_phone VARCHAR(50) not null,
 user_officePhone VARCHAR(50) not null
 );
-
-
-ALTER TABLE productos MODIFY COLUMN image LONGBLOB;
 
 ALTER TABLE users
 ADD COLUMN createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
