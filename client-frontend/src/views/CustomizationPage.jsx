@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Banner from '../components/Banner';
 import Canva from '../components/Canva';
 import TextEditor from '../components/TextEditor';
 import PropTypes from 'prop-types';
 import ImageUploader from '../components/ImageUploader';
 import NavigationButtons from '../components/NavigationButtons';
+import useNavigate from '@hooks/useNavigate';
 import { fabric } from 'fabric';
 
 
-const CustomizationPage = ({ product }) => {
+const CustomizationPage = () => {
   const [editorVisible, setEditorVisible] = useState(false);
   const [image, setImage] = useState(null);
   const [text, setText] = useState('');
@@ -16,6 +17,7 @@ const CustomizationPage = ({ product }) => {
   const [fontSize, setFontSize] = useState(16);
   const [color, setColor] = useState('#000000');
   const [alignment, setAlignment] = useState('left');
+  const { navigate, params } = useNavigate();
   
   const [fabricText, setFabricText] = useState(null); 
   const fabricTextObject = new fabric.IText(text, {
@@ -27,9 +29,23 @@ const CustomizationPage = ({ product }) => {
     textAlign: alignment 
   });
 
+  //params -> product id
+
+  const product = {
+    "id": "1",
+    "name": "Sudadero Personalizado",
+    "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-para-Sublimar1.jpg",
+    "category": "Sudaderos",
+    "material": "Algodón",
+    "description": "Sudadero cómodo y fresco."
+  }
+
   return (
     <div className="min-h-screen flex flex-col items-center bg-white">
       <Banner />
+      <NavigationButtons 
+        onClick={() => navigate('/catalogue')}
+      />
       <div className="flex justify-center items-start w-full max-w-4xl px-4 mt-8">
         <div className="flex-1">
           <Canva backgroundImageUrl={product.image} uploadedImage={image} fabricText={fabricTextObject}/>

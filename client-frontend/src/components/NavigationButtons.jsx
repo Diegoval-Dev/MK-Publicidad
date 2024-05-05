@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types';
 
-function NavigationButtons({ destination, setScreen }) {
+function NavigationButtons({onClick}) {
 
   const handleButtonClick = () => {
-    console.log("Clicked", destination);
-    setScreen(destination);
-  };
+    onClick();
+  }
 
     return (
       <div className=''>
