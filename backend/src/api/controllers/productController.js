@@ -5,6 +5,13 @@ const createProduct = async (req, res) => {
     console.log("ENTRO Al controller")
     try {
         const { name, category, material, description } = req.body;
+        console.log("Req Body:", req.body);
+        console.log("Req File:", req.file);
+        if (req.file) {
+            console.log("File path:", req.file.path);
+        } else {
+            console.log("File not uploaded.");
+}
         const image = req.file.path;
         const product = { name, category, material, description, image };
         const newProduct = await productService.createProduct(product);
