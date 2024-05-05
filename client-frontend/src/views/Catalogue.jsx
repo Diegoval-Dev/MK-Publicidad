@@ -195,7 +195,7 @@ function Catalogue() {
       <Banner />
       <div className="container flex justify-between w-full p-4">
         <NavigationButtons
-          onClick={() => navigate('/')}
+          onClick={() => navigate('/home')}
         />
         <FilterControls
           toggleFilterVisibility={toggleFilterVisibility}

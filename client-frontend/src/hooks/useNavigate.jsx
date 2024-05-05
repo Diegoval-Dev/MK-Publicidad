@@ -26,14 +26,13 @@ const NavigationProvider = ({ children }) => {
     }, [path])
 
     const navigate = (url, params = {}) => {
-    console.log('Navigating to', url);
-    const separator = page === '/' ? '' : page.endsWith('/') ? '' : '/';
-    const newUrl = `${page}${separator}${url}`;
-    console.log('New URL', newUrl)
-    setPage(newUrl)
-    setParams(params)
-    window.history.pushState({}, '', newUrl);
-}
+        console.log('Navigating to', url);
+        const newUrl = url.startsWith('/') ? url : `${page}/${url}`;
+        console.log('New URL', newUrl)
+        setPage(newUrl)
+        setParams(params)
+        window.history.pushState({}, '', newUrl);
+    }
 
     return (
         <NavigationContext.Provider value={{ page, navigate, params }}>

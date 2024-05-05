@@ -44,7 +44,7 @@ const CustomizationPage = () => {
     <div className="min-h-screen flex flex-col items-center bg-white">
       <Banner />
       <NavigationButtons 
-        onClick={() => navigate('/catalogue')}
+        onClick={() => navigate('/home/catalogue')}
       />
       <div className="flex justify-center items-start w-full max-w-4xl px-4 mt-8">
         <div className="flex-1">

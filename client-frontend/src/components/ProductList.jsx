@@ -93,7 +93,7 @@ function ProductList({category, material, technique, size, color }) {
       <h2 className='titleAdmin' style={{alignSelf: "flex-start", fontSize: "25px", margin: "2%"}}>{products[0].category}</h2>
       <div style={{display: "flex", flexDirection: "row", justifyContent: "center", flexWrap: "wrap", }}>
         {products.map((product, index) => (
-              <div key={index} style={{margin: "1%"}} onClick={() => navigate('/customization', product.id)}>
+              <div key={index} style={{margin: "1%"}} onClick={() => navigate('customization', product.id)}>
                   <Card {...product} />
               </div>  
         ))}
