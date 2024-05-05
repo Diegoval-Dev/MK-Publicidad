@@ -13,7 +13,7 @@ function ProductList({category, material, technique, size, color }) {
     {
       "id": "1",
       "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-para-Sublimar1.jpg",
+      "image": "https://res.cloudinary.com/dmafdgdz3/image/upload/v1714789902/Sudaderos/Sudadero.png",
       "category": "Sudaderos",
       "material": "Algodón",
       "description": "Sudadero cómodo y fresco."
@@ -21,7 +21,7 @@ function ProductList({category, material, technique, size, color }) {
     {
       "id": "2",
       "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
+      "image": "https://res.cloudinary.com/dmafdgdz3/image/upload/v1714789902/Sudaderos/Sudadero.png",
       "category": "Sudaderos",
       "material": "Algodón",
       "description": "Sudadero cómodo y fresco."
@@ -29,7 +29,7 @@ function ProductList({category, material, technique, size, color }) {
     {
       "id": "3",
       "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
+      "image": "https://res.cloudinary.com/dmafdgdz3/image/upload/v1714789902/Sudaderos/Sudadero.png",
       "category": "Sudaderos",
       "material": "Algodón",
       "description": "Sudadero cómodo y fresco."
@@ -37,7 +37,7 @@ function ProductList({category, material, technique, size, color }) {
     {
       "id": "4",
       "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
+      "image": "https://res.cloudinary.com/dmafdgdz3/image/upload/v1714789902/Sudaderos/Sudadero.png",
       "category": "Sudaderos",
       "material": "Algodón",
       "description": "Sudadero cómodo y fresco."
@@ -45,7 +45,7 @@ function ProductList({category, material, technique, size, color }) {
     {
       "id": "5",
       "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
+      "image": "https://res.cloudinary.com/dmafdgdz3/image/upload/v1714789902/Sudaderos/Sudadero.png",
       "category": "Sudaderos",
       "material": "Algodón",
       "description": "Sudadero cómodo y fresco."
@@ -54,7 +54,7 @@ function ProductList({category, material, technique, size, color }) {
     {
       "id": "6",
       "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
+      "image": "https://res.cloudinary.com/dmafdgdz3/image/upload/v1714789902/Sudaderos/Sudadero.png",
       "category": "Sudaderos",
       "material": "Algodón",
       "description": "Sudadero cómodo y fresco."
@@ -63,7 +63,7 @@ function ProductList({category, material, technique, size, color }) {
     {
       "id": "7",
       "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
+      "image": "https://res.cloudinary.com/dmafdgdz3/image/upload/v1714789902/Sudaderos/Sudadero.png",
       "category": "Sudaderos",
       "material": "Algodón",
       "description": "Sudadero cómodo y fresco."
@@ -72,7 +72,7 @@ function ProductList({category, material, technique, size, color }) {
     {
       "id": "8",
       "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
+      "image": "https://res.cloudinary.com/dmafdgdz3/image/upload/v1714789902/Sudaderos/Sudadero.png",
       "category": "Sudaderos",
       "material": "Algodón",
       "description": "Sudadero cómodo y fresco."
@@ -90,12 +90,12 @@ function ProductList({category, material, technique, size, color }) {
 
   return (
     <>
-      <h2 className='titleAdmin' style={{alignSelf: "flex-start", fontSize: "25px", margin: "2%"}}>{products[0].category}</h2>
+      <h2 className='titleAdmin' style={{alignSelf: "flex-start", fontSize: "25px", margin: "2%"}}>{params.category}</h2>
       <div style={{display: "flex", flexDirection: "row", justifyContent: "center", flexWrap: "wrap", }}>
         {products.map((product, index) => (
-              <div key={index} style={{margin: "1%"}} onClick={() => navigate('customization', product.id)}>
-                  <Card {...product} />
-              </div>  
+          <div key={index} style={{margin: "1%"}} onClick={() => navigate('customization', {productId: product.id})}>
+            <Card {...product} />
+          </div>  
         ))}
       </div>
     </>

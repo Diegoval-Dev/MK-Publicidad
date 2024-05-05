@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-function Card({name, category, material, description, image}) {
+function Card({productId, name, category, material, description, image}) {
   return (
     <div className="w-60 h-96 flex flex-col justify-center items-center gap-1 bg-color-componentes border rounded-3xl border-color-contorno">
         <img className="aspect-auto h-60" src={image} alt={name} />
@@ -13,6 +13,7 @@ function Card({name, category, material, description, image}) {
 }
 
 Card.propTypes = {
+  productId: PropTypes.string,
   name: PropTypes.string,
   category: PropTypes.string,
   material: PropTypes.string,
