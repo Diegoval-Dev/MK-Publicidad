@@ -17,6 +17,9 @@ const CustomizationPage = () => {
   const [fontSize, setFontSize] = useState(16);
   const [color, setColor] = useState('#000000');
   const [alignment, setAlignment] = useState('left');
+  const [size, setSize] = useState('');
+  const [quantity, setQuantity] = useState('');
+  const [description, setDescription] = useState('');
   const { navigate, params } = useNavigate();
   const [screenshot, setScreenshot] = useState(null);
   const fabricCanvasRef = useRef(null);
@@ -47,7 +50,16 @@ const CustomizationPage = () => {
   useEffect(() => {
     if (screenshot) {
       console.log("Adding customization to cart")
-      navigate('quote', { category: product.category ,productId: product.id, screenshot: screenshot, cateogry: product.category });
+      navigate(
+        'quote', 
+        { category: product.category ,
+          productId: product.id, 
+          screenshot: screenshot,  
+          color: color,
+          size: size,
+          quantity: quantity,
+          description: description
+        });
     }
   }, [screenshot]);
 
@@ -100,7 +112,7 @@ const CustomizationPage = () => {
           <form className="bg-white shadow-md rounded px-4 pt-4 pb-2">
             <div>
               <label htmlFor="color" className="block text-sm font-medium text-gray-700">Color:</label>
-              <select id="color" name="color" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2">
+              <select id="color" name="color" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2" value={color} onChange={e => setColor(e.target.value)}>
                 <option value="">Selecciona un color</option>
                 <option value="color1">Color 1</option>
                 <option value="color2">Color 2</option>
@@ -109,7 +121,7 @@ const CustomizationPage = () => {
             </div>
             <div>
               <label htmlFor="size" className="block text-sm font-medium text-gray-700">Talla:</label>
-              <select id="size" name="size" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2">
+              <select id="size" name="size" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2" value={size} onChange={e => setSize(e.target.value)}>
                 <option value="">Selecciona una talla</option>
                 <option value="small">S</option>
                 <option value="medium">M</option>
@@ -118,11 +130,11 @@ const CustomizationPage = () => {
             </div>
             <div>
               <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">Cantidad:</label>
-              <input type="number" id="quantity" name="quantity" min="1" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2" />
+              <input type="number" id="quantity" name="quantity" min="1" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2" value={quantity} onChange={e => setQuantity(e.target.value)}/>
             </div>
             <div>
               <label htmlFor="additional-description" className="block text-sm font-medium text-gray-700">Descripción Adicional:</label>
-              <textarea id="additional-description" name="additional-description" placeholder="Ingresa una descripción adicional" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2"></textarea>
+              <textarea id="additional-description" name="additional-description" placeholder="Ingresa una descripción adicional" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2" value={description} onChange={e => setDescription(e.target.value)}></textarea>
             </div>
             <button
               type="button"
