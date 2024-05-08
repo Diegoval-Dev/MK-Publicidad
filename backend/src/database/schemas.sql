@@ -8,6 +8,12 @@ create table productos (
     deletedAt timestamp null
 );
 
+ALTER TABLE productos ADD COLUMN size VARCHAR(50);
+ALTER TABLE productos ADD COLUMN color VARCHAR(50);
+ALTER TABLE productos ADD COLUMN technique VARCHAR(50);
+ALTER TABLE productos MODIFY COLUMN image VARCHAR(255);
+
+
 
 create table users (
 user_id int primary key auto_increment,
