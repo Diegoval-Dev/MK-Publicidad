@@ -36,6 +36,15 @@ CREATE TABLE quotes (
     FOREIGN KEY (productId) REFERENCES products(id)
 );
 
+CREATE TABLE Customers (
+    Customer_ID INT PRIMARY KEY AUTO_INCREMENT,
+    customer_company VARCHAR(50) NOT NULL,
+    customer_email VARCHAR(50) NOT NULL,
+    customer_contact VARCHAR(15) NOT NULL,
+    customer_adress VARCHAR(255) NOT NULL
+);
+
+
 
 ALTER TABLE users
 ADD COLUMN createdAt DATETIME DEFAULT CURRENT_TIMESTAMP,
