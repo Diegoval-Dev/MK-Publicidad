@@ -97,11 +97,32 @@ const getFilterOptionsByCategory = async (category) => {
     }
 };
 
+
+const getAllCategories = async () => {
+    try {
+        const categories = await Product.findAll({
+            attributes: [
+                [Sequelize.fn('DISTINCT', Sequelize.col('category')), 'category'],
+                [Sequelize.fn('MAX', Sequelize.col('image')), 'image'] 
+            ],
+            group: ['category']
+        });
+
+        return categories.map(cat => ({
+            category: cat.category,
+            image: cat.image
+        }));
+    } catch (error) {
+        throw new Error(`Error al obtener las categorías: ${error.message}`);
+    }
+};
+
 export default {
     createProduct,
     getProducts,
     getProductById,
     updateProduct,
     deleteProduct,
-    getFilterOptionsByCategory
+    getFilterOptionsByCategory,
+    getAllCategories
 };

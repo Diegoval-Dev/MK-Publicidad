@@ -8,5 +8,6 @@ router.get('/products', productController.getAllProducts);
 
 // Ruta para obtener los filtros posibles por categoria
 router.get('/filters/:category', productController.getFilterOptionsByCategory);
+router.get('/categories', productController.getAllCategories);
 
 export default router;
