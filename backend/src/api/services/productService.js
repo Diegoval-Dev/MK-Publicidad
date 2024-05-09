@@ -1,5 +1,5 @@
 import Product from "../../models/productModel.js";
-import { Op } from "sequelize";
+import { Op, Sequelize } from "sequelize";
 
 const createProduct = async (product) => {
     try {
@@ -20,6 +20,15 @@ const getProducts = async (filters = {}) => {
         }
         if (filters.category) {
             whereClause.category = filters.category;
+        }
+        if (filters.size) {
+            whereClause.size = filters.size;
+        }
+        if (filters.color) {
+            whereClause.color = filters.color;
+        }
+        if (filters.technique) {
+            whereClause.technique = filters.technique;
         }
 
         return await Product.findAll({ where: whereClause });
@@ -86,7 +95,7 @@ const getFilterOptionsByCategory = async (category) => {
     } catch (error) {
         throw new Error(`Error al obtener opciones de filtrado: ${error.message}`);
     }
-};s
+};
 
 export default {
     createProduct,
