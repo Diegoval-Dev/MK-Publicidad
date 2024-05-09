@@ -70,10 +70,23 @@ const deleteProduct = async (req, res) => {
     }
 };
 
+const getFilterOptionsByCategory = async (req, res) => {
+    try {
+        const category = req.params.category;
+        const filters = await productService.getFilterOptionsByCategory(category);
+
+        res.status(200).json(filters);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 export default {
     getAllProducts,
     getProductById,
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getFilterOptionsByCategory
+
 };

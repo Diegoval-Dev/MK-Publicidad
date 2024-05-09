@@ -55,10 +55,44 @@ const deleteProduct = async (id) => {
     }
 };
 
+const getFilterOptionsByCategory = async (category) => {
+    try {
+        const materials = await Product.findAll({
+            attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('material')), 'material']],
+            where: { category }
+        });
+
+        const sizes = await Product.findAll({
+            attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('size')), 'size']],
+            where: { category }
+        });
+
+        const colors = await Product.findAll({
+            attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('color')), 'color']],
+            where: { category }
+        });
+
+        const techniques = await Product.findAll({
+            attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('technique')), 'technique']],
+            where: { category }
+        });
+
+        return {
+            materials: materials.map(item => item.material),
+            sizes: sizes.map(item => item.size),
+            colors: colors.map(item => item.color),
+            techniques: techniques.map(item => item.technique)
+        };
+    } catch (error) {
+        throw new Error(`Error al obtener opciones de filtrado: ${error.message}`);
+    }
+};s
+
 export default {
     createProduct,
     getProducts,
     getProductById,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getFilterOptionsByCategory
 };
