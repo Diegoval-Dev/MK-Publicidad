@@ -1,7 +1,7 @@
 import Banner from '../components/Banner';
 import BannerSearch from '../components/BannerSearch';
 import Footer from '../components/Footer';
-import ProducHomeList from '../components/ProducHomeList'; 
+import ProducHomeList from '../components/ProducHomeList';
 import { useEffect, useState } from 'react';
 
 function HomePage() {
@@ -10,20 +10,9 @@ function HomePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Ejemplo de productos simulados
-    const p = [
-      {
-        "name": "Sudadero Personalizado11",
-        "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-para-Sublimar1.jpg",
-        "category": "Sudaderos11"
-      }
-    ];
-
-    setProducts(p);
-
     // Función para cargar categorías desde el endpoint
     async function loadCategories() {
-      const apiURL = 'http://localhost:3000/user/categories'; 
+      const apiURL = 'http://localhost:3000/user/categories';
       try {
         const response = await fetch(apiURL);
         if (response.ok) {
@@ -40,6 +29,7 @@ function HomePage() {
       }
     }
 
+    // Llama a la función para cargar las categorías
     loadCategories();
   }, []);
 
