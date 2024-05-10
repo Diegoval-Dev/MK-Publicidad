@@ -1,97 +1,67 @@
 import Banner from '../components/Banner';
-import BannerSearch from '../components/BannerSearch'; 
+import BannerSearch from '../components/BannerSearch';
 import Footer from '../components/Footer';
-import ProductHomeList from '../components/ProducHomeList';
+import ProducHomeList from '../components/ProducHomeList'; 
 import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 
 function HomePage() {
-  const [products, setProducts] = useState([])
-  const [loading, setLoading] = useState(true)
-
-  const p = [
-
-    {
-      "name": "Sudadero Personalizado11",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-para-Sublimar1.jpg",
-      "category": "Sudaderos11"
-    },
-    {
-      "name": "Sudadero Personalizado22",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
-      "category": "Sudaderos22"
-    },
-    {
-      "name": "Sudadero Personalizado 3",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
-      "category": "Sudaderos 3"
-    },
-    {
-      "name": "Sudadero Personalizado 2",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
-      "category": "Sudaderos 2"
-    },
-    {
-      "name": "Sudadero Personalizado 1",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
-      "category": "Sudaderos 1"
-    },
-  ]
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setProducts(p)
-    setLoading(false)
-  }, [])
+    // Ejemplo de productos simulados
+    const p = [
+      {
+        "name": "Sudadero Personalizado11",
+        "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-para-Sublimar1.jpg",
+        "category": "Sudaderos11"
+      }
+    ];
 
-  // useEffect(() => {
-  //   async function loadAllProducts() {
-  //     try {
-  //         const response = await fetch('http://localhost:3000/user/products')
+    setProducts(p);
 
-  //         if (response.ok) {
-  //           const data = await response.json()
-  //           setProducts(data["data"])
-  //           setLoading(false)
-  //           console.log("Éxito")
-  //           console.log(products)
+    // Función para cargar categorías desde el endpoint
+    async function loadCategories() {
+      const apiURL = 'http://localhost:3000/user/categories'; 
+      try {
+        const response = await fetch(apiURL);
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Datos de categorías:", data);
+          setCategories(data); 
+        } else {
+          console.error("Error al obtener categorías:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error al cargar categorías:", error);
+      } finally {
+        setLoading(false);
+      }
+    }
 
-
-  //         } else {
-  //           throw new Error("No fue posible obtener los productos.")
-
-  //         }
-
-  //     } catch (error) {
-  //       console.log("Ocurrió un error al obtener los productos:", error)
-  //     }
-  //   }
-
-  //   loadAllProducts()
-  // }, [])
+    loadCategories();
+  }, []);
 
   if (loading) {
-    return(
+    return (
       <div className="flex flex-col items-center">
         <Banner />
         <BannerSearch />
         <p>Loading...</p>
         <Footer/>
       </div>
-    )
+    );
   }
-
-
 
   return (
     <div className="flex flex-col items-center">
       <Banner />
       <BannerSearch />
-      <ProductHomeList products={products}/>
+      <ProducHomeList products={products} categories={categories} />
       <Footer/>
     </div>
   );
 }
 
-
-
-export default HomePage
+export default HomePage;
