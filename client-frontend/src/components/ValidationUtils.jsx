@@ -12,12 +12,13 @@ function validateCompanyName(companyName) {
     return '';
 }
 
-function validateContactNumber(contactNumber) {
-    if (!/^[0-9]+$/.test(contactNumber)) {
-        return 'El número de contacto solo puede contener números.';
+function validatePhoneNumber(phoneNumber) {
+    if (!/^[0-9]+$/.test(phoneNumber)) {
+        return 'El número de teléfono solo puede contener números.';
     }
     return '';
 }
+
 
 function validateEmail(email) {
     if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
@@ -29,6 +30,6 @@ function validateEmail(email) {
 export default {
     validateNit,
     validateCompanyName,
-    validateContactNumber,
+    validatePhoneNumber,
     validateEmail
 };

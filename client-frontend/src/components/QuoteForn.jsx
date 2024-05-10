@@ -6,7 +6,8 @@ function QuoteForm() {
     const [compania, setCompania] = useState('');
     const [companiaError, setCompaniaError] = useState('');
     const [contacto, setContacto] = useState('');
-    const [contactoError, setContactoError] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [phoneNumberError, setPhoneNumberError] = useState('');
     const [email, setEmail] = useState('');
     const [emailError, setEmailError] = useState('');
     const [nit, setNit] = useState('');
@@ -28,9 +29,9 @@ function QuoteForm() {
             return;
         }
 
-        const contactNumberValidationError = validationUtils.validateContactNumber(contacto);
-        if (contactNumberValidationError) {
-            setContactoError(contactNumberValidationError);
+        const phoneNumberValidationError = validationUtils.validatePhoneNumber(phoneNumber); // Validación del número de teléfono
+        if (phoneNumberValidationError) {
+            setPhoneNumberError(phoneNumberValidationError);
             return;
         }
 
@@ -56,6 +57,12 @@ function QuoteForm() {
                 Contacto:
                 <input type="text" value={contacto} onChange={(e) => setContacto(e.target.value)} />
                 {contactoError && <span className="error">{contactoError}</span>}
+            </label>
+            <br />
+            <label>
+                Número de Teléfono:
+                <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+                {phoneNumberError && <span className="error">{phoneNumberError}</span>}
             </label>
             <br />
             <label>
