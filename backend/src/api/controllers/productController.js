@@ -2,24 +2,29 @@ import productService from '../services/productService.js';
 
 
 const createProduct = async (req, res) => {
-    console.log("ENTRO Al controller")
+    console.log("ENTRO Al controller");
     try {
-        const { name, category, material, description } = req.body;
+        const { name, category, material, description, size, color, technique } = req.body;
+
+        // Verifica si hay un archivo de imagen cargado
         console.log("Req Body:", req.body);
         console.log("Req File:", req.file);
+        let image = null;
         if (req.file) {
-            console.log("File path:", req.file.path);
+            image = req.file.path;
+            console.log("File path:", image);
         } else {
             console.log("File not uploaded.");
-}
-        const image = req.file.path;
-        const product = { name, category, material, description, image };
+        }
+        const product = { name, category, material, description, image, size, color, technique };
+
         const newProduct = await productService.createProduct(product);
         res.status(201).json(newProduct);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 const getAllProducts = async (req, res) => {
     try {
@@ -70,10 +75,32 @@ const deleteProduct = async (req, res) => {
     }
 };
 
+const getFilterOptionsByCategory = async (req, res) => {
+    try {
+        const category = req.params.category;
+        const filters = await productService.getFilterOptionsByCategory(category);
+
+        res.status(200).json(filters);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+const getAllCategories = async (req, res) => {
+    try {
+        const categories = await productService.getAllCategories();
+        res.status(200).json(categories);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 export default {
     getAllProducts,
     getProductById,
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    getFilterOptionsByCategory,
+    getAllCategories
 };

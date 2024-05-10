@@ -8,6 +8,12 @@ create table productos (
     deletedAt timestamp null
 );
 
+ALTER TABLE productos ADD COLUMN size VARCHAR(50);
+ALTER TABLE productos ADD COLUMN color VARCHAR(50);
+ALTER TABLE productos ADD COLUMN technique VARCHAR(50);
+ALTER TABLE productos MODIFY COLUMN image VARCHAR(255);
+
+
 
 create table users (
 user_id int primary key auto_increment,
@@ -35,6 +41,15 @@ CREATE TABLE quotes (
     quote_status VARCHAR(50) NOT NULL,
     FOREIGN KEY (productId) REFERENCES products(id)
 );
+
+CREATE TABLE Customers (
+    Customer_ID INT PRIMARY KEY AUTO_INCREMENT,
+    customer_company VARCHAR(50) NOT NULL,
+    customer_email VARCHAR(50) NOT NULL,
+    customer_contact VARCHAR(15) NOT NULL,
+    customer_adress VARCHAR(255) NOT NULL
+);
+
 
 
 ALTER TABLE users
