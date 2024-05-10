@@ -7,6 +7,7 @@ import ImageUploader from '../components/ImageUploader';
 import NavigationButtons from '../components/NavigationButtons';
 import useNavigate from '@hooks/useNavigate';
 import { fabric } from 'fabric';
+import sendEmail from '../../../backend/src/api/services/MailService';
 
 
 const CustomizationPage = () => {
@@ -38,6 +39,30 @@ const CustomizationPage = () => {
     "category": "Sudaderos",
     "material": "Algodón",
     "description": "Sudadero cómodo y fresco."
+  }
+
+  const quoteConfirmation = async () => {
+    const apiURL = `http://localhost:3000/user/send-email`;
+
+    try {
+      const response = await fetch(apiURL, {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({
+          to: "danielpenedo2@gmail.com",
+          subject: "Y tal",
+          text: "Si pues"
+        })
+      });
+
+      if (response.ok) {
+        alert("Correo enviado con éxito.");
+      }
+    } catch (error) {
+      console.error("Ocurrió un error al solicitar la cotización:", error);
+    }
   }
 
   return (
@@ -99,6 +124,7 @@ const CustomizationPage = () => {
             </div>
             <button
               type="submit"
+              onClick={sendEmail}
               className="mt-4 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded text-white bg-color-button hover:bg-color-button-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-color-button"
             >
               Solicitar Cotización
