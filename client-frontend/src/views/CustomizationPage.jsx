@@ -7,7 +7,7 @@ import ImageUploader from '../components/ImageUploader';
 import NavigationButtons from '../components/NavigationButtons';
 import useNavigate from '@hooks/useNavigate';
 import { fabric } from 'fabric';
-import sendEmail from '../../../backend/src/api/services/MailService';
+import { Resend } from 'resend';
 
 
 const CustomizationPage = () => {
@@ -19,6 +19,8 @@ const CustomizationPage = () => {
   const [color, setColor] = useState('#000000');
   const [alignment, setAlignment] = useState('left');
   const { navigate, params } = useNavigate();
+  const [receiver, setReceiver] = useState("danielpenedo2@gmail.com");
+  const [subject, setSubject] = useState("Notificación de Producto")
   
   const [fabricText, setFabricText] = useState(null); 
   const fabricTextObject = new fabric.IText(text, {
@@ -46,15 +48,10 @@ const CustomizationPage = () => {
 
     try {
       const response = await fetch(apiURL, {
-        method: 'POST',
+        method: 'GET',
         headers: {
           'Content-type': 'application/json'
-        },
-        body: JSON.stringify({
-          to: "danielpenedo2@gmail.com",
-          subject: "Y tal",
-          text: "Si pues"
-        })
+        }
       });
 
       if (response.ok) {
@@ -124,7 +121,7 @@ const CustomizationPage = () => {
             </div>
             <button
               type="submit"
-              onClick={sendEmail}
+              onClick={() => quoteConfirmation()}
               className="mt-4 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded text-white bg-color-button hover:bg-color-button-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-color-button"
             >
               Solicitar Cotización

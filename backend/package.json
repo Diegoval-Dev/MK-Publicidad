@@ -25,6 +25,7 @@
     "multer-storage-cloudinary": "^4.0.0",
     "mysql2": "^3.9.2",
     "node-mailjet": "^6.0.5",
+    "resend": "^3.2.0",
     "sequelize": "^6.37.1"
   },
   "devDependencies": {
