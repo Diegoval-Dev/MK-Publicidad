@@ -56,7 +56,6 @@ function QuoteForm() {
             <label>
                 Contacto:
                 <input type="text" value={contacto} onChange={(e) => setContacto(e.target.value)} />
-                {contactoError && <span className="error">{contactoError}</span>}
             </label>
             <br />
             <label>
