@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import validationUtils from './validationUtils';
+import validationUtils from './ValidationUtils'
 
 
 function QuoteForm() {
@@ -12,7 +12,27 @@ function QuoteForm() {
     const [emailError, setEmailError] = useState('');
     const [nit, setNit] = useState('');
     const [nitError, setNitError] = useState('');
+    const [contactoError, setContactoError] = useState('');
     const [direccion, setDireccion] = useState('');
+
+    const quoteConfirmation = async () => {
+        const apiURL = `http://localhost:3000/user/send-email`;
+    
+        try {
+            const response = await fetch(apiURL, {
+                method: 'GET',
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            });
+    
+            if (response.ok) {
+                alert("Correo enviado con éxito.");
+            }
+        } catch (error) {
+            console.error("Ocurrió un error al solicitar la cotización:", error);
+        }
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -81,7 +101,7 @@ function QuoteForm() {
                 Dirección:
                 <input type="text" value={direccion} onChange={(e) => setDireccion(e.target.value)} />
             </label>
-            <button type="submit">Submit</button>
+            <button type="submit" onClick={quoteConfirmation}>Submit</button>
         </form>
     );
 }

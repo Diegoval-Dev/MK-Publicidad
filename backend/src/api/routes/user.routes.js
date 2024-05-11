@@ -10,9 +10,10 @@ router.get('/products', productController.getAllProducts);
 
 // Ruta para enviar correos de confirmación al usuario
 router.get("/send-email", async (req, res) => {
+  const { receiver } = req.params;
   const { data, error } = await resend.emails.send({
     from: "MK-Publicidad <onboarding@resend.dev>",
-    to: ["pen22217@uvg.edu.gt"],
+    to: ['pen22217@uvg.edu.gt'],
     subject: "Confirmación",
     html: "<strong>Su producto está siendo procesado.</strong>",
   });

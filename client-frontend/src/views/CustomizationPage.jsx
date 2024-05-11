@@ -22,11 +22,8 @@ const CustomizationPage = () => {
   const [quantity, setQuantity] = useState('');
   const [description, setDescription] = useState('');
   const { navigate, params } = useNavigate();
-  const [receiver, setReceiver] = useState("danielpenedo2@gmail.com");
-  const [subject, setSubject] = useState("Notificación de Producto")
   const [screenshot, setScreenshot] = useState(null);
   const fabricCanvasRef = useRef(null);
-  
   const [fabricText, setFabricText] = useState(null); 
   const fabricTextObject = new fabric.IText(text, {
     left: 50,
@@ -74,25 +71,6 @@ const CustomizationPage = () => {
     "category": "Sudaderos",
     "material": "Algodón",
     "description": "Sudadero cómodo y fresco."
-  }
-
-  const quoteConfirmation = async () => {
-    const apiURL = `http://localhost:3000/user/send-email`;
-
-    try {
-      const response = await fetch(apiURL, {
-        method: 'GET',
-        headers: {
-          'Content-type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        alert("Correo enviado con éxito.");
-      }
-    } catch (error) {
-      console.error("Ocurrió un error al solicitar la cotización:", error);
-    }
   }
 
   return (
