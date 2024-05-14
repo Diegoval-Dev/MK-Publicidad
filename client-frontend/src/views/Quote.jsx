@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import useNavigate from "@hooks/useNavigate";
 import NavigationButtons from "@components/NavigationButtons";
 import Banner from "@components/Banner";
@@ -18,32 +17,51 @@ function Quote() {
     setQuantity(params.quantity);
     setDescription(params.description);
   }, []);
-	
 
   return (
     <div className="min-h-screen flex flex-col justify-start bg-white">
       <Banner />
       <NavigationButtons
-        onClick={() =>
-          navigate("/home/catalogue", { category: params.category })
-        }
+      onClick={() =>
+        navigate("/home/catalogue", { category: params.category })
+      }
       />
 
-      <div className="w-full flex flex-row justify-around items-center">
-        <div className="flex flex-row w-2/3 gap-5">
-          <img src={params.screenshot} alt="Screenshot" className="w-80" />
+      <div className="w-full flex flex-col lg:flex-row justify-around items-center mt-4">
+        <div className="flex flex-col lg:w-1/2 gap-5 ml-4 mb-4 lg:mb-0">
           <div className="flex flex-col justify-center items-start">
-            <h1 className="text-3xl font-bold text-gray-800 mt-8">
-              ID: {params.productId}
-            </h1>
-            <p>Color: {color}</p>
-            <p>Size: {size}</p>
-            <p>Quantity: {quantity}</p>
-            <p>Description: {description}</p>
-            <p>Diseño:</p>
+            <table className="table-auto w-full">
+              <thead>
+                <tr>
+                  <th className="font-bold px-1 py-1 border-b border-color-prices">PRODUCTO</th>
+                  <th className="font-bold px-1 py-1 border-b border-color-prices">ID</th>
+                  <th className="font-bold px-1 py-1 border-b border-color-prices">COLOR</th>
+                  <th className="font-bold px-1 py-1 border-b border-color-prices">TALLA</th>
+                  <th className="font-bold px-1 py-1 border-b border-color-prices">CANTIDAD</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="px-2 py-2 w-1/3">
+                    <div>
+                      <span>{params.productName}</span>
+                      <br />
+                      <img src={params.screenshot} alt="Screenshot" />
+                    </div>
+                  </td>
+                  <td className="px-1 py-1">{params.productId}</td>
+                  <td className="px-1 py-1">{color}</td>
+                  <td className="px-1 py-1">{size}</td>
+                  <td className="px-1 py-1">{quantity}</td>
+                </tr>
+                <tr>
+                <td colSpan="5" className="px-2 py-2 border-t border-color-prices"> <strong className="font-bold">DESCRIPCIÓN</strong><br />{description}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
-        <div className="flex flex-col items-start w-1/3">
+        <div className="flex flex-col lg:w-2/5 mb-4 lg:mb-0">
           <QuoteForm />
         </div>
       </div>
