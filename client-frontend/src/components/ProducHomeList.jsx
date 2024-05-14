@@ -14,7 +14,7 @@ function ProducHomeList({ products = [], categories = [] }) {
           categories.map((category, index) => {
             const productImage = products.find(product => product.category === category.category);
             return (
-              <div key={index} onClick={() => navigate('catalogue', category.category)} className="cursor-pointer w-64 mx-4 my-4">
+              <div key={index} onClick={() => navigate('catalogue', {category: category.category})} className="cursor-pointer w-64 mx-4 my-4">
                 <ProductCategory
                   image={category.image}
                   category={category.category}

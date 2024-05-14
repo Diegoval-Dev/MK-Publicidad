@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import validationUtils from './validationUtils';
+import validationUtils from './ValidationUtils';
 
 
 function QuoteForm() {
@@ -56,7 +56,7 @@ function QuoteForm() {
             <label>
                 Contacto:
                 <input type="text" value={contacto} onChange={(e) => setContacto(e.target.value)} />
-                {contactoError && <span className="error">{contactoError}</span>}
+                {/* {contactoError && <span className="error">{contactoError}</span>} */}
             </label>
             <br />
             <label>

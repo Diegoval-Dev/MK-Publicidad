@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Banner from '../components/Banner';
 import ProductList from '../components/ProductList';
 import NavigationButtons from '../components/NavigationButtons';
@@ -19,6 +19,11 @@ function Catalogue() {
     size: [],
     color: [],
   });
+
+  useEffect(() => {
+    console.log(params.category);
+  }, []);
+
 
   const loadAllProducts = async () => {
     const apiURL = `http://localhost:3000/user/products`;

@@ -10,6 +10,7 @@ import { fabric } from 'fabric';
 
 
 const CustomizationPage = () => {
+  //const [product, setProduct] = useState({});
   const [editorVisible, setEditorVisible] = useState(false);
   const [image, setImage] = useState(null);
   const [text, setText] = useState('');
@@ -66,11 +67,11 @@ const CustomizationPage = () => {
 
   const product = {
     "id": "1",
-    "name": "Sudadero Personalizado",
-    "image": "https://res.cloudinary.com/dmafdgdz3/image/upload/v1714789902/Sudaderos/Sudadero.png",
-    "category": "Sudaderos",
-    "material": "Algodón",
-    "description": "Sudadero cómodo y fresco."
+    "name": "Taza de porcelana blanca",
+    "image": "https://res.cloudinary.com/dmafdgdz3/image/upload/v1715380845/Tazas/Taza%20de%20porcelana%20blanca.png",
+    "category": "tazas",
+    "material": "porcelana",
+    "description": "Blanca de 11 onz"
   }
 
   return (

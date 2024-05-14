@@ -9,78 +9,26 @@ function ProductList({category, material, technique, size, color }) {
   const { navigate, params } = useNavigate();
 
   useEffect(() => {
-    const products = [
-    {
-      "id": "1",
-      "name": "Sudadero Personalizado",
-      "image": "https://res.cloudinary.com/dmafdgdz3/image/upload/v1714789902/Sudaderos/Sudadero.png",
-      "category": "Sudaderos",
-      "material": "Algodón",
-      "description": "Sudadero cómodo y fresco."
-    },
-    {
-      "id": "2",
-      "name": "Sudadero Personalizado",
-      "image": "https://res.cloudinary.com/dmafdgdz3/image/upload/v1714789902/Sudaderos/Sudadero.png",
-      "category": "Sudaderos",
-      "material": "Algodón",
-      "description": "Sudadero cómodo y fresco."
-    },
-    {
-      "id": "3",
-      "name": "Sudadero Personalizado",
-      "image": "https://res.cloudinary.com/dmafdgdz3/image/upload/v1714789902/Sudaderos/Sudadero.png",
-      "category": "Sudaderos",
-      "material": "Algodón",
-      "description": "Sudadero cómodo y fresco."
-    },
-    {
-      "id": "4",
-      "name": "Sudadero Personalizado",
-      "image": "https://res.cloudinary.com/dmafdgdz3/image/upload/v1714789902/Sudaderos/Sudadero.png",
-      "category": "Sudaderos",
-      "material": "Algodón",
-      "description": "Sudadero cómodo y fresco."
-    },
-    {
-      "id": "5",
-      "name": "Sudadero Personalizado",
-      "image": "https://res.cloudinary.com/dmafdgdz3/image/upload/v1714789902/Sudaderos/Sudadero.png",
-      "category": "Sudaderos",
-      "material": "Algodón",
-      "description": "Sudadero cómodo y fresco."
-    },
-
-    {
-      "id": "6",
-      "name": "Sudadero Personalizado",
-      "image": "https://res.cloudinary.com/dmafdgdz3/image/upload/v1714789902/Sudaderos/Sudadero.png",
-      "category": "Sudaderos",
-      "material": "Algodón",
-      "description": "Sudadero cómodo y fresco."
-    },
-
-    {
-      "id": "7",
-      "name": "Sudadero Personalizado",
-      "image": "https://res.cloudinary.com/dmafdgdz3/image/upload/v1714789902/Sudaderos/Sudadero.png",
-      "category": "Sudaderos",
-      "material": "Algodón",
-      "description": "Sudadero cómodo y fresco."
-    },
-
-    {
-      "id": "8",
-      "name": "Sudadero Personalizado",
-      "image": "https://res.cloudinary.com/dmafdgdz3/image/upload/v1714789902/Sudaderos/Sudadero.png",
-      "category": "Sudaderos",
-      "material": "Algodón",
-      "description": "Sudadero cómodo y fresco."
-    },
-    ]
-    setProducts(products);
+    console.log(params.category);
+    async function loadProducts(category){
+      const apiURL = `http://localhost:3000/user/products?category=${category}`;
+      try{
+        const response = await fetch(apiURL);
+        console.log(response);
+        if (response.ok) {
+          const data = await response.json();
+          setProducts(data.data);
+        } else {
+          throw new Error("No fue posible obtener los productos.");
+        }
+      } catch (error) {
+        console.log("Ocurrió un error al obtener los productos:", error);
+      }
+    }
+    loadProducts(params.category);
     setLoading(false);
   }, []);
+
 
 
   if (loading) {
