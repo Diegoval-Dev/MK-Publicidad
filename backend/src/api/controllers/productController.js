@@ -95,6 +95,17 @@ const getAllCategories = async (req, res) => {
     }
 };
 
+const getCategoriesByKeyword = async (req, res) => {
+    try {
+        const keyword = req.query.keyword || ''; // Toma la palabra clave desde los parámetros de consulta
+        const categories = await productService.getCategoriesByKeyword(keyword);
+
+        res.status(200).json(categories);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 export default {
     getAllProducts,
     getProductById,
@@ -102,5 +113,6 @@ export default {
     updateProduct,
     deleteProduct,
     getFilterOptionsByCategory,
-    getAllCategories
+    getAllCategories,
+    getCategoriesByKeyword
 };
