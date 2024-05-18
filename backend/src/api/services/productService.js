@@ -117,6 +117,30 @@ const getAllCategories = async () => {
     }
 };
 
+const getCategoriesByKeyword = async (keyword) => {
+    try {
+        // Encuentra todas las categorías que coincidan con el keyword
+        const categories = await Product.findAll({
+            attributes: [
+                [Sequelize.fn('DISTINCT', Sequelize.col('category')), 'category'],
+                'image'
+            ],
+            where: {
+                category: {
+                    [Sequelize.Op.like]: `%${keyword}%`
+                }
+            }
+        });
+
+        return categories.map(cat => ({
+            category: cat.category,
+            image: cat.image
+        }));
+    } catch (error) {
+        throw new Error(`Error al obtener las categorías: ${error.message}`);
+    }
+};
+
 export default {
     createProduct,
     getProducts,
@@ -124,5 +148,6 @@ export default {
     updateProduct,
     deleteProduct,
     getFilterOptionsByCategory,
-    getAllCategories
+    getAllCategories,
+    getCategoriesByKeyword
 };
