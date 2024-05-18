@@ -7,6 +7,8 @@ import adminRoutes from '../api/routes/admin.routes.js';
 import userRoutes from '../api/routes/user.routes.js';
 //import corsOprions from '../config/config.js';
 
+import swaggerConfig from '../swaggerConfig.js'; 
+
 class Server{
     constructor(){
         this.app = express();
@@ -30,6 +32,7 @@ class Server{
     routes(){
         this.app.use(this.adminPath, adminRoutes);
         this.app.use(this.userPath, userRoutes);
+        this.app.use(swaggerConfig); 
     }
 
     listen(){
