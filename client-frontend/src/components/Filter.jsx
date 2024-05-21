@@ -1,9 +1,16 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
+import FilterDrop from './Filterdropdown';
 
 function Filter({ toggleFilterVisibility, setTempFilters, tempFilters, handleApplyFilters, handleClearFilters }) {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [filterOptions, setFilterOptions] = useState({
+    material: [],
+    technique: [],
+    size: [],
+    color: []
+  });
 
   // Fetch categories when component mounts
   useEffect(() => {
@@ -24,6 +31,31 @@ function Filter({ toggleFilterVisibility, setTempFilters, tempFilters, handleApp
       console.error('Error fetching categories:', error);
     }
   };
+
+  const fetchFilters = async (category) => {
+    try {
+      const response = await fetch(`http://localhost:3000/user/filters/${category}`);
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+      const data = await response.json();
+      console.log('Fetched filters:', data); // For debugging
+      setFilterOptions({
+        material: data.materials.filter(item => item !== null && item !== ''),
+        technique: data.techniques.filter(item => item !== null && item !== ''),
+        size: data.sizes.filter(item => item !== null && item !== ''),
+        color: data.colors.filter(item => item !== null && item !== '')
+      });
+    } catch (error) {
+      console.error('Error fetching filters:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedCategory) {
+      fetchFilters(selectedCategory);
+    }
+  }, [selectedCategory]);
 
   const handleChangeFilter = (filterName) => (newValue) => {
     setTempFilters((currentFilters) => ({
@@ -56,7 +88,47 @@ function Filter({ toggleFilterVisibility, setTempFilters, tempFilters, handleApp
       {selectedCategory && (
         <>
           <hr className="my-5" />
-          {/* */}
+          {filterOptions.material.length > 0 && (
+            <FilterDrop
+              namefilter='Material'
+              optionsfilter={filterOptions.material}
+              selectedOptions={tempFilters.material}
+              onChange={handleChangeFilter('material')}
+            />
+          )}
+          {filterOptions.technique.length > 0 && (
+            <>
+              <hr className="my-5" />
+              <FilterDrop
+                namefilter='Técnica'
+                optionsfilter={filterOptions.technique}
+                selectedOptions={tempFilters.technique}
+                onChange={handleChangeFilter('technique')}
+              />
+            </>
+          )}
+          {filterOptions.size.length > 0 && (
+            <>
+              <hr className="my-5" />
+              <FilterDrop
+                namefilter='Talla'
+                optionsfilter={filterOptions.size}
+                selectedOptions={tempFilters.size}
+                onChange={handleChangeFilter('size')}
+              />
+            </>
+          )}
+          {filterOptions.color.length > 0 && (
+            <>
+              <hr className="my-5" />
+              <FilterDrop
+                namefilter='Color'
+                optionsfilter={filterOptions.color}
+                selectedOptions={tempFilters.color}
+                onChange={handleChangeFilter('color')}
+              />
+            </>
+          )}
           <div className="flex justify-between mt-5">
             <button onClick={handleClearFilters} className="py-2 px-5 rounded bg-[#f9f5eb] text-black border-none">Limpiar</button>
             <button onClick={handleApplyFilters} className="py-2 px-5 rounded bg-black text-white border-none">Ver Resultados</button>
