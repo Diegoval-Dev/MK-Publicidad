@@ -1,6 +1,7 @@
 import Banner from '../components/Banner';
 import BannerSearch from '../components/BannerSearch';
 import Footer from '../components/Footer';
+import PreviewProduct from '../components/PreviewProduct';
 import ProducHomeList from '../components/ProducHomeList';
 import { useEffect, useState } from 'react';
 
@@ -47,6 +48,7 @@ function HomePage() {
   return (
     <div className="flex flex-col items-center">
       <Banner />
+      <PreviewProduct />
       <BannerSearch />
       <ProducHomeList products={products} categories={categories} />
       <Footer/>
