@@ -2,9 +2,7 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import FilterDrop from './Filterdropdown';
 
-function Filter({ toggleFilterVisibility, setTempFilters, tempFilters, handleApplyFilters, handleClearFilters }) {
-  const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
+function Filter({ toggleFilterVisibility, setTempFilters, tempFilters, handleApplyFilters, handleClearFilters, selectedCategory }) {
   const [filterOptions, setFilterOptions] = useState({
     material: [],
     technique: [],
@@ -12,25 +10,11 @@ function Filter({ toggleFilterVisibility, setTempFilters, tempFilters, handleApp
     color: []
   });
 
-  // Fetch categories when component mounts
   useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  const fetchCategories = async () => {
-    try {
-      const response = await fetch('http://localhost:3000/user/categories');
-      if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`);
-      }
-      const data = await response.json();
-      console.log('Fetched categories:', data); // For debugging
-      const categoryNames = data.map(item => item.category);
-      setCategories(categoryNames);
-    } catch (error) {
-      console.error('Error fetching categories:', error);
+    if (selectedCategory) {
+      fetchFilters(selectedCategory);
     }
-  };
+  }, [selectedCategory]);
 
   const fetchFilters = async (category) => {
     try {
@@ -51,12 +35,6 @@ function Filter({ toggleFilterVisibility, setTempFilters, tempFilters, handleApp
     }
   };
 
-  useEffect(() => {
-    if (selectedCategory) {
-      fetchFilters(selectedCategory);
-    }
-  }, [selectedCategory]);
-
   const handleChangeFilter = (filterName) => (newValue) => {
     setTempFilters((currentFilters) => ({
       ...currentFilters,
@@ -70,23 +48,9 @@ function Filter({ toggleFilterVisibility, setTempFilters, tempFilters, handleApp
         <h3 className="m-0 text-lg font-bold text-center">Filtrar</h3>
         <button onClick={toggleFilterVisibility} className="text-3xl absolute top-1 right-1 pr-3" aria-label="Cerrar">×</button>
       </div>
-      <div className="mb-5">
-        <label htmlFor="category">Categoría:</label>
-        <select
-          id="category"
-          name="category"
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
-          className="w-full p-2 border border-gray-300 rounded"
-        >
-          <option value="">Selecciona una categoría</option>
-          {categories.map((category) => (
-            <option key={category} value={category}>{category}</option>
-          ))}
-        </select>
-      </div>
       {selectedCategory && (
         <>
+          <h4 className="mb-3">Categoría: {selectedCategory}</h4>
           <hr className="my-5" />
           {filterOptions.material.length > 0 && (
             <FilterDrop
@@ -145,6 +109,7 @@ Filter.propTypes = {
   tempFilters: PropTypes.object.isRequired,
   handleApplyFilters: PropTypes.func.isRequired,
   handleClearFilters: PropTypes.func.isRequired,
+  selectedCategory: PropTypes.string.isRequired,
 };
 
 export default Filter;
