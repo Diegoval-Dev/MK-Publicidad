@@ -2,17 +2,18 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import useNavigate from '@hooks/useNavigate';
 import Card from './Card';
+import '../styles/styles.css'; // Asegúrate de importar el CSS
 
-function ProductList({category, material, technique, size, color }) {
+function ProductList({ category, material, technique, size, color }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const { navigate, params } = useNavigate();
 
   useEffect(() => {
     console.log(params.category);
-    async function loadProducts(category){
+    async function loadProducts(category) {
       const apiURL = `http://localhost:3000/user/products?category=${category}`;
-      try{
+      try {
         const response = await fetch(apiURL);
         console.log(response);
         if (response.ok) {
@@ -27,23 +28,20 @@ function ProductList({category, material, technique, size, color }) {
     }
     loadProducts(params.category);
     setLoading(false);
-  }, []);
-
-
+  }, [params.category]);
 
   if (loading) {
     return <p>Loading...</p>;
   }
 
-
   return (
     <>
-      <h2 className='titleAdmin' style={{alignSelf: "flex-start", fontSize: "25px", margin: "2%"}}>{params.category}</h2>
-      <div style={{display: "flex", flexDirection: "row", justifyContent: "center", flexWrap: "wrap", }}>
+      <h2 className='centered-title'>{params.category}</h2>
+      <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", flexWrap: "wrap" }}>
         {products.map((product, index) => (
-          <div key={index} style={{margin: "1%"}} onClick={() => navigate('customization', {productId: product.id})}>
+          <div key={index} style={{ margin: "1%" }} onClick={() => navigate('customization', { productId: product.id })}>
             <Card {...product} />
-          </div>  
+          </div>
         ))}
       </div>
     </>

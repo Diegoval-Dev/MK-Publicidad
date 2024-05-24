@@ -14,3 +14,12 @@
     --color-contornoButtons: #000000;
     --color-shadow: #7a7a7a;
 }
+
+
+.centered-title {
+    text-align: center;
+    font-size: 25px;
+    margin: 2%;
+    width: 100%;
+  }
+  
