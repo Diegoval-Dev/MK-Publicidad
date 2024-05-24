@@ -8,9 +8,7 @@ import NavigationButtons from '../components/NavigationButtons';
 import useNavigate from '@hooks/useNavigate';
 import { fabric } from 'fabric';
 
-
 const CustomizationPage = () => {
-  //const [product, setProduct] = useState({});
   const [editorVisible, setEditorVisible] = useState(false);
   const [image, setImage] = useState(null);
   const [text, setText] = useState('');
@@ -26,16 +24,8 @@ const CustomizationPage = () => {
   const fabricCanvasRef = useRef(null);
 
   const [product, setProduct] = useState({});
-  
-  const [fabricText, setFabricText] = useState(null); 
-  const fabricTextObject = new fabric.IText(text, {
-    left: 50,
-    top: 50,
-    fontFamily: font,
-    fill: color,
-    fontSize: fontSize,
-    textAlign: alignment 
-  });
+  const [fabricText, setFabricText] = useState(null);
+  const [fabricImage, setFabricImage] = useState(null);
 
   const takeScreenshot = () => {
     const dataUrl = fabricCanvasRef.current.toDataURL({
@@ -43,21 +33,21 @@ const CustomizationPage = () => {
       quality: 0.8
     });
     setScreenshot(dataUrl);
-  }
+  };
 
   const handleCustomizationClick = (e) => {
     e.preventDefault(); 
     takeScreenshot();
-  }
-  
+  };
+
   useEffect(() => {
     if (screenshot) {
       console.log("Adding customization to cart")
       navigate(
         'quote', 
-        { category: product.category ,
-          productId: product.id, 
-          screenshot: screenshot,  
+        { category: product.category,
+          productId: product.id,
+          screenshot: screenshot,
           color: color,
           size: size,
           quantity: quantity,
@@ -80,12 +70,54 @@ const CustomizationPage = () => {
       } catch (error) {
         console.error("Error al cargar producto:", error);
       }
-    }
+    };
     fetchData();
   }, [params.productId]);
 
+  useEffect(() => {
+    const canvas = fabricCanvasRef.current;
 
+    if (!canvas) return;
 
+    // Update or create the text object
+    if (fabricText) {
+      fabricText.set({
+        text: text,
+        fontFamily: font,
+        fill: color,
+        fontSize: fontSize,
+        textAlign: alignment
+      });
+      canvas.renderAll();
+    } else {
+      const newText = new fabric.IText(text, {
+        left: 50,
+        top: 50,
+        fontFamily: font,
+        fill: color,
+        fontSize: fontSize,
+        textAlign: alignment
+      });
+      canvas.add(newText);
+      setFabricText(newText);
+    }
+
+    // Update or create the image object
+    if (image) {
+      if (fabricImage) {
+        fabricImage.setSrc(image, () => {
+          canvas.renderAll();
+        });
+      } else {
+        fabric.Image.fromURL(image, img => {
+          img.set({ left: 50, top: 50 });
+          canvas.add(img);
+          setFabricImage(img);
+        });
+      }
+    }
+
+  }, [image, text, font, fontSize, color, alignment]);
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-white">
@@ -99,7 +131,7 @@ const CustomizationPage = () => {
           <Canva 
             backgroundImageUrl={product.image} 
             uploadedImage={image} 
-            fabricText={fabricTextObject}
+            fabricText={fabricText}
             fabricCanvasRef={fabricCanvasRef}
           />
         </div>
@@ -163,7 +195,6 @@ const CustomizationPage = () => {
     </div>
   );
 };
-
 
 CustomizationPage.propTypes = {
   product: PropTypes.shape({
