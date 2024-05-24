@@ -1,6 +1,7 @@
 import Banner from '../components/Banner';
 import BannerSearch from '../components/BannerSearch';
 import Footer from '../components/Footer';
+import PreviewProduct from '../components/PreviewProduct';
 import ProducHomeList from '../components/ProducHomeList';
 import { useEffect, useState } from 'react';
 
