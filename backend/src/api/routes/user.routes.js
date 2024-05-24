@@ -10,6 +10,8 @@ router.get('/products', productController.getAllProducts);
 router.get('/filters/:category', productController.getFilterOptionsByCategory);
 router.get('/categories', productController.getAllCategories);
 
+router.get('/products/:id', productController.getProductById);
+
 //Ruta para endpoint de search bar de categorias
 /**
  * @swagger

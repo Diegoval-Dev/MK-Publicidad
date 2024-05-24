@@ -24,6 +24,8 @@ const CustomizationPage = () => {
   const { navigate, params } = useNavigate();
   const [screenshot, setScreenshot] = useState(null);
   const fabricCanvasRef = useRef(null);
+
+  const [product, setProduct] = useState({});
   
   const [fabricText, setFabricText] = useState(null); 
   const fabricTextObject = new fabric.IText(text, {
@@ -64,15 +66,26 @@ const CustomizationPage = () => {
     }
   }, [screenshot]);
 
+  useEffect(() => {
+    const apiURL = `http://localhost:3000/user/products/${params.productId}`;
+    const fetchData = async () => {
+      try {
+        const response = await fetch(apiURL);
+        if (response.ok) {
+          const data = await response.json();
+          setProduct(data);
+        } else {
+          console.error("Error al obtener producto:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error al cargar producto:", error);
+      }
+    }
+    fetchData();
+  }, [params.productId]);
 
-  const product = {
-    "id": "1",
-    "name": "Taza de porcelana blanca",
-    "image": "https://res.cloudinary.com/dmafdgdz3/image/upload/v1715380845/Tazas/Taza%20de%20porcelana%20blanca.png",
-    "category": "tazas",
-    "material": "porcelana",
-    "description": "Blanca de 11 onz"
-  }
+
+
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-white">
