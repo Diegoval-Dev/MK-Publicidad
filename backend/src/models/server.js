@@ -34,7 +34,7 @@ class Server{
     routes(){
         this.app.use(this.adminPath, adminRoutes);
         this.app.use(this.userPath, userRoutes);
-        swaggerDocs(app) 
+        swaggerDocs(this.app) 
     }
 
     listen(){

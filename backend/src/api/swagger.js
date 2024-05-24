@@ -59,6 +59,32 @@ const options = {
             },
           },
         },
+        Customer: {
+          type: 'object',
+          properties: {
+            Customer_ID: {
+              type: 'integer',
+              format: 'int64',
+              description: 'Identificador único del Cliente.',
+            },
+            customer_company: {
+              type: 'string',
+              description: 'Nombre de la empresa del cliente.',
+            },
+            customer_email: {
+              type: 'string',
+              description: 'Correo electrónico del cliente.',
+            },
+            customer_contact: {
+              type: 'string',
+              description: 'Número de contacto del cliente.',
+            },
+            customer_address: {
+              type: 'string',
+              description: 'Dirección del cliente.',
+            },
+          },
+        },
       },
     },
   },
