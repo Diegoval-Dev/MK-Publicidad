@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import useNavigate from '@hooks/useNavigate';
 import Card from './Card';
-import '../styles/styles.css'; // Asegúrate de importar el CSS
+import '../styles/styles.css'; 
 
 function ProductList({ category, material, technique, size, color }) {
   const [products, setProducts] = useState([]);
@@ -36,10 +36,13 @@ function ProductList({ category, material, technique, size, color }) {
 
   return (
     <>
+      <div className="circle circle-small"></div>
+      <div className="circle circle-medium"></div>
+      <div className="circle circle-large"></div>
       <h2 className='centered-title'>{params.category}</h2>
-      <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", flexWrap: "wrap" }}>
+      <div className="product-list-container">
         {products.map((product, index) => (
-          <div key={index} style={{ margin: "1%" }} onClick={() => navigate('customization', { productId: product.id })}>
+          <div key={index} onClick={() => navigate('customization', { productId: product.id })}>
             <Card {...product} />
           </div>
         ))}
@@ -54,7 +57,7 @@ ProductList.propTypes = {
   material: PropTypes.array,
   technique: PropTypes.array,
   size: PropTypes.array,
-  color: PropTypes.array
-}
+  color: PropTypes.array,
+};
 
 export default ProductList;
