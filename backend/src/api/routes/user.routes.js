@@ -4,7 +4,7 @@ import productController from '../controllers/productController.js';
 const router = express.Router();
 
 /**
- * @swagger
+ * @openapi
  * /products:
  *   get:
  *     summary: Obtiene todos los productos
@@ -21,6 +21,25 @@ const router = express.Router();
 router.get('/products', productController.getAllProducts);
 
 // Ruta para obtener los filtros posibles por categoria
+
+
+/**
+ * @openapi
+ * /api/products:
+ *   get:
+ *     tags:
+ *       - Products
+ *     summary: Obtiene todos los productos
+ *     responses:
+ *       200:
+ *         description: Lista de productos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Product'
+ */
 router.get('/filters/:category', productController.getFilterOptionsByCategory);
 
 /**
