@@ -36,9 +36,11 @@ function ProductList({ category, material, technique, size, color }) {
 
   return (
     <>
-      <div className="circle circle-small"></div>
-      <div className="circle circle-medium"></div>
-      <div className="circle circle-large"></div>
+      <div className="circle circle-1"></div>
+      <div className="circle circle-2"></div>
+      <div className="circle circle-3"></div>
+      <div className="circle circle-4"></div> 
+      <div className="circle circle-5"></div> 
       <h2 className='centered-title'>{params.category}</h2>
       <div className="product-list-container">
         {products.map((product, index) => (
