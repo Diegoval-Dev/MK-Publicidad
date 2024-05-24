@@ -5,7 +5,6 @@ import { Router } from 'express';
 
 const router = Router();
 
-// Configuración de Swagger
 const swaggerDefinition = {
     openapi: '3.0.0',
     info: {
@@ -15,7 +14,7 @@ const swaggerDefinition = {
     },
     servers: [
         {
-            url: 'http://localhost:3000', // Cambia esto a la URL de tu servidor
+            url: 'http://localhost:3000',
             description: 'Servidor local'
         }
     ]
@@ -23,13 +22,11 @@ const swaggerDefinition = {
 
 const options = {
     swaggerDefinition,
-    // Paths to files containing OpenAPI definitions
-    apis: ['./routes/*.js', './controllers/*.js', './models/*.js'], // Asegúrate de que las rutas sean correctas
+    apis: ['./routes/*.js', './controllers/*.js'],
 };
 
 const swaggerSpec = swaggerJSDoc(options);
 
-// Ruta de Swagger UI
 router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 export default router;

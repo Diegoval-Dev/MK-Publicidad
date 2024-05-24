@@ -7,7 +7,7 @@ import adminRoutes from '../api/routes/admin.routes.js';
 import userRoutes from '../api/routes/user.routes.js';
 //import corsOprions from '../config/config.js';
 
-import swaggerConfig from '../swaggerConfig.js'; 
+import swaggerConfig from '../api/swaggerConfig.js'; 
 
 class Server{
     constructor(){

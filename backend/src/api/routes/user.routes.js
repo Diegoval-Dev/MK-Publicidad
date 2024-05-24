@@ -3,11 +3,46 @@ import productController from '../controllers/productController.js';
 
 const router = express.Router();
 
-// Ruta unificada para obtener productos con cualquier combinación de filtros
+/**
+ * @swagger
+ * /products:
+ *   get:
+ *     summary: Obtiene todos los productos
+ *     responses:
+ *       200:
+ *         description: Lista de productos
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/Product'
+ */
 router.get('/products', productController.getAllProducts);
 
 // Ruta para obtener los filtros posibles por categoria
 router.get('/filters/:category', productController.getFilterOptionsByCategory);
+
+/**
+ * @swagger
+ * /products/categories:
+ *   get:
+ *     summary: Obtiene todas las categorías con una imagen representativa
+ *     responses:
+ *       200:
+ *         description: Lista de categorías con imágenes
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   category:
+ *                     type: string
+ *                   image:
+ *                     type: string
+ */
 router.get('/categories', productController.getAllCategories);
 
 router.get('/products/:id', productController.getProductById);
