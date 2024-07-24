@@ -102,7 +102,9 @@ const CustomizationPage = () => {
           fontFamily: text.font,
           fill: text.color,
           fontSize: text.fontSize,
-          textAlign: text.alignment
+          textAlign: text.alignment,
+          left: fabricText.left, // Mantener la posición
+          top: fabricText.top   // Mantener la posición
         });
       } else {
         const newText = new fabric.IText(text.text, {
