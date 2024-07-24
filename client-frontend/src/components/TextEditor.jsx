@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const TextEditor = ({ index, text, setText, font, setFont, fontSize, setFontSize, color, setColor, alignment, setAlignment, setFabricText }) => {
+const TextEditor = ({ index, text, setText, font, setFont, fontSize, setFontSize, color, setColor, alignment, setAlignment, setFabricText, removeText }) => {
 
   useEffect(() => {
     const newText = new fabric.IText(text, {
@@ -44,6 +44,7 @@ const TextEditor = ({ index, text, setText, font, setFont, fontSize, setFontSize
           onChange={(e) => setFontSize(e.target.value)}
           placeholder="16"
         />
+        <button onClick={() => removeText(index)} className="text-sm text-red-500 hover:text-red-700">Eliminar</button>
       </div>
       <div className="flex items-center justify-center space-x-2">
         <input

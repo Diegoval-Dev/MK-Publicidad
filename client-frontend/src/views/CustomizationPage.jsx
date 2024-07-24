@@ -39,6 +39,22 @@ const CustomizationPage = () => {
     setTexts([...texts, { text: '', font: 'Arial', fontSize: 16, color: '#000000', alignment: 'left' }]);
   };
 
+  const removeText = (index) => {
+    const updatedTexts = texts.filter((_, i) => i !== index);
+    setTexts(updatedTexts);
+
+    const updatedFabricTexts = fabricTexts.filter((_, i) => i !== index);
+    setFabricTexts(updatedFabricTexts);
+
+    // Remove text from canvas
+    const canvas = fabricCanvasRef.current;
+    const fabricText = fabricTexts[index];
+    if (fabricText) {
+      canvas.remove(fabricText);
+      canvas.renderAll();
+    }
+  };
+
   useEffect(() => {
     if (screenshot) {
       console.log("Adding customization to cart")
@@ -179,6 +195,7 @@ const CustomizationPage = () => {
                 setTexts(newTexts);
               }}
               setFabricText={setFabricTexts}
+              removeText={removeText}
             />
           ))}
           {editorVisible && (
