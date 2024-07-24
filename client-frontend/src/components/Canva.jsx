@@ -1,7 +1,7 @@
 import { fabric } from 'fabric'; 
 import { useEffect, useRef } from 'react';
 
-const Canva = ({ backgroundImageUrl, uploadedImage, fabricText, fabricCanvasRef }) => {
+const Canva = ({ backgroundImageUrl, uploadedImage, fabricTexts, fabricCanvasRef }) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -32,10 +32,9 @@ const Canva = ({ backgroundImageUrl, uploadedImage, fabricText, fabricCanvasRef 
     const canvas = fabricCanvasRef.current;
     if (!canvas) return;
 
+    canvas.clear();
+
     if (uploadedImage) {
-      if (fabricText) {
-        canvas.clear();
-      }
       fabric.Image.fromURL(uploadedImage, img => {
         img.set({
           left: (canvas.width - img.width * 0.5) / 2,
@@ -48,11 +47,13 @@ const Canva = ({ backgroundImageUrl, uploadedImage, fabricText, fabricCanvasRef 
       }, { crossOrigin: 'Anonymous' });
     }
 
-    if (fabricText) {
-      canvas.add(fabricText);
+    if (fabricTexts) {
+      fabricTexts.forEach(text => {
+        canvas.add(text);
+      });
       canvas.renderAll();
     }
-  }, [uploadedImage, fabricText, fabricCanvasRef]);
+  }, [uploadedImage, fabricTexts, fabricCanvasRef]);
 
   return (
     <div>
