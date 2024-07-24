@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const TextEditor = ({ text, setText, font, setFont, fontSize, setFontSize, color, setColor, alignment, setAlignment, setFabricText }) => {
+const TextEditor = ({ index, text, setText, font, setFont, fontSize, setFontSize, color, setColor, alignment, setAlignment, setFabricText }) => {
 
   useEffect(() => {
     const newText = new fabric.IText(text, {
@@ -11,8 +11,12 @@ const TextEditor = ({ text, setText, font, setFont, fontSize, setFontSize, color
       fontSize: parseInt(fontSize),
       textAlign: alignment,
     });
-    setFabricText(newText);
-  }, [text, font, fontSize, color, alignment, setFabricText]);
+    setFabricText(prevTexts => {
+      const newTexts = [...prevTexts];
+      newTexts[index] = newText;
+      return newTexts;
+    });
+  }, [text, font, fontSize, color, alignment, setFabricText, index]);
 
   return (
     <div className="space-y-1">

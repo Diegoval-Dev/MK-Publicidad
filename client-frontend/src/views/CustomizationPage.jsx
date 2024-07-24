@@ -11,20 +11,15 @@ import { fabric } from 'fabric';
 const CustomizationPage = () => {
   const [editorVisible, setEditorVisible] = useState(false);
   const [image, setImage] = useState(null);
-  const [text, setText] = useState('');
-  const [font, setFont] = useState('Arial');
-  const [fontSize, setFontSize] = useState(16);
-  const [color, setColor] = useState('#000000');
-  const [alignment, setAlignment] = useState('left');
+  const [texts, setTexts] = useState([{ text: '', font: 'Arial', fontSize: 16, color: '#000000', alignment: 'left' }]);
   const [size, setSize] = useState('');
   const [quantity, setQuantity] = useState('');
   const [description, setDescription] = useState('');
   const { navigate, params } = useNavigate();
   const [screenshot, setScreenshot] = useState(null);
   const fabricCanvasRef = useRef(null);
-
   const [product, setProduct] = useState({});
-  const [fabricText, setFabricText] = useState(null);
+  const [fabricTexts, setFabricTexts] = useState([]);
   const [fabricImage, setFabricImage] = useState(null);
 
   const takeScreenshot = () => {
@@ -38,6 +33,10 @@ const CustomizationPage = () => {
   const handleCustomizationClick = (e) => {
     e.preventDefault(); 
     takeScreenshot();
+  };
+
+  const addText = () => {
+    setTexts([...texts, { text: '', font: 'Arial', fontSize: 16, color: '#000000', alignment: 'left' }]);
   };
 
   useEffect(() => {
@@ -79,30 +78,36 @@ const CustomizationPage = () => {
 
     if (!canvas) return;
 
-    // Update or create the text object
-    if (fabricText) {
-      fabricText.set({
-        text: text,
-        fontFamily: font,
-        fill: color,
-        fontSize: fontSize,
-        textAlign: alignment
-      });
-      canvas.renderAll();
-    } else {
-      const newText = new fabric.IText(text, {
-        left: 50,
-        top: 50,
-        fontFamily: font,
-        fill: color,
-        fontSize: fontSize,
-        textAlign: alignment
-      });
-      canvas.add(newText);
-      setFabricText(newText);
-    }
+    fabricTexts.forEach((fabricText, index) => {
+      const text = texts[index];
+      if (fabricText) {
+        fabricText.set({
+          text: text.text,
+          fontFamily: text.font,
+          fill: text.color,
+          fontSize: text.fontSize,
+          textAlign: text.alignment
+        });
+      } else {
+        const newText = new fabric.IText(text.text, {
+          left: 50,
+          top: 50,
+          fontFamily: text.font,
+          fill: text.color,
+          fontSize: text.fontSize,
+          textAlign: text.alignment
+        });
+        canvas.add(newText);
+        setFabricTexts(prevTexts => {
+          const newTexts = [...prevTexts];
+          newTexts[index] = newText;
+          return newTexts;
+        });
+      }
+    });
 
-    // Update or create the image object
+    canvas.renderAll();
+    
     if (image) {
       if (fabricImage) {
         fabricImage.setSrc(image, () => {
@@ -117,7 +122,7 @@ const CustomizationPage = () => {
       }
     }
 
-  }, [image, text, font, fontSize, color, alignment]);
+  }, [image, texts, fabricTexts]);
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-white">
@@ -131,7 +136,7 @@ const CustomizationPage = () => {
           <Canva 
             backgroundImageUrl={product.image} 
             uploadedImage={image} 
-            fabricText={fabricText}
+            fabricTexts={fabricTexts}
             fabricCanvasRef={fabricCanvasRef}
           />
         </div>
@@ -139,20 +144,47 @@ const CustomizationPage = () => {
           <button onClick={() => setEditorVisible(!editorVisible)} className="text-sm font-medium text-gray-700 p-2 border-b border-gray-300 w-full text-left">
             Diseño
           </button>
-          {editorVisible && (
+          {editorVisible && texts.map((textItem, index) => (
             <TextEditor
-              text={text}
-              setText={setText}
-              font={font}
-              setFont={setFont}
-              fontSize={fontSize}
-              setFontSize={setFontSize}
-              color={color}
-              setColor={setColor}
-              alignment={alignment}
-              setAlignment={setAlignment}
-              setFabricText={setFabricText}
+              key={index}
+              index={index}
+              text={textItem.text}
+              setText={(text) => {
+                const newTexts = [...texts];
+                newTexts[index].text = text;
+                setTexts(newTexts);
+              }}
+              font={textItem.font}
+              setFont={(font) => {
+                const newTexts = [...texts];
+                newTexts[index].font = font;
+                setTexts(newTexts);
+              }}
+              fontSize={textItem.fontSize}
+              setFontSize={(fontSize) => {
+                const newTexts = [...texts];
+                newTexts[index].fontSize = fontSize;
+                setTexts(newTexts);
+              }}
+              color={textItem.color}
+              setColor={(color) => {
+                const newTexts = [...texts];
+                newTexts[index].color = color;
+                setTexts(newTexts);
+              }}
+              alignment={textItem.alignment}
+              setAlignment={(alignment) => {
+                const newTexts = [...texts];
+                newTexts[index].alignment = alignment;
+                setTexts(newTexts);
+              }}
+              setFabricText={setFabricTexts}
             />
+          ))}
+          {editorVisible && (
+            <button onClick={addText} className="mt-4 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded text-white bg-color-button hover:bg-color-button-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-color-button">
+              Añadir Texto
+            </button>
           )}
           {editorVisible && <ImageUploader setImage={setImage} />}
           <form className="bg-white shadow-md rounded px-4 pt-4 pb-2">
