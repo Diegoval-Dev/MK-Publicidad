@@ -32,7 +32,12 @@ const Canva = ({ backgroundImageUrl, uploadedImage, fabricTexts, fabricCanvasRef
     const canvas = fabricCanvasRef.current;
     if (!canvas) return;
 
+    // Clear all objects except the background image
+    const backgroundImage = canvas.backgroundImage;
     canvas.clear();
+    if (backgroundImage) {
+      canvas.setBackgroundImage(backgroundImage, canvas.renderAll.bind(canvas));
+    }
 
     if (uploadedImage) {
       fabric.Image.fromURL(uploadedImage, img => {
