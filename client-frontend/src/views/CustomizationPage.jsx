@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { fabric } from 'fabric';
 import Banner from '../components/Banner';
 import Canva from '../components/Canva';
 import TextEditor from '../components/TextEditor';
@@ -6,12 +7,11 @@ import PropTypes from 'prop-types';
 import ImageUploader from '../components/ImageUploader';
 import NavigationButtons from '../components/NavigationButtons';
 import useNavigate from '@hooks/useNavigate';
-import { fabric } from 'fabric';
 
 const CustomizationPage = () => {
   const [editorVisible, setEditorVisible] = useState(false);
   const [image, setImage] = useState(null);
-  const [texts, setTexts] = useState([{ text: '', font: 'Arial', fontSize: 16, color: '#000000', alignment: 'left' }]);
+  const [texts, setTexts] = useState([{ text: '', font: 'Arial', fontSize: 16, color: '#000000' }]);
   const [size, setSize] = useState('');
   const [quantity, setQuantity] = useState('');
   const [description, setDescription] = useState('');
@@ -36,7 +36,7 @@ const CustomizationPage = () => {
   };
 
   const addText = () => {
-    setTexts([...texts, { text: '', font: 'Arial', fontSize: 16, color: '#000000', alignment: 'left' }]);
+    setTexts([...texts, { text: '', font: 'Arial', fontSize: 16, color: '#000000' }]);
   };
 
   const removeText = (index) => {
@@ -63,7 +63,6 @@ const CustomizationPage = () => {
         { category: product.category,
           productId: product.id,
           screenshot: screenshot,
-          color: color,
           size: size,
           quantity: quantity,
           description: description
@@ -102,7 +101,6 @@ const CustomizationPage = () => {
           fontFamily: text.font,
           fill: text.color,
           fontSize: text.fontSize,
-          textAlign: text.alignment,
           left: fabricText.left, // Mantener la posición
           top: fabricText.top   // Mantener la posición
         });
@@ -113,7 +111,6 @@ const CustomizationPage = () => {
           fontFamily: text.font,
           fill: text.color,
           fontSize: text.fontSize,
-          textAlign: text.alignment
         });
         canvas.add(newText);
         setFabricTexts(prevTexts => {
@@ -190,12 +187,6 @@ const CustomizationPage = () => {
                 newTexts[index].color = color;
                 setTexts(newTexts);
               }}
-              alignment={textItem.alignment}
-              setAlignment={(alignment) => {
-                const newTexts = [...texts];
-                newTexts[index].alignment = alignment;
-                setTexts(newTexts);
-              }}
               setFabricText={setFabricTexts}
               removeText={removeText}
             />
@@ -209,7 +200,7 @@ const CustomizationPage = () => {
           <form className="bg-white shadow-md rounded px-4 pt-4 pb-2">
             <div>
               <label htmlFor="color" className="block text-sm font-medium text-gray-700">Color:</label>
-              <select id="color" name="color" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2" value={color} onChange={e => setColor(e.target.value)}>
+              <select id="color" name="color" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2" value={size} onChange={e => setSize(e.target.value)}>
                 <option value="">Selecciona un color</option>
                 <option value="color1">Color 1</option>
                 <option value="color2">Color 2</option>
