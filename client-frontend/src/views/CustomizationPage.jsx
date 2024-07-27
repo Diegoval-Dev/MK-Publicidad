@@ -10,7 +10,7 @@ import useNavigate from '@hooks/useNavigate';
 
 const CustomizationPage = () => {
   const [editorVisible, setEditorVisible] = useState(false);
-  const [image, setImage] = useState(null);
+  const [images, setImages] = useState([]);
   const [texts, setTexts] = useState([{ text: '', font: 'Arial', fontSize: 16, color: '#000000' }]);
   const [size, setSize] = useState('');
   const [quantity, setQuantity] = useState('');
@@ -20,7 +20,7 @@ const CustomizationPage = () => {
   const fabricCanvasRef = useRef(null);
   const [product, setProduct] = useState({});
   const [fabricTexts, setFabricTexts] = useState([]);
-  const [fabricImage, setFabricImage] = useState(null);
+  const [fabricImages, setFabricImages] = useState([]);
 
   const takeScreenshot = () => {
     const dataUrl = fabricCanvasRef.current.toDataURL({
@@ -51,6 +51,22 @@ const CustomizationPage = () => {
     const fabricText = fabricTexts[index];
     if (fabricText) {
       canvas.remove(fabricText);
+      canvas.renderAll();
+    }
+  };
+
+  const removeImage = (index) => {
+    const updatedImages = images.filter((_, i) => i !== index);
+    setImages(updatedImages);
+
+    const updatedFabricImages = fabricImages.filter((_, i) => i !== index);
+    setFabricImages(updatedFabricImages);
+
+    // Remove image from canvas
+    const canvas = fabricCanvasRef.current;
+    const fabricImage = fabricImages[index];
+    if (fabricImage) {
+      canvas.remove(fabricImage);
       canvas.renderAll();
     }
   };
@@ -93,6 +109,13 @@ const CustomizationPage = () => {
 
     if (!canvas) return;
 
+    // Limpiar canvas pero mantener el fondo
+    const backgroundImage = canvas.backgroundImage;
+    canvas.clear();
+    if (backgroundImage) {
+      canvas.setBackgroundImage(backgroundImage, canvas.renderAll.bind(canvas));
+    }
+
     fabricTexts.forEach((fabricText, index) => {
       const text = texts[index];
       if (fabricText) {
@@ -121,23 +144,36 @@ const CustomizationPage = () => {
       }
     });
 
-    canvas.renderAll();
-    
-    if (image) {
-      if (fabricImage) {
-        fabricImage.setSrc(image, () => {
-          canvas.renderAll();
+    images.forEach((image, index) => {
+      if (fabricImages[index]) {
+        // Actualizar la imagen existente
+        fabricImages[index].set({
+          left: image.left,
+          top: image.top,
+          scaleX: image.scaleX,
+          scaleY: image.scaleY,
         });
       } else {
-        fabric.Image.fromURL(image, img => {
-          img.set({ left: 50, top: 50 });
+        // Crear nueva imagen
+        fabric.Image.fromURL(image.src, img => {
+          img.set({
+            left: image.left,
+            top: image.top,
+            scaleX: image.scaleX,
+            scaleY: image.scaleY,
+          });
           canvas.add(img);
-          setFabricImage(img);
-        });
+          setFabricImages(prevImages => {
+            const newImages = [...prevImages];
+            newImages[index] = img;
+            return newImages;
+          });
+          canvas.renderAll();
+        }, { crossOrigin: 'Anonymous' });
       }
-    }
+    });
 
-  }, [image, texts, fabricTexts]);
+  }, [images, texts, fabricTexts]);
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-white">
@@ -150,7 +186,7 @@ const CustomizationPage = () => {
         <div className="flex-1">
           <Canva 
             backgroundImageUrl={product.image} 
-            uploadedImage={image} 
+            uploadedImage={images[0]?.src} 
             fabricTexts={fabricTexts}
             fabricCanvasRef={fabricCanvasRef}
           />
@@ -196,7 +232,7 @@ const CustomizationPage = () => {
               Añadir Texto
             </button>
           )}
-          {editorVisible && <ImageUploader setImage={setImage} />}
+          {editorVisible && <ImageUploader images={images} setImages={setImages} />}
           <form className="bg-white shadow-md rounded px-4 pt-4 pb-2">
             <div>
               <label htmlFor="color" className="block text-sm font-medium text-gray-700">Color:</label>
