@@ -73,7 +73,7 @@ const CustomizationPage = () => {
 
   useEffect(() => {
     if (screenshot) {
-      console.log("Adding customization to cart")
+      console.log("Adding customization to cart");
       navigate(
         'quote', 
         { category: product.category,
@@ -116,8 +116,8 @@ const CustomizationPage = () => {
       canvas.setBackgroundImage(backgroundImage, canvas.renderAll.bind(canvas));
     }
 
-    fabricTexts.forEach((fabricText, index) => {
-      const text = texts[index];
+    texts.forEach((text, index) => {
+      let fabricText = fabricTexts[index];
       if (fabricText) {
         fabricText.set({
           text: text.text,
@@ -145,9 +145,10 @@ const CustomizationPage = () => {
     });
 
     images.forEach((image, index) => {
-      if (fabricImages[index]) {
+      let fabricImage = fabricImages[index];
+      if (fabricImage) {
         // Actualizar la imagen existente
-        fabricImages[index].set({
+        fabricImage.set({
           left: image.left,
           top: image.top,
           scaleX: image.scaleX,
@@ -186,7 +187,7 @@ const CustomizationPage = () => {
         <div className="flex-1">
           <Canva 
             backgroundImageUrl={product.image} 
-            uploadedImage={images[0]?.src} 
+            uploadedImages={images} 
             fabricTexts={fabricTexts}
             fabricCanvasRef={fabricCanvasRef}
           />
