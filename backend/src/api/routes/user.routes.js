@@ -20,19 +20,16 @@ const router = express.Router();
  */
 router.get('/products', productController.getAllProducts);
 
-// Ruta para obtener los filtros posibles por categoria
-
-
 /**
  * @openapi
  * /api/products:
  *   get:
  *     tags:
  *       - Products
- *     summary: Obtiene todos los productos
+ *     summary: Obtiene los filtros posibles por categoria
  *     responses:
  *       200:
- *         description: Lista de productos
+ *         description: Lista de filtros de cada categoria
  *         content:
  *           application/json:
  *             schema:
@@ -64,6 +61,49 @@ router.get('/filters/:category', productController.getFilterOptionsByCategory);
  */
 router.get('/categories', productController.getAllCategories);
 
+
+/**
+ * @openapi
+ * /api/products/{id}:
+ *   get:
+ *     tags:
+ *       - Products
+ *     summary: Obtiene un producto por su ID
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: integer
+ *         required: true
+ *         description: ID del producto
+ *     responses:
+ *       200:
+ *         description: Producto encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Product'
+ *       404:
+ *         description: Producto no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Producto no encontrado
+ *       500:
+ *         description: Error en el servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Error en el servidor
+ */
 router.get('/products/:id', productController.getProductById);
 
 //Ruta para endpoint de search bar de categorias
