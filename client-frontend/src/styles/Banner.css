@@ -4,7 +4,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: #6FB74B; 
+    background-color: var(--color-tittlesAdmin); 
     height: 50px; /* Aumentar la altura para hacerla más gruesa */
     width: 100vw; 
     box-sizing: border-box; /* Incluye el padding dentro del ancho */

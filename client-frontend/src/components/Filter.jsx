@@ -1,3 +1,4 @@
+import '../styles/Filter.css'; 
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 import FilterDrop from './Filterdropdown';
@@ -43,7 +44,7 @@ function Filter({ toggleFilterVisibility, setTempFilters, tempFilters, handleApp
   };
 
   return (
-    <div className="w-1/3 h-full fixed top-0 right-0 bg-white shadow-md p-5 overflow-auto">
+    <div className="filter-container">
       <div className="mb-7">
         <h3 className="m-0 text-lg font-bold text-center">Filtrar</h3>
         <button onClick={toggleFilterVisibility} className="text-3xl absolute top-1 right-1 pr-3" aria-label="Cerrar">×</button>
