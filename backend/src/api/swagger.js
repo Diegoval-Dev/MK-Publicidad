@@ -85,6 +85,96 @@ const options = {
             },
           },
         },
+        User: {
+          type: 'object',
+          properties: {
+            user_email: {
+              type: 'string',
+              description: 'Correo electrónico del Usuario.',
+            },
+            user_password: {
+              type: 'string',
+              description: 'Contraseña del Usuario.',
+            },
+            user_role: {
+              type: 'string',
+              description: 'Rol del Usuario.',
+              enum: ['admin', 'contador', 'diseñadora', 'administrador de contenido'],
+            },
+            user_name: {
+              type: 'string',
+              description: 'Nombre del Usuario.',
+            },
+            position: {
+              type: 'string',
+              description: 'Posición del Usuario.',
+            },
+            user_phone: {
+              type: 'string',
+              description: 'Teléfono del Usuario.',
+            },
+            user_officePhone: {
+              type: 'string',
+              description: 'Teléfono de Oficina del Usuario.',
+            },
+          },
+        },
+        Quote: {
+          type: 'object',
+          properties: {
+            quotation_id: {
+              type: 'integer',
+              format: 'int64',
+              description: 'Identificador único de la Cotización.',
+            },
+            customer_nit: {
+              type: 'integer',
+              description: 'NIT del Cliente.',
+            },
+            quote_no: {
+              type: 'string',
+              description: 'Número de la Cotización.',
+            },
+            quote_date: {
+              type: 'string',
+              format: 'date-time',
+              description: 'Fecha de la Cotización.',
+            },
+            quote_sellerId: {
+              type: 'integer',
+              description: 'Identificador del Vendedor.',
+            },
+            quote_validityTill: {
+              type: 'string',
+              format: 'date-time',
+              description: 'Fecha de validez de la Cotización.',
+            },
+            quote_shippingTime: {
+              type: 'string',
+              description: 'Tiempo de envío de la Cotización.',
+            },
+            quote_payMethod: {
+              type: 'string',
+              description: 'Método de pago de la Cotización.',
+            },
+            quote_credit: {
+              type: 'boolean',
+              description: 'Indica si la Cotización tiene crédito.',
+            },
+            quote_payForm: {
+              type: 'string',
+              description: 'Forma de pago de la Cotización.',
+            },
+            productId: {
+              type: 'integer',
+              description: 'Identificador del Producto asociado.',
+            },
+            quote_status: {
+              type: 'string',
+              description: 'Estado de la Cotización.',
+            },
+          },
+        },
       },
     },
   },
