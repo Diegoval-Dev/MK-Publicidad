@@ -1,31 +1,34 @@
-import useNavigate from '@hooks/useNavigate'
-import { useEffect } from 'react'
-
-import Home from '@views/Home'
-import Catalogue from '@views/Catalogue'
-import CustomizationPage from '@views/CustomizationPage'
-import Quote from '@views/Quote'
+import useNavigate from '@hooks/useNavigate';
+import Home from '@views/Home';
+import Catalogue from '@views/Catalogue';
+import CustomizationPage from '@views/CustomizationPage';
+import Quote from '@views/Quote';
+import Filter from '@components/Filter';
 
 const routes = {
     '/home': Home,
     '/home/catalogue': Catalogue,
     '/home/catalogue/customization': CustomizationPage,
     '/home/catalogue/customization/quote': Quote,
-}
+    '/home/catalogue/filter': Filter,
+};
 
-function Router() {
-    const { page, navigate } = useNavigate()
+function Router({ selectedCategory, onCategorySelection }) {
+    const { page } = useNavigate();
 
-
-    let CurrentPage = () => <h1>404</h1>
-
+    let CurrentPage = () => <h1>404</h1>;
 
     if (routes[page]) {
-        CurrentPage = routes[page]
-        return <CurrentPage />
+        CurrentPage = routes[page];
+        return (
+            <CurrentPage 
+                selectedCategory={selectedCategory} 
+                onCategorySelection={onCategorySelection} 
+            />
+        );
     }
-    
-    return <CurrentPage />
+
+    return <CurrentPage />;
 }
 
-export default Router
+export default Router;

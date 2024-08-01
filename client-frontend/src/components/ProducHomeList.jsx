@@ -14,9 +14,13 @@ function ProducHomeList({ products = [], categories = [] }) {
           categories.map((category, index) => {
             const productImage = products.find(product => product.category === category.category);
             return (
-              <div key={index} onClick={() => navigate('catalogue', category.category)} className="cursor-pointer w-64 mx-4 my-4">
+              <div
+                key={index}
+                onClick={() => navigate('catalogue', { category: category.category })}
+                className="cursor-pointer w-64 mx-4 my-4"
+              >
                 <ProductCategory
-                  image={category.image}
+                  image={category.image || 'ruta/a/imagen/predeterminada.jpg'} // Imagen predeterminada si `category.image` es undefined
                   category={category.category}
                 />
               </div>

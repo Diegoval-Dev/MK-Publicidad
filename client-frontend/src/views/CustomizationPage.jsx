@@ -9,7 +9,6 @@ import useNavigate from '@hooks/useNavigate';
 import { fabric } from 'fabric';
 import { Resend } from 'resend';
 
-
 const CustomizationPage = () => {
   const [editorVisible, setEditorVisible] = useState(false);
   const [image, setImage] = useState(null);
@@ -33,6 +32,8 @@ const CustomizationPage = () => {
     fontSize: fontSize,
     textAlign: alignment 
   });
+  const [product, setProduct] = useState({});
+  const [fabricImage, setFabricImage] = useState(null);
 
   const takeScreenshot = () => {
     const dataUrl = fabricCanvasRef.current.toDataURL({
@@ -40,21 +41,21 @@ const CustomizationPage = () => {
       quality: 0.8
     });
     setScreenshot(dataUrl);
-  }
+  };
 
   const handleCustomizationClick = (e) => {
     e.preventDefault(); 
     takeScreenshot();
-  }
-  
+  };
+
   useEffect(() => {
     if (screenshot) {
       console.log("Adding customization to cart")
       navigate(
         'quote', 
-        { category: product.category ,
-          productId: product.id, 
-          screenshot: screenshot,  
+        { category: product.category,
+          productId: product.id,
+          screenshot: screenshot,
           color: color,
           size: size,
           quantity: quantity,
@@ -63,15 +64,68 @@ const CustomizationPage = () => {
     }
   }, [screenshot]);
 
+  useEffect(() => {
+    const apiURL = `http://localhost:3000/user/products/${params.productId}`;
+    const fetchData = async () => {
+      try {
+        const response = await fetch(apiURL);
+        if (response.ok) {
+          const data = await response.json();
+          setProduct(data);
+        } else {
+          console.error("Error al obtener producto:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error al cargar producto:", error);
+      }
+    };
+    fetchData();
+  }, [params.productId]);
 
-  const product = {
-    "id": "1",
-    "name": "Sudadero Personalizado",
-    "image": "https://res.cloudinary.com/dmafdgdz3/image/upload/v1714789902/Sudaderos/Sudadero.png",
-    "category": "Sudaderos",
-    "material": "Algodón",
-    "description": "Sudadero cómodo y fresco."
-  }
+  useEffect(() => {
+    const canvas = fabricCanvasRef.current;
+
+    if (!canvas) return;
+
+    // Update or create the text object
+    if (fabricText) {
+      fabricText.set({
+        text: text,
+        fontFamily: font,
+        fill: color,
+        fontSize: fontSize,
+        textAlign: alignment
+      });
+      canvas.renderAll();
+    } else {
+      const newText = new fabric.IText(text, {
+        left: 50,
+        top: 50,
+        fontFamily: font,
+        fill: color,
+        fontSize: fontSize,
+        textAlign: alignment
+      });
+      canvas.add(newText);
+      setFabricText(newText);
+    }
+
+    // Update or create the image object
+    if (image) {
+      if (fabricImage) {
+        fabricImage.setSrc(image, () => {
+          canvas.renderAll();
+        });
+      } else {
+        fabric.Image.fromURL(image, img => {
+          img.set({ left: 50, top: 50 });
+          canvas.add(img);
+          setFabricImage(img);
+        });
+      }
+    }
+
+  }, [image, text, font, fontSize, color, alignment]);
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-white">
@@ -85,7 +139,7 @@ const CustomizationPage = () => {
           <Canva 
             backgroundImageUrl={product.image} 
             uploadedImage={image} 
-            fabricText={fabricTextObject}
+            fabricText={fabricText}
             fabricCanvasRef={fabricCanvasRef}
           />
         </div>
@@ -149,7 +203,6 @@ const CustomizationPage = () => {
     </div>
   );
 };
-
 
 CustomizationPage.propTypes = {
   product: PropTypes.shape({

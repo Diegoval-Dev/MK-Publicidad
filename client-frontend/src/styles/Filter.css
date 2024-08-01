@@ -1,0 +1,13 @@
+.filter-container {
+    z-index: 1000; /* Asegúrate de que el z-index sea suficientemente alto */
+    position: fixed; /* Fija la posición del filtro en la pantalla */
+    top: 0; /* Asegura que el filtro esté en la parte superior */
+    right: 0; /* Asegura que el filtro esté en la parte derecha */
+    width: 33%; /* Ajusta el ancho según sea necesario */
+    height: 100%; /* Asegura que el filtro ocupe toda la altura de la pantalla */
+    background-color: white; /* Fondo blanco para el filtro */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra para el filtro */
+    padding: 20px; /* Espaciado interno del filtro */
+    overflow-y: auto; /* Permite el desplazamiento si el contenido es demasiado grande */
+  }
+  
