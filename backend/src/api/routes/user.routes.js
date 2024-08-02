@@ -23,35 +23,15 @@ const resend = new Resend("re_W7fQeeRt_Fx4JciPu3LhhBRU843mLEPmR");
  */
 router.get('/products', productController.getAllProducts);
 
-const name = "Cliente";
-
-const quotationDetails = [
-  {
-    product: "Suéter Negro",
-    description: "Suéter de algodón",
-    quantity: 10,
-    unitPrice: 80.00,
-    total: 800.00,
-    image: "https://drs.com.gt/wp-content/uploads/2023/09/mapf1-sueter-negro2.png"
-  },
-  {
-    product: "Suéter Blanco",
-    description: "Suéter de algodón",
-    quantity: 10,
-    unitPrice: 80.00,
-    total: 800.00,
-    image: "https://drs.com.gt/wp-content/uploads/2023/09/mapf1-sueter-negro2.png"
-  }
-];
-
-const emailTemplate = template(quotationDetails);
-
 // Ruta para enviar correos de confirmación al usuario. De momento solo puede enviar correos a mi dirección
-router.get("/send-email", async (req, res) => {
-  const { receiver } = req.params;
+router.post("/send-email", async (req, res) => {
+  const { receiver, quotationDetails } = req.body;
+  
+  const emailTemplate = template(quotationDetails);
+  
   const { data, error } = await resend.emails.send({
     from: "MK-Publicidad <onboarding@resend.dev>",
-    to: ['pen22217@uvg.edu.gt'],
+    to: [receiver],
     subject: "Confirmación de cotización",
     html: emailTemplate,
   });
@@ -62,6 +42,7 @@ router.get("/send-email", async (req, res) => {
 
   res.status(200).json({ data });
 });
+
 
 // Ruta para obtener los filtros posibles por categoria
 /**

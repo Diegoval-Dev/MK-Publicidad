@@ -14,15 +14,37 @@ function QuoteForm() {
     const [contactoError, setContactoError] = useState('');
     const [direccion, setDireccion] = useState('');
 
+    const quotationDetails = [
+        {
+          product: "Suéter Negro",
+          description: "Suéter de algodón",
+          quantity: 10,
+          unitPrice: 80.00,
+          total: 800.00,
+          image: "https://drs.com.gt/wp-content/uploads/2023/09/mapf1-sueter-negro2.png"
+        },
+        {
+          product: "Suéter Blanco",
+          description: "Suéter de algodón",
+          quantity: 10,
+          unitPrice: 80.00,
+          total: 800.00,
+          image: "https://drs.com.gt/wp-content/uploads/2023/09/mapf1-sueter-negro2.png"
+        }
+    ];
+      
+    const receiver = "pen22217@uvg.edu.gt";
+
     const quoteConfirmation = async () => {
         const apiURL = `http://localhost:3000/user/send-email`;
     
         try {
             const response = await fetch(apiURL, {
-                method: 'GET',
+                method: 'POST',
                 headers: {
                     'Content-type': 'application/json'
-                }
+                },
+                body: JSON.stringify({receiver, quotationDetails})
             });
     
             if (response.ok) {
@@ -32,6 +54,7 @@ function QuoteForm() {
             console.error("Ocurrió un error al solicitar la cotización:", error);
         }
     }
+    
     const [hovered, setHovered] = useState(false);
 
     const handleSubmit = (e) => {
