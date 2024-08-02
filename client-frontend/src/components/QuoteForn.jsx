@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import validationUtils from './ValidationUtils';
 import quoteSending from './QuoteSending';
 
-function QuoteForm() {
+function QuoteForm(quotationDetails) {
     const [compania, setCompania] = useState('');
     const [companiaError, setCompaniaError] = useState('');
     const [contacto, setContacto] = useState('');
@@ -44,7 +44,7 @@ function QuoteForm() {
             return;
         }
 
-        if (quoteSending(email, nit, compania, contacto, phoneNumber, direccion)) {
+        if (quoteSending(email, nit, compania, contacto, phoneNumber, direccion, quotationDetails)) {
             console.log('Todo cristalino');
 
         }
