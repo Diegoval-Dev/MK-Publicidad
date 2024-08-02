@@ -7,6 +7,7 @@ import ImageUploader from '../components/ImageUploader';
 import NavigationButtons from '../components/NavigationButtons';
 import useNavigate from '@hooks/useNavigate';
 import { fabric } from 'fabric';
+import { Resend } from 'resend';
 
 const CustomizationPage = () => {
   const [editorVisible, setEditorVisible] = useState(false);
@@ -22,9 +23,16 @@ const CustomizationPage = () => {
   const { navigate, params } = useNavigate();
   const [screenshot, setScreenshot] = useState(null);
   const fabricCanvasRef = useRef(null);
-
+  const [fabricText, setFabricText] = useState(null); 
+  const fabricTextObject = new fabric.IText(text, {
+    left: 50,
+    top: 50,
+    fontFamily: font,
+    fill: color,
+    fontSize: fontSize,
+    textAlign: alignment 
+  });
   const [product, setProduct] = useState({});
-  const [fabricText, setFabricText] = useState(null);
   const [fabricImage, setFabricImage] = useState(null);
 
   const takeScreenshot = () => {

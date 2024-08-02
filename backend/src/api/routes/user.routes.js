@@ -1,7 +1,10 @@
-import express from 'express';
+import express from "express";
 import productController from '../controllers/productController.js';
+import template from "../../assets/template.js";
+import { Resend } from "resend";
 
 const router = express.Router();
+const resend = new Resend("re_W7fQeeRt_Fx4JciPu3LhhBRU843mLEPmR");
 
 /**
  * @openapi
@@ -20,6 +23,86 @@ const router = express.Router();
  */
 router.get('/products', productController.getAllProducts);
 
+/**
+ * @openapi
+ * /send-email:
+ *   post:
+ *     summary: Envía cotizaciones por correo electrónico
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               receiver:
+ *                 type: string
+ *                 description: Dirección de correo electrónico del destinatario
+ *                 example: cliente@example.com
+ *               quotationDetails:
+ *                 type: array
+ *                 description: Detalles de la cotización
+ *                 items:
+ *                   type: object
+ *                   properties:
+ *                     product:
+ *                       type: string
+ *                       description: Nombre del producto
+ *                       example: "Suéter Negro"
+ *                     description:
+ *                       type: string
+ *                       description: Descripción del producto
+ *                       example: "Suéter de algodón"
+ *                     quantity:
+ *                       type: integer
+ *                       description: Cantidad del producto
+ *                       example: 10
+ *                     unitPrice:
+ *                       type: number
+ *                       format: float
+ *                       description: Precio unitario del producto
+ *                       example: 80.00
+ *                     total:
+ *                       type: number
+ *                       format: float
+ *                       description: Precio total del producto
+ *                       example: 800.00
+ *                     image:
+ *                       type: string
+ *                       description: URL de la imagen del producto
+ *                       example: "https://drs.com.gt/wp-content/uploads/2023/09/mapf1-sueter-negro2.png"
+ *     responses:
+ *       200:
+ *         description: Correo enviado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ */
+router.post("/send-email", async (req, res) => {
+  const { nit, compania, contacto, phoneNumber, direccion, receiver, quotationDetails } = req.body;
+  
+  const emailTemplate = template(nit, compania, contacto, phoneNumber, direccion, receiver, quotationDetails);
+  
+  const { data, error } = await resend.emails.send({
+    from: "MK-Publicidad <onboarding@resend.dev>",
+    to: [receiver],
+    subject: "Confirmación de cotización",
+    html: emailTemplate,
+  });
+
+  if (error) {
+    return res.status(400).json({ error });
+  }
+
+  res.status(200).json({ data });
+});
+
+
+// Ruta para obtener los filtros posibles por categoria
 /**
  * @openapi
  * /api/products:

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import validationUtils from './ValidationUtils';
+import quoteSending from './QuoteSending';
 
 function QuoteForm() {
     const [compania, setCompania] = useState('');
@@ -11,8 +12,9 @@ function QuoteForm() {
     const [emailError, setEmailError] = useState('');
     const [nit, setNit] = useState('');
     const [nitError, setNitError] = useState('');
+    const [contactoError, setContactoError] = useState('');
     const [direccion, setDireccion] = useState('');
-
+    
     const [hovered, setHovered] = useState(false);
 
     const handleSubmit = (e) => {
@@ -42,7 +44,10 @@ function QuoteForm() {
             return;
         }
 
-        console.log('Formulario enviado correctamente');
+        if (quoteSending(email, nit, compania, contacto, phoneNumber, direccion)) {
+            console.log('Todo cristalino');
+
+        }
     };
 
     return (
