@@ -7,7 +7,11 @@ import adminRoutes from '../api/routes/admin.routes.js';
 import userRoutes from '../api/routes/user.routes.js';
 //import corsOprions from '../config/config.js';
 
+import swaggerDocs from '../api/swagger.js'
+
+
 class Server{
+    
     constructor(){
         this.app = express();
         this.port = process.env.PORT;
@@ -15,6 +19,7 @@ class Server{
         this.userPath='/user',
         this.middlewares();
         this.routes();
+        
     }
     async dbConnection(){
         await testConnection();
@@ -29,6 +34,7 @@ class Server{
     routes(){
         this.app.use(this.adminPath, adminRoutes);
         this.app.use(this.userPath, userRoutes);
+        swaggerDocs(this.app) 
     }
 
     listen(){
@@ -36,6 +42,8 @@ class Server{
             console.log(`Servidor corriendo en http://localhost:${this.port}`);
         });
     }
+
+
 }
 
 export default Server;

@@ -1,69 +1,89 @@
-import PropTypes, { array, func } from 'prop-types';
 import Banner from '../components/Banner';
-import BannerSearch from '../components/BannerSearch'; 
+import BannerSearch from '../components/BannerSearch';
 import Footer from '../components/Footer';
-import ProductHomeList from '../components/ProducHomeList';
+import PreviewProduct from '../components/PreviewProduct';
+import ProducHomeList from '../components/ProducHomeList';
 import { useEffect, useState } from 'react';
 
-function HomePage({ setScreen }) {
-  const [products, setProducts] = useState([])
-  const [loading, setLoading] = useState(true)
+function HomePage() {
+  const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function loadAllProducts() {
+
+    loadCategories();
+  }, []);
+
+  const loadCategories = async () => {
+    const apiURL = 'http://localhost:3000/user/categories';
       try {
-          const response = await fetch('http://localhost:3000/user/products')
-
-          if (response.ok) {
-            const data = await response.json()
-            setProducts(Array.from(data))
-            setLoading(false)
-            console.log("Éxito")
-            console.log(products)
-
-
-          } else {
-            throw new Error("No fue posible obtener los productos.")
-
+        const response = await fetch(apiURL, {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json'
           }
-
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Datos de categorías:", data);
+          setCategories(data); 
+        } else {
+          console.error("Error al obtener categorías:", response.statusText);
+        }
       } catch (error) {
-        console.log("Ocurrió un error al obtener los productos:", error)
+        console.error("Error al cargar categorías:", error);
+      } finally {
+        setLoading(false);
       }
-    }
+  }
 
-    loadAllProducts()
-  }, [])
+  const loadCategoriesSearch = async (keyword = '') => {
+    if (keyword == "") {
+      loadCategories();
+      return;
+    }
+    const apiURL = `http://localhost:3000/user/search/categories?keyword=${keyword}`;
+    try {
+      const response = await fetch(apiURL);
+      if (response.ok) {
+        const data = await response.json();
+        setCategories(data);
+      } else {
+        console.error("Error al obtener categorías:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error al cargar categorías:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSearch = (keyword) => {
+    setLoading(true);
+    loadCategoriesSearch(keyword);
+  };
 
   if (loading) {
-    return(
+    return (
       <div className="flex flex-col items-center">
         <Banner />
-        <BannerSearch />
+        <BannerSearch onSearch={handleSearch} />
         <p>Loading...</p>
         <Footer/>
       </div>
-    )
-  }
-
-  const goToCatalogue = () => {
-    setScreen(
-      {name: "catalog", data: null}
-    )
+    );
   }
 
   return (
     <div className="flex flex-col items-center">
       <Banner />
-      <BannerSearch />
-      <ProductHomeList products={products} goToCatalog={goToCatalogue}/>
+      <BannerSearch onSearch={handleSearch} />
+      <ProducHomeList products={products} categories={categories} />
       <Footer/>
     </div>
   );
 }
 
-HomePage.propTypes = {
-  setScreen: PropTypes.func.isRequired,
-};
-
-export default HomePage
+export default HomePage;

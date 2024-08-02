@@ -1,108 +1,52 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
+import useNavigate from '@hooks/useNavigate';
 import Card from './Card';
+import '../styles/styles.css'; 
 
-function ProductList({ setScreen, category, material, technique, size, color }) {
+function ProductList({ category, material, technique, size, color }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { navigate, params } = useNavigate();
 
   useEffect(() => {
-    // const fetchProducts = async () => {
-    //   const response = await fetch('http://localhost:3000/user/products');
-    //   const data = await response.json();
-    //   setProducts(data);
-    //   setLoading(false);
-    // };
-    //fetchProducts();
-
-    // Objeto de Prueba
-    // Objeto de Prueba
-    
-    const products = [
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-para-Sublimar1.jpg",
-      "category": "Sudaderos",
-      "material": "Algodón",
-      "description": "Sudadero cómodo y fresco."
-    },
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
-      "category": "Sudaderos",
-      "material": "Algodón",
-      "description": "Sudadero cómodo y fresco."
-    },
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
-      "category": "Sudaderos",
-      "material": "Algodón",
-      "description": "Sudadero cómodo y fresco."
-    },
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
-      "category": "Sudaderos",
-      "material": "Algodón",
-      "description": "Sudadero cómodo y fresco."
-    },
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
-      "category": "Sudaderos",
-      "material": "Algodón",
-      "description": "Sudadero cómodo y fresco."
-    },
-
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
-      "category": "Sudaderos",
-      "material": "Algodón",
-      "description": "Sudadero cómodo y fresco."
-    },
-
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
-      "category": "Sudaderos",
-      "material": "Algodón",
-      "description": "Sudadero cómodo y fresco."
-    },
-
-    {
-      "name": "Sudadero Personalizado",
-      "image": "https://novocolor.com.gt/wp-content/uploads/2021/05/Sudadero-con-Zipper-para-Sublimar1.jpg",
-      "category": "Sudaderos",
-      "material": "Algodón",
-      "description": "Sudadero cómodo y fresco."
-    },
-    ]
-    setProducts(products);
+    console.log(params.category);
+    async function loadProducts(category) {
+      const apiURL = `http://localhost:3000/user/products?category=${category}`;
+      try {
+        const response = await fetch(apiURL);
+        console.log(response);
+        if (response.ok) {
+          const data = await response.json();
+          setProducts(data.data);
+        } else {
+          throw new Error("No fue posible obtener los productos.");
+        }
+      } catch (error) {
+        console.log("Ocurrió un error al obtener los productos:", error);
+      }
+    }
+    loadProducts(params.category);
     setLoading(false);
-  }, []);
-
-  const handleCardClick = (product) => {
-    setScreen({
-      name: "customization",
-      product: product
-    });
-  }
+  }, [params.category]);
 
   if (loading) {
     return <p>Loading...</p>;
   }
 
-
   return (
     <>
-      <h2 className='titleAdmin' style={{alignSelf: "flex-start", fontSize: "25px", margin: "2%"}}>{products[0].category}</h2>
-      <div style={{display: "flex", flexDirection: "row", justifyContent: "center", flexWrap: "wrap", }}>
+      <div className="circle circle-1"></div>
+      <div className="circle circle-2"></div>
+      <div className="circle circle-3"></div>
+      <div className="circle circle-4"></div> 
+      <div className="circle circle-5"></div> 
+      <h2 className='centered-title'>{params.category}</h2>
+      <div className="product-list-container">
         {products.map((product, index) => (
-              <div key={index} style={{margin: "1%"}} onClick={() => handleCardClick(product)}>
-                  <Card {...product} />
-              </div>  
+          <div key={index} onClick={() => navigate('customization', { productId: product.id })}>
+            <Card {...product} />
+          </div>
         ))}
       </div>
     </>
@@ -110,12 +54,12 @@ function ProductList({ setScreen, category, material, technique, size, color }) 
 }
 
 ProductList.propTypes = {
-  setScreen: PropTypes.func.isRequired,
-  category: PropTypes.string.isRequired,
-  material: PropTypes.array.isRequired,
-  technique: PropTypes.array.isRequired,
-  size: PropTypes.array.isRequired,
-  color: PropTypes.array.isRequired
-}
+  onClick: PropTypes.func.isRequired,
+  category: PropTypes.string,
+  material: PropTypes.array,
+  technique: PropTypes.array,
+  size: PropTypes.array,
+  color: PropTypes.array,
+};
 
 export default ProductList;

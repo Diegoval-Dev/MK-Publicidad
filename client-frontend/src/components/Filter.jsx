@@ -1,8 +1,41 @@
+import '../styles/Filter.css'; 
 import PropTypes from 'prop-types';
-import FilterDrop from './Filterdropdown'
+import { useState, useEffect } from 'react';
+import FilterDrop from './Filterdropdown';
 
-function Filter({toggleFilterVisibility, setTempFilters, tempFilters, handleApplyFilters, handleClearFilters}) {
-  
+function Filter({ toggleFilterVisibility, setTempFilters, tempFilters, handleApplyFilters, handleClearFilters, selectedCategory }) {
+  const [filterOptions, setFilterOptions] = useState({
+    material: [],
+    technique: [],
+    size: [],
+    color: []
+  });
+
+  useEffect(() => {
+    if (selectedCategory) {
+      fetchFilters(selectedCategory);
+    }
+  }, [selectedCategory]);
+
+  const fetchFilters = async (category) => {
+    try {
+      const response = await fetch(`http://localhost:3000/user/filters/${category}`);
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+      const data = await response.json();
+      console.log('Fetched filters:', data); // For debugging
+      setFilterOptions({
+        material: data.materials.filter(item => item !== null && item !== ''),
+        technique: data.techniques.filter(item => item !== null && item !== ''),
+        size: data.sizes.filter(item => item !== null && item !== ''),
+        color: data.colors.filter(item => item !== null && item !== '')
+      });
+    } catch (error) {
+      console.error('Error fetching filters:', error);
+    }
+  };
+
   const handleChangeFilter = (filterName) => (newValue) => {
     setTempFilters((currentFilters) => ({
       ...currentFilters,
@@ -11,58 +44,62 @@ function Filter({toggleFilterVisibility, setTempFilters, tempFilters, handleAppl
   };
 
   return (
-      <div className="w-1/3 h-full fixed top-0 right-0 bg-white shadow-md p-5 overflow-auto">
+    <div className="filter-container">
       <div className="mb-7">
         <h3 className="m-0 text-lg font-bold text-center">Filtrar</h3>
         <button onClick={toggleFilterVisibility} className="text-3xl absolute top-1 right-1 pr-3" aria-label="Cerrar">×</button>
       </div>
-      {/* <hr className="my-5" />
-      <div className="mb-10">
-        <div className="flex justify-between mb-5">
-          <span className="font-bold">Ordenar por:</span>
-          <select name="order" className="w-3/5 p-1 rounded border border-gray-300">
-            <option value="novedades">Novedades</option>
-            <option value="precio">Precio</option>
-            <option value="nuevo">Nuevo</option>
-          </select>
-        </div>
-      </div> */}
-      <hr className="my-5" />
-      <FilterDrop 
-        namefilter='Material' 
-        optionsfilter={["Plástico", "Metal", "Aluminio"]}
-        selectedOptions={tempFilters.material}
-        onChange={handleChangeFilter('material')}
-        >
-      </FilterDrop>
-      <hr className="my-5" />
-      <FilterDrop 
-        namefilter='Técnica' 
-        optionsfilter={["Sublimado", "Impreso", "Bordado"]}
-        selectedOptions={tempFilters.technique}
-        onChange={handleChangeFilter('technique')}
-        >
-      </FilterDrop>
-      <hr className="my-5" />
-      <FilterDrop 
-        namefilter='Talla' 
-        optionsfilter={["XS","S","M","L","XXL"]}
-        selectedOptions={tempFilters.size}
-        onChange={handleChangeFilter('size')}
-        >
-      </FilterDrop>
-      <hr className="my-5" />
-      <FilterDrop 
-        namefilter='Color' 
-        optionsfilter={["Blanco", "Negro", "Azul", "Morada", "Roja"]}
-        selectedOptions={tempFilters.color}
-        onChange={handleChangeFilter('color')}
-        >
-      </FilterDrop>
-      <div className="flex justify-between">
-        <button onClick={handleClearFilters} className="py-2 px-5 rounded bg-[#f9f5eb] text-black border-none">Limpiar</button>
-        <button onClick={handleApplyFilters} className="py-2 px-5 rounded bg-black text-white border-none">Ver Resultados</button>
-      </div>
+      {selectedCategory && (
+        <>
+          <h4 className="mb-3">Categoría: {selectedCategory}</h4>
+          <hr className="my-5" />
+          {filterOptions.material.length > 0 && (
+            <FilterDrop
+              namefilter='Material'
+              optionsfilter={filterOptions.material}
+              selectedOptions={tempFilters.material}
+              onChange={handleChangeFilter('material')}
+            />
+          )}
+          {filterOptions.technique.length > 0 && (
+            <>
+              <hr className="my-5" />
+              <FilterDrop
+                namefilter='Técnica'
+                optionsfilter={filterOptions.technique}
+                selectedOptions={tempFilters.technique}
+                onChange={handleChangeFilter('technique')}
+              />
+            </>
+          )}
+          {filterOptions.size.length > 0 && (
+            <>
+              <hr className="my-5" />
+              <FilterDrop
+                namefilter='Talla'
+                optionsfilter={filterOptions.size}
+                selectedOptions={tempFilters.size}
+                onChange={handleChangeFilter('size')}
+              />
+            </>
+          )}
+          {filterOptions.color.length > 0 && (
+            <>
+              <hr className="my-5" />
+              <FilterDrop
+                namefilter='Color'
+                optionsfilter={filterOptions.color}
+                selectedOptions={tempFilters.color}
+                onChange={handleChangeFilter('color')}
+              />
+            </>
+          )}
+          <div className="flex justify-between mt-5">
+            <button onClick={handleClearFilters} className="py-2 px-5 rounded bg-[#f9f5eb] text-black border-none">Limpiar</button>
+            <button onClick={handleApplyFilters} className="py-2 px-5 rounded bg-black text-white border-none">Ver Resultados</button>
+          </div>
+        </>
+      )}
     </div>
   );
 }
@@ -73,6 +110,7 @@ Filter.propTypes = {
   tempFilters: PropTypes.object.isRequired,
   handleApplyFilters: PropTypes.func.isRequired,
   handleClearFilters: PropTypes.func.isRequired,
+  selectedCategory: PropTypes.string.isRequired,
 };
 
 export default Filter;

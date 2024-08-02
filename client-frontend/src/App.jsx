@@ -1,24 +1,23 @@
-import { useState } from 'react'
-import './styles/App.css'
-import Home from './views/Home'
-import CatalogPage from './views/Catalogue'
-import CustomizationPage from './views/CustomizationPage'
+import './styles/App.css';
+import { NavigationProvider } from '@hooks/useNavigate';
+import Router from '@router/index';
+import { useState } from 'react';
 
 function App() {
-  const [screen, setScreen] = useState({name: "home", product: null})
+  const [selectedCategory, setSelectedCategory] = useState('');
 
-  const changeScreen = (screen) => {
-    setScreen(screen)
-  }
+  const handleCategorySelection = (category) => {
+    setSelectedCategory(category);
+  };
 
   return (
-    <>
-      {screen.name === "home" && <Home setScreen={changeScreen} />}
-      {screen.name === "catalog" && <CatalogPage setScreen={changeScreen} />}
-      {screen.name === "customization" && <CustomizationPage product={screen.product} />}
-    </>
-  )
+    <NavigationProvider>
+      <Router 
+        selectedCategory={selectedCategory} 
+        onCategorySelection={handleCategorySelection} 
+      />
+    </NavigationProvider>
+  );
 }
 
-
-export default App
+export default App;

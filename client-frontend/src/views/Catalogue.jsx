@@ -1,12 +1,15 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from '@hooks/useNavigate';
 import Banner from '../components/Banner';
 import ProductList from '../components/ProductList';
 import NavigationButtons from '../components/NavigationButtons';
 import FilterControls from '../components/FilterControls';
 import '../styles/styles.css';
 
-function Catalogue({ setScreen }) {
+function Catalogue({ selectedCategory, onCategorySelection }) {
+  const { navigate, params } = useNavigate();
+
   const [isFilterVisible, setIsFilterVisible] = useState(false);
   const [appliedFilters, setAppliedFilters] = useState({});
   const [products, setProducts] = useState([]);
@@ -17,119 +20,17 @@ function Catalogue({ setScreen }) {
     color: [],
   });
 
-  const loadAllProducts = async () => {
-    const apiURL = `http://localhost:3000/user/products`;
-    
-    try {
-        const response = await fetch(apiURL, {
-          method: 'GET',
-          headers: {
-            'Content-type': 'application/json'
-          }
-        });
-        
-        if (response.ok) {
-          const data = await response.json();
-          setProducts(Array.from(data));
-          console.log("Éxito");
-          console.log(products);
-            
-        } else {
-          throw new Error("No fue posible obtener los productos.");
-            
-        };
-        
-    } catch (error) {
-      console.log("Ocurrió un error al obtener los productos:", error);
-    };
-
-    return products;
-  };
-
-  const createNewProduct = async (productDetails) => {
-    const apiURL = `http://localhost:3000//products`;
-
-    try {
-      const response = await fetch(apiURL, {
-        method: 'POST',
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: JSON.stringify({ 
-          name: productDetails.name,
-          category: productDetails.category,
-          material: productDetails.material,
-          description: productDetails.description,
-          image: productDetails.image
-        })
-      });
-
-    } catch (error) {
-      console.error(error)
+  useEffect(() => {
+    if (params.category) {
+      onCategorySelection(params.category);
     }
-  };
+  }, [params.category, onCategorySelection]);
 
-  const loadProductsByName = async (name) => {
-    const apiURL = `http://localhost:3000/user/products?name=${name}`;
-    
-    try {
-      const response = await fetch(apiURL, {
-        method: 'GET',
-        headers: {
-          'Content-type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setProducts(Array.from(data));
-        console.log("Éxito");
-        console.log(products);
-
-      } else {
-        throw new Error("Ocurrió un error al obtener los productos.")
-
-      };
-      
-    } catch (error) {
-      console.error(error);
-
+  useEffect(() => {
+    if (selectedCategory) {
+      loadProductsByCategory(selectedCategory);
     }
-
-    return products;
-
-  };
-
-  const loadProductsByMaterial = async (material) => {
-    const apiURL = `http://localhost:3000/user/products?material=${material}`;
-    
-    try {
-      const response = await fetch(apiURL, {
-        method: 'GET',
-        headers: {
-          'Content-type': 'application/json'
-        }
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setProducts(Array.from(data));
-        console.log("Éxito");
-        console.log(products);
-
-      } else {
-        throw new Error("Ocurrió un error al obtener los productos.")
-
-      };
-      
-    } catch (error) {
-      console.error(error);
-      
-    }
-
-    return products;
-
-  };
+  }, [selectedCategory]);
 
   const loadProductsByCategory = async (category) => {
     const apiURL = `http://localhost:3000/user/products?category=${category}`;
@@ -151,24 +52,12 @@ function Catalogue({ setScreen }) {
       } else {
         throw new Error("Ocurrió un error al obtener los productos.")
 
-      };
+      }
       
     } catch (error) {
       console.error(error);
-      
     }
-
-    return products;
-
   };
-
-  const renderProducts = async () => {
-
-  }
-
-  const selectProduct = async () => {
-
-  }
 
   const handleApplyFilters = () => {
     setAppliedFilters(tempFilters);
@@ -195,8 +84,7 @@ function Catalogue({ setScreen }) {
       <Banner />
       <div className="container flex justify-between w-full p-4">
         <NavigationButtons
-          destination="home"
-          setScreen={setScreen}
+          onClick={() => navigate('/home')}
         />
         <FilterControls
           toggleFilterVisibility={toggleFilterVisibility}
@@ -205,11 +93,11 @@ function Catalogue({ setScreen }) {
           setTempFilters={setTempFilters}
           handleApplyFilters={handleApplyFilters}
           handleClearFilters={handleClearFilters}
+          selectedCategory={selectedCategory} // Pasamos selectedCategory aquí
         />
       </div>
       <ProductList
-        setScreen={setScreen}
-        category={"A"}
+        category={selectedCategory}
         material={appliedFilters.material}
         technique={appliedFilters.technique}
         size={appliedFilters.size}
@@ -217,11 +105,11 @@ function Catalogue({ setScreen }) {
       />
     </div>
   );
-  
-};
+}
 
 Catalogue.propTypes = {
-  setScreen: PropTypes.func.isRequired,
+  selectedCategory: PropTypes.string.isRequired,
+  onCategorySelection: PropTypes.func.isRequired,
 };
 
 export default Catalogue;
