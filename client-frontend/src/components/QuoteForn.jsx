@@ -62,6 +62,7 @@ function QuoteForm() {
         }
 
         console.log('Formulario enviado correctamente');
+        quoteConfirmation()
     };
 
     return (
