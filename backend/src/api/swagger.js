@@ -7,9 +7,34 @@ const options = {
     info: {
       title: 'API de Productos Personalizados',
       version: '1.0.0',
-      description: 'Documentación de la API de Productos Personalizados',
+      description: 'Documentación de la API de Productos Personalizados MK',
+      contact: {
+        name: 'Support Team',
+        email: 'mej22596@uvg.edu.gt',
+      },
+      license: {
+        name: 'Grupo 5 de Software - Licencia MIT',
+        url: 'https://opensource.org/licenses/MIT',
+      },
     },
+    servers: [
+      {
+        url: 'http://localhost:3000',
+        description: 'Servidor local para base de datos y API',
+      },
+      {
+        url: 'http://localhost:5173/home',
+        description: 'Servidor local para visualizar el frontend',
+      },
+    ],
     components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+        },
+      },
       schemas: {
         Product: {
           type: 'object',
@@ -177,8 +202,13 @@ const options = {
         },
       },
     },
+    security: [
+      {
+        bearerAuth: [],
+      },
+    ],
   },
-  apis: ['./routes/*.js'], // Asegúrate de que las rutas sean correctas
+  apis: ['./src/api/routes/*.js'], // Asegúrate de que las rutas sean correctas
 };
 
 const swaggerSpec = swaggerJSDoc(options);
