@@ -1,7 +1,11 @@
-import { ENUM } from "sequelize";
+function template(nit, compania, contacto, phoneNumber, direccion, receiver, quotationDetails = []) {
+  
+  if (!Array.isArray(quotationDetails)) {
+    quotationDetails = [quotationDetails];
+  }
 
-function template(nit, compania, contacto, phoneNumber, direccion, receiver, quotationDetails) {
-  const total = quotationDetails.reduce((sum, item) => sum + item.total, 0);
+  const totalGeneral = quotationDetails.reduce((acc, item) => acc + item.total, 0);
+
   return(
     `<!DOCTYPE html>
       <html>
@@ -153,7 +157,7 @@ function template(nit, compania, contacto, phoneNumber, direccion, receiver, quo
 
         <div class="footer">
           <h4 style="margin-right: 5em;">TOTAL</h4>
-          <h4>Q${total.toFixed(2)}</h4>
+          <h4>Q${totalGeneral.toFixed(2)}</h4>
         </div>
 
       </body>
