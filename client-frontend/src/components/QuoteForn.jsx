@@ -48,7 +48,8 @@ function QuoteForm() {
             });
     
             if (response.ok) {
-                alert("Correo enviado con éxito.");
+                console.log("Correo enviado con éxito.");
+                return true;
             }
         } catch (error) {
             console.error("Ocurrió un error al solicitar la cotización:", error);
@@ -84,8 +85,10 @@ function QuoteForm() {
             return;
         }
 
-        console.log('Formulario enviado correctamente');
-        quoteConfirmation()
+        if (quoteConfirmation()) {
+            console.log('Todo cristalino');
+
+        }
     };
 
     return (
