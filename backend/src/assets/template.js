@@ -1,4 +1,6 @@
-function template(quotationDetails) {
+import { ENUM } from "sequelize";
+
+function template(nit, compania, contacto, phoneNumber, direccion, receiver, quotationDetails) {
   const total = quotationDetails.reduce((sum, item) => sum + item.total, 0);
   return(
     `<!DOCTYPE html>
@@ -91,12 +93,12 @@ function template(quotationDetails) {
         <div class="row" style="background-color: #f1f1f1;">
           <div class="column side" style="border-right: 2px solid #aaa; text-align: left">
             <ul>
-              <li>NIT: 123456789</li>
-              <li>Empresa: Y tal</li>
-              <li>Contacto: Jorge Pérez</li>
-              <li>Teléfono: 123456789</li>
-              <li>Dirección: Parque Z1</li>
-              <li>Correo: ytal@gmail.com</li>
+              <li>NIT: ${nit}</li>
+              <li>Empresa: ${compania}</li>
+              <li>Contacto: ${contacto}</li>
+              <li>Teléfono: ${phoneNumber}</li>
+              <li>Dirección: ${direccion}</li>
+              <li>Correo: ${receiver}</li>
             </ul>
           </div>
           <div class="column sides">

@@ -83,9 +83,9 @@ router.get('/products', productController.getAllProducts);
  *                   type: object
  */
 router.post("/send-email", async (req, res) => {
-  const { receiver, quotationDetails } = req.body;
+  const { nit, compania, contacto, phoneNumber, direccion, receiver, quotationDetails } = req.body;
   
-  const emailTemplate = template(quotationDetails);
+  const emailTemplate = template(nit, compania, contacto, phoneNumber, direccion, receiver, quotationDetails);
   
   const { data, error } = await resend.emails.send({
     from: "MK-Publicidad <onboarding@resend.dev>",
