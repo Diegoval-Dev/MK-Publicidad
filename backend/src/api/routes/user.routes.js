@@ -24,6 +24,7 @@ const resend = new Resend("re_W7fQeeRt_Fx4JciPu3LhhBRU843mLEPmR");
 router.get('/products', productController.getAllProducts);
 
 const name = "Cliente";
+
 const quotationDetails = [
   {
     product: "Suéter Negro",

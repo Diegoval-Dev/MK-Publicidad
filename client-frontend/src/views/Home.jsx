@@ -18,7 +18,13 @@ function HomePage() {
   const loadCategories = async () => {
     const apiURL = 'http://localhost:3000/user/categories';
       try {
-        const response = await fetch(apiURL);
+        const response = await fetch(apiURL, {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json'
+          }
+        });
+        
         if (response.ok) {
           const data = await response.json();
           console.log("Datos de categorías:", data);
