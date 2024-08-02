@@ -12,11 +12,9 @@ function QuoteForm() {
         direccion: ''
     });
 
-    const [errors, setErrors] = useState({}); // Estado único para errores
-
+    const [errors, setErrors] = useState({});
     const [hovered, setHovered] = useState(false);
 
-    // Maneja los cambios en los campos de entrada
     const handleInputChange = useCallback((e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -24,11 +22,9 @@ function QuoteForm() {
             [name]: value
         }));
 
-        // Validación instantánea
         validateField(name, value);
     }, []);
 
-    // Función para validar un campo específico
     const validateField = (name, value) => {
         let errorMessage = '';
 
@@ -61,7 +57,6 @@ function QuoteForm() {
     const handleSubmit = useCallback((e) => {
         e.preventDefault();
 
-        // Validar todos los campos al enviar
         const currentErrors = {};
         for (const field in formData) {
             const error = validateField(field, formData[field]);
@@ -82,69 +77,69 @@ function QuoteForm() {
     return (
         <div className="max-w-md mx-auto mr-4">
             <form onSubmit={handleSubmit} className='quote-form p-4 border-2 border-gray-300 rounded mb-4 bg-color-table '>
-                <label className="font-bold flex justify-start items-center text-sm">EMPRESA:</label>
+                <label htmlFor="compania" className="font-bold flex justify-start items-center text-sm">EMPRESA:</label>
                 <input
                     type="text"
                     name="compania"
                     placeholder="Nombre de la empresa"
                     value={formData.compania}
                     onChange={handleInputChange}
-                    className="w-full border-b border-gray-300 mb-1 focus:outline-none text-right bg-color-table"
+                    className={`w-full border-b mb-1 focus:outline-none text-right bg-color-table ${errors.compania ? 'border-red-600' : 'border-gray-300'}`}
                 />
                 {errors.compania && <span className="error font-bold text-sm text-red-600">{errors.compania}</span>}
 
-                <label className="font-bold flex justify-start items-center text-sm">CONTACTO:</label>
+                <label htmlFor="contacto" className="font-bold flex justify-start items-center text-sm">CONTACTO:</label>
                 <input
                     type="text"
                     name="contacto"
                     placeholder="Nombre del contacto"
                     value={formData.contacto}
                     onChange={handleInputChange}
-                    className="w-full border-b border-gray-300 mb-1 focus:outline-none text-right bg-color-table"
+                    className={`w-full border-b mb-1 focus:outline-none text-right bg-color-table ${errors.contacto ? 'border-red-600' : 'border-gray-300'}`}
                 />
                 {errors.contacto && <span className="error font-bold text-sm text-red-600">{errors.contacto}</span>}
 
-                <label className="font-bold flex justify-start items-center text-sm">NÚMERO DE TELÉFONO:</label>
+                <label htmlFor="phoneNumber" className="font-bold flex justify-start items-center text-sm">NÚMERO DE TELÉFONO:</label>
                 <input
                     type="text"
                     name="phoneNumber"
                     placeholder="Número de teléfono"
                     value={formData.phoneNumber}
                     onChange={handleInputChange}
-                    className="w-full border-b border-gray-300 mb-1 focus:outline-none text-right bg-color-table"
+                    className={`w-full border-b mb-1 focus:outline-none text-right bg-color-table ${errors.phoneNumber ? 'border-red-600' : 'border-gray-300'}`}
                 />
                 {errors.phoneNumber && <span className="error font-bold text-sm text-red-600">{errors.phoneNumber}</span>}
 
-                <label className="font-bold flex justify-start items-center text-sm">EMAIL:</label>
+                <label htmlFor="email" className="font-bold flex justify-start items-center text-sm">EMAIL:</label>
                 <input
                     type="email"
                     name="email"
                     placeholder="Correo electrónico"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full border-b border-gray-300 mb-1 focus:outline-none text-right bg-color-table"
+                    className={`w-full border-b mb-1 focus:outline-none text-right bg-color-table ${errors.email ? 'border-red-600' : 'border-gray-300'}`}
                 />
                 {errors.email && <span className="error font-bold text-sm text-red-600">{errors.email}</span>}
 
-                <label className="font-bold flex justify-start items-center text-sm">NIT:</label>
+                <label htmlFor="nit" className="font-bold flex justify-start items-center text-sm">NIT:</label>
                 <input
                     type="text"
                     name="nit"
                     placeholder="Número de NIT"
                     value={formData.nit}
                     onChange={handleInputChange}
-                    className="w-full border-b border-gray-300 mb-1 focus:outline-none text-right bg-color-table"
+                    className={`w-full border-b mb-1 focus:outline-none text-right bg-color-table ${errors.nit ? 'border-red-600' : 'border-gray-300'}`}
                 />
                 {errors.nit && <span className="error font-bold text-sm text-red-600">{errors.nit}</span>}
 
-                <label className="font-bold flex justify-start items-center text-sm">DIRECCIÓN:</label>
+                <label htmlFor="direccion" className="font-bold flex justify-start items-center text-sm">DIRECCIÓN:</label>
                 <input
                     type="text"
                     name="direccion"
                     placeholder="Dirección"
                     value={formData.direccion}
                     onChange={handleInputChange}
-                    className="w-full border-b border-gray-300 mb-3 focus:outline-none text-right bg-color-table"
+                    className="w-full border-b mb-3 focus:outline-none text-right bg-color-table"
                 />
 
                 <button
