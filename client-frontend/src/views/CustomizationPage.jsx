@@ -7,7 +7,6 @@ import ImageUploader from '../components/ImageUploader';
 import NavigationButtons from '../components/NavigationButtons';
 import useNavigate from '@hooks/useNavigate';
 import { fabric } from 'fabric';
-import { Resend } from 'resend';
 
 const CustomizationPage = () => {
   const [editorVisible, setEditorVisible] = useState(false);
@@ -59,7 +58,9 @@ const CustomizationPage = () => {
           color: color,
           size: size,
           quantity: quantity,
-          description: description
+          description: description,
+          name: product.name,
+          image: screenshot
         });
     }
   }, [screenshot]);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useSyncExternalStore } from "react";
 import useNavigate from "@hooks/useNavigate";
 import NavigationButtons from "@components/NavigationButtons";
 import Banner from "@components/Banner";
@@ -10,12 +10,25 @@ function Quote() {
   const [size, setSize] = useState("");
   const [quantity, setQuantity] = useState("");
   const [description, setDescription] = useState("");
+  const [quotationDetails, setQuotationDetails] = useState({});
 
   useEffect(() => {
     setColor(params.color);
     setSize(params.size);
     setQuantity(params.quantity);
     setDescription(params.description);
+    const unitPrice = 80;
+    const calculateTotal = quantity * unitPrice;
+    setQuotationDetails({
+      name: params.name,
+      description: params.description,
+      quantity: params.quantity,
+      unitPrice: unitPrice,
+      total: calculateTotal,
+      image: params.screenshot
+    })
+
+    console.log(quotationDetails)
   }, []);
 
   return (
@@ -62,7 +75,7 @@ function Quote() {
           </div>
         </div>
         <div className="flex flex-col lg:w-2/5 mb-4 lg:mb-0">
-          <QuoteForm />
+          <QuoteForm {...quotationDetails}/>
         </div>
       </div>
     </div>
