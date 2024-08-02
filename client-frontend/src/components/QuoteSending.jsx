@@ -9,12 +9,12 @@ function quoteSending(email, nit, compania, contacto, phoneNumber, direccion) {
           image: "https://drs.com.gt/wp-content/uploads/2023/09/mapf1-sueter-negro2.png"
         },
         {
-          product: "Suéter Blanco",
-          description: "Suéter de algodón",
-          quantity: 10,
-          unitPrice: 80.00,
-          total: 800.00,
-          image: "https://drs.com.gt/wp-content/uploads/2023/09/mapf1-sueter-negro2.png"
+          product: "Taza Blanca",
+          description: "Taza cerámica",
+          quantity: 30,
+          unitPrice: 20.00,
+          total: 600.00,
+          image: "https://amsagt.com/wp-content/uploads/2022/01/6900e507.png"
         }
     ];
       
