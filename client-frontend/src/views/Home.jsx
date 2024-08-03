@@ -29,6 +29,7 @@ function HomePage() {
           const data = await response.json();
           console.log("Datos de categorías:", data);
           setCategories(data); 
+          return data;
         } else {
           console.error("Error al obtener categorías:", response.statusText);
         }
