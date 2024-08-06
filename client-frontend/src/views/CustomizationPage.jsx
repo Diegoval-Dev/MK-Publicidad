@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { fabric } from 'fabric';
 import Banner from '../components/Banner';
 import Canva from '../components/Canva';
 import TextEditor from '../components/TextEditor';
@@ -11,12 +12,8 @@ import { Resend } from 'resend';
 
 const CustomizationPage = () => {
   const [editorVisible, setEditorVisible] = useState(false);
-  const [image, setImage] = useState(null);
-  const [text, setText] = useState('');
-  const [font, setFont] = useState('Arial');
-  const [fontSize, setFontSize] = useState(16);
-  const [color, setColor] = useState('#000000');
-  const [alignment, setAlignment] = useState('left');
+  const [images, setImages] = useState([]);
+  const [texts, setTexts] = useState([{ text: '', font: 'Arial', fontSize: 16, color: '#000000' }]);
   const [size, setSize] = useState('');
   const [quantity, setQuantity] = useState('');
   const [description, setDescription] = useState('');
@@ -48,6 +45,42 @@ const CustomizationPage = () => {
     takeScreenshot();
   };
 
+  const addText = () => {
+    setTexts([...texts, { text: '', font: 'Arial', fontSize: 16, color: '#000000' }]);
+  };
+
+  const removeText = (index) => {
+    const updatedTexts = texts.filter((_, i) => i !== index);
+    setTexts(updatedTexts);
+
+    const updatedFabricTexts = fabricTexts.filter((_, i) => i !== index);
+    setFabricTexts(updatedFabricTexts);
+
+    // Remove text from canvas
+    const canvas = fabricCanvasRef.current;
+    const fabricText = fabricTexts[index];
+    if (fabricText) {
+      canvas.remove(fabricText);
+      canvas.renderAll();
+    }
+  };
+
+  const removeImage = (index) => {
+    const updatedImages = images.filter((_, i) => i !== index);
+    setImages(updatedImages);
+
+    const updatedFabricImages = fabricImages.filter((_, i) => i !== index);
+    setFabricImages(updatedFabricImages);
+
+    // Remove image from canvas
+    const canvas = fabricCanvasRef.current;
+    const fabricImage = fabricImages[index];
+    if (fabricImage) {
+      canvas.remove(fabricImage);
+      canvas.renderAll();
+    }
+  };
+
   useEffect(() => {
     if (screenshot) {
       console.log("Adding customization to cart")
@@ -56,7 +89,6 @@ const CustomizationPage = () => {
         { category: product.category,
           productId: product.id,
           screenshot: screenshot,
-          color: color,
           size: size,
           quantity: quantity,
           description: description
@@ -87,45 +119,71 @@ const CustomizationPage = () => {
 
     if (!canvas) return;
 
-    // Update or create the text object
-    if (fabricText) {
-      fabricText.set({
-        text: text,
-        fontFamily: font,
-        fill: color,
-        fontSize: fontSize,
-        textAlign: alignment
-      });
-      canvas.renderAll();
-    } else {
-      const newText = new fabric.IText(text, {
-        left: 50,
-        top: 50,
-        fontFamily: font,
-        fill: color,
-        fontSize: fontSize,
-        textAlign: alignment
-      });
-      canvas.add(newText);
-      setFabricText(newText);
+    // Limpiar canvas pero mantener el fondo
+    const backgroundImage = canvas.backgroundImage;
+    canvas.clear();
+    if (backgroundImage) {
+      canvas.setBackgroundImage(backgroundImage, canvas.renderAll.bind(canvas));
     }
 
-    // Update or create the image object
-    if (image) {
-      if (fabricImage) {
-        fabricImage.setSrc(image, () => {
-          canvas.renderAll();
+    fabricTexts.forEach((fabricText, index) => {
+      const text = texts[index];
+      if (fabricText) {
+        fabricText.set({
+          text: text.text,
+          fontFamily: text.font,
+          fill: text.color,
+          fontSize: text.fontSize,
+          left: fabricText.left, // Mantener la posición
+          top: fabricText.top   // Mantener la posición
         });
       } else {
-        fabric.Image.fromURL(image, img => {
-          img.set({ left: 50, top: 50 });
-          canvas.add(img);
-          setFabricImage(img);
+        const newText = new fabric.IText(text.text, {
+          left: 50,
+          top: 50,
+          fontFamily: text.font,
+          fill: text.color,
+          fontSize: text.fontSize,
+        });
+        canvas.add(newText);
+        setFabricTexts(prevTexts => {
+          const newTexts = [...prevTexts];
+          newTexts[index] = newText;
+          return newTexts;
         });
       }
-    }
+    });
 
-  }, [image, text, font, fontSize, color, alignment]);
+    images.forEach((image, index) => {
+      if (fabricImages[index]) {
+        // Actualizar la imagen existente
+        fabricImages[index].set({
+          left: image.left,
+          top: image.top,
+          scaleX: image.scaleX,
+          scaleY: image.scaleY,
+        });
+      } else {
+        // Crear nueva imagen
+        fabric.Image.fromURL(image.src, img => {
+          img.set({
+            left: image.left,
+            top: image.top,
+            scaleX: image.scaleX,
+            scaleY: image.scaleY,
+          });
+          canvas.add(img);
+          setFabricImages(prevImages => {
+            const newImages = [...prevImages];
+            newImages[index] = img;
+            return newImages;
+          });
+          canvas.renderAll();
+        }, { crossOrigin: 'Anonymous' });
+      }
+    });
+
+  }, [images, texts, fabricTexts]);
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-white">
@@ -138,8 +196,8 @@ const CustomizationPage = () => {
         <div className="flex-1">
           <Canva 
             backgroundImageUrl={product.image} 
-            uploadedImage={image} 
-            fabricText={fabricText}
+            uploadedImage={images[0]?.src} 
+            fabricTexts={fabricTexts}
             fabricCanvasRef={fabricCanvasRef}
           />
         </div>
@@ -147,26 +205,48 @@ const CustomizationPage = () => {
           <button onClick={() => setEditorVisible(!editorVisible)} className="text-sm font-medium text-gray-700 p-2 border-b border-gray-300 w-full text-left">
             Diseño
           </button>
-          {editorVisible && (
+          {editorVisible && texts.map((textItem, index) => (
             <TextEditor
-              text={text}
-              setText={setText}
-              font={font}
-              setFont={setFont}
-              fontSize={fontSize}
-              setFontSize={setFontSize}
-              color={color}
-              setColor={setColor}
-              alignment={alignment}
-              setAlignment={setAlignment}
-              setFabricText={setFabricText}
+              key={index}
+              index={index}
+              text={textItem.text}
+              setText={(text) => {
+                const newTexts = [...texts];
+                newTexts[index].text = text;
+                setTexts(newTexts);
+              }}
+              font={textItem.font}
+              setFont={(font) => {
+                const newTexts = [...texts];
+                newTexts[index].font = font;
+                setTexts(newTexts);
+              }}
+              fontSize={textItem.fontSize}
+              setFontSize={(fontSize) => {
+                const newTexts = [...texts];
+                newTexts[index].fontSize = fontSize;
+                setTexts(newTexts);
+              }}
+              color={textItem.color}
+              setColor={(color) => {
+                const newTexts = [...texts];
+                newTexts[index].color = color;
+                setTexts(newTexts);
+              }}
+              setFabricText={setFabricTexts}
+              removeText={removeText}
             />
+          ))}
+          {editorVisible && (
+            <button onClick={addText} className="mt-4 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded text-white bg-color-button hover:bg-color-button-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-color-button">
+              Añadir Texto
+            </button>
           )}
-          {editorVisible && <ImageUploader setImage={setImage} />}
+          {editorVisible && <ImageUploader images={images} setImages={setImages} />}
           <form className="bg-white shadow-md rounded px-4 pt-4 pb-2">
             <div>
               <label htmlFor="color" className="block text-sm font-medium text-gray-700">Color:</label>
-              <select id="color" name="color" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2" value={color} onChange={e => setColor(e.target.value)}>
+              <select id="color" name="color" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2" value={size} onChange={e => setSize(e.target.value)}>
                 <option value="">Selecciona un color</option>
                 <option value="color1">Color 1</option>
                 <option value="color2">Color 2</option>

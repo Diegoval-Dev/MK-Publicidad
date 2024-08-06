@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
+import { fabric } from 'fabric';
 
-const TextEditor = ({ text, setText, font, setFont, fontSize, setFontSize, color, setColor, alignment, setAlignment, setFabricText }) => {
+const TextEditor = ({ index, text, setText, font, setFont, fontSize, setFontSize, color, setColor, setFabricText, removeText }) => {
 
   useEffect(() => {
     const newText = new fabric.IText(text, {
@@ -9,10 +10,13 @@ const TextEditor = ({ text, setText, font, setFont, fontSize, setFontSize, color
       fontFamily: font,
       fill: color,
       fontSize: parseInt(fontSize),
-      textAlign: alignment,
     });
-    setFabricText(newText);
-  }, [text, font, fontSize, color, alignment, setFabricText]);
+    setFabricText(prevTexts => {
+      const newTexts = [...prevTexts];
+      newTexts[index] = newText;
+      return newTexts;
+    });
+  }, [text, font, fontSize, color, setFabricText, index]);
 
   return (
     <div className="space-y-1">
@@ -40,6 +44,7 @@ const TextEditor = ({ text, setText, font, setFont, fontSize, setFontSize, color
           onChange={(e) => setFontSize(e.target.value)}
           placeholder="16"
         />
+        <button onClick={() => removeText(index)} className="text-sm text-red-500 hover:text-red-700">Eliminar</button>
       </div>
       <div className="flex items-center justify-center space-x-2">
         <input
@@ -48,15 +53,6 @@ const TextEditor = ({ text, setText, font, setFont, fontSize, setFontSize, color
           value={color}
           onChange={(e) => setColor(e.target.value)}
         />
-        <select
-          className="p-1 text-sm border border-gray-300 rounded shadow-sm"
-          value={alignment}
-          onChange={(e) => setAlignment(e.target.value)}
-        >
-          <option value="left">Izquierda</option>
-          <option value="center">Centro</option>
-          <option value="right">Derecha</option>
-        </select>
       </div>
     </div>
   );
