@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import ImageUploader from '../components/ImageUploader';
 import NavigationButtons from '../components/NavigationButtons';
 import useNavigate from '@hooks/useNavigate';
-import { fabric } from 'fabric';
 import { Resend } from 'resend';
 
 const CustomizationPage = () => {
