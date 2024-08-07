@@ -1,22 +1,4 @@
 async function quoteSending(email, nit, compania, contacto, phoneNumber, direccion, quotationDetails) {
-    // const quotationDetails = [
-    //     {
-    //       product: "Suéter Negro",
-    //       description: "Suéter de algodón",
-    //       quantity: 10,
-    //       unitPrice: 80.00,
-    //       total: 800.00,
-    //       image: "https://drs.com.gt/wp-content/uploads/2023/09/mapf1-sueter-negro2.png"
-    //     },
-    //     {
-    //       product: "Suéter Blanco",
-    //       description: "Suéter de algodón",
-    //       quantity: 10,
-    //       unitPrice: 80.00,
-    //       total: 800.00,
-    //       image: "https://drs.com.gt/wp-content/uploads/2023/09/mapf1-sueter-negro2.png"
-    //     }
-    // ];
       
     let receiver = "pen22217@uvg.edu.gt";
 

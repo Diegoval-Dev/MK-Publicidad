@@ -11,20 +11,22 @@ function Quote() {
   const [quantity, setQuantity] = useState("");
   const [description, setDescription] = useState("");
   const [quotationDetails, setQuotationDetails] = useState({});
+  const [unitPrice, setUnitPrice] = useState(0);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     setColor(params.color);
     setSize(params.size);
     setQuantity(params.quantity);
     setDescription(params.description);
-    const unitPrice = 80;
-    const calculateTotal = quantity * unitPrice;
+    setUnitPrice(80);
+    setTotal(unitPrice, quantity)
     setQuotationDetails({
       name: params.name,
       description: params.description,
       quantity: params.quantity,
       unitPrice: unitPrice,
-      total: calculateTotal,
+      total: total,
       image: params.screenshot
     })
 

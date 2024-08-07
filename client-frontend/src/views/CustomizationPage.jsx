@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { fabric } from 'fabric';
 import Banner from '../components/Banner';
 import Canva from '../components/Canva';
 import TextEditor from '../components/TextEditor';
@@ -6,33 +7,19 @@ import PropTypes from 'prop-types';
 import ImageUploader from '../components/ImageUploader';
 import NavigationButtons from '../components/NavigationButtons';
 import useNavigate from '@hooks/useNavigate';
-import { fabric } from 'fabric';
 
 const CustomizationPage = () => {
   const [editorVisible, setEditorVisible] = useState(false);
-  const [image, setImage] = useState(null);
-  const [text, setText] = useState('');
-  const [font, setFont] = useState('Arial');
-  const [fontSize, setFontSize] = useState(16);
-  const [color, setColor] = useState('#000000');
-  const [alignment, setAlignment] = useState('left');
+  const [images, setImages] = useState([]);
+  const [texts, setTexts] = useState([]);
   const [size, setSize] = useState('');
   const [quantity, setQuantity] = useState('');
   const [description, setDescription] = useState('');
   const { navigate, params } = useNavigate();
   const [screenshot, setScreenshot] = useState(null);
-  const fabricCanvasRef = useRef(null);
-  const [fabricText, setFabricText] = useState(null); 
-  const fabricTextObject = new fabric.IText(text, {
-    left: 50,
-    top: 50,
-    fontFamily: font,
-    fill: color,
-    fontSize: fontSize,
-    textAlign: alignment 
-  });
+  const fabricCanvasRef = useRef(null); // Asegurarse de que esto esté definido
+  const [fabricTexts, setFabricTexts] = useState([]);
   const [product, setProduct] = useState({});
-  const [fabricImage, setFabricImage] = useState(null);
 
   const takeScreenshot = () => {
     const dataUrl = fabricCanvasRef.current.toDataURL({
@@ -43,8 +30,21 @@ const CustomizationPage = () => {
   };
 
   const handleCustomizationClick = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     takeScreenshot();
+  };
+
+  const addText = () => {
+    setTexts([...texts, { text: '', font: 'Arial', fontSize: 16, color: '#000000' }]);
+  };
+
+  const removeText = (index) => {
+    setTexts((prevTexts) => prevTexts.filter((_, i) => i !== index));
+    setFabricTexts((prevTexts) => {
+      const updatedFabricTexts = [...prevTexts];
+      updatedFabricTexts.splice(index, 1);
+      return updatedFabricTexts;
+    });
   };
 
   useEffect(() => {
@@ -88,59 +88,55 @@ const CustomizationPage = () => {
 
     if (!canvas) return;
 
-    // Update or create the text object
-    if (fabricText) {
-      fabricText.set({
-        text: text,
-        fontFamily: font,
-        fill: color,
-        fontSize: fontSize,
-        textAlign: alignment
-      });
-      canvas.renderAll();
-    } else {
-      const newText = new fabric.IText(text, {
-        left: 50,
-        top: 50,
-        fontFamily: font,
-        fill: color,
-        fontSize: fontSize,
-        textAlign: alignment
-      });
-      canvas.add(newText);
-      setFabricText(newText);
+    // Limpiar canvas pero mantener el fondo
+    const backgroundImage = canvas.backgroundImage;
+    canvas.clear();
+    if (backgroundImage) {
+      canvas.setBackgroundImage(backgroundImage, canvas.renderAll.bind(canvas));
     }
 
-    // Update or create the image object
-    if (image) {
-      if (fabricImage) {
-        fabricImage.setSrc(image, () => {
-          canvas.renderAll();
+    texts.forEach((textItem, index) => {
+      if (fabricTexts[index]) {
+        fabricTexts[index].set({
+          text: textItem.text,
+          fontFamily: textItem.font,
+          fill: textItem.color,
+          fontSize: textItem.fontSize,
         });
+        canvas.add(fabricTexts[index]);
       } else {
-        fabric.Image.fromURL(image, img => {
-          img.set({ left: 50, top: 50 });
-          canvas.add(img);
-          setFabricImage(img);
+        const newText = new fabric.IText(textItem.text, {
+          left: 50,
+          top: 50,
+          fontFamily: textItem.font,
+          fill: textItem.color,
+          fontSize: textItem.fontSize,
+        });
+        canvas.add(newText);
+        setFabricTexts((prevTexts) => {
+          const newTexts = [...prevTexts];
+          newTexts[index] = newText;
+          return newTexts;
         });
       }
-    }
+    });
 
-  }, [image, text, font, fontSize, color, alignment]);
+    canvas.renderAll();
+  }, [texts]);
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-white">
       <Banner />
       <h1 className="text-3xl font-bold text-gray-800 mt-8">ID:{params.productId}</h1>
-      <NavigationButtons 
+      <NavigationButtons
         onClick={() => navigate('/home/catalogue', { category: product.category })}
       />
       <div className="flex justify-center items-start w-full max-w-4xl px-4 mt-8">
         <div className="flex-1">
-          <Canva 
-            backgroundImageUrl={product.image} 
-            uploadedImage={image} 
-            fabricText={fabricText}
+          <Canva
+            backgroundImageUrl={product.image}
+            images={images} // Pasamos las imágenes aquí
+            fabricTexts={fabricTexts}
             fabricCanvasRef={fabricCanvasRef}
           />
         </div>
@@ -148,26 +144,51 @@ const CustomizationPage = () => {
           <button onClick={() => setEditorVisible(!editorVisible)} className="text-sm font-medium text-gray-700 p-2 border-b border-gray-300 w-full text-left">
             Diseño
           </button>
-          {editorVisible && (
+          {editorVisible && texts.map((textItem, index) => (
             <TextEditor
-              text={text}
-              setText={setText}
-              font={font}
-              setFont={setFont}
-              fontSize={fontSize}
-              setFontSize={setFontSize}
-              color={color}
-              setColor={setColor}
-              alignment={alignment}
-              setAlignment={setAlignment}
-              setFabricText={setFabricText}
+              key={index}
+              index={index}
+              text={textItem.text}
+              setText={(text) => {
+                const newTexts = [...texts];
+                newTexts[index].text = text;
+                setTexts(newTexts);
+              }}
+              font={textItem.font}
+              setFont={(font) => {
+                const newTexts = [...texts];
+                newTexts[index].font = font;
+                setTexts(newTexts);
+              }}
+              fontSize={textItem.fontSize}
+              setFontSize={(fontSize) => {
+                const newTexts = [...texts];
+                newTexts[index].fontSize = fontSize;
+                setTexts(newTexts);
+              }}
+              color={textItem.color}
+              setColor={(color) => {
+                const newTexts = [...texts];
+                newTexts[index].color = color;
+                setTexts(newTexts);
+              }}
+              setFabricText={setFabricTexts}
+              removeText={removeText}
             />
+          ))}
+          {editorVisible && (
+            <button
+              onClick={addText}
+              className="mt-4 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              Añadir Texto
+            </button>
           )}
-          {editorVisible && <ImageUploader setImage={setImage} />}
+          {editorVisible && <ImageUploader images={images} setImages={setImages} />}
           <form className="bg-white shadow-md rounded px-4 pt-4 pb-2">
             <div>
               <label htmlFor="color" className="block text-sm font-medium text-gray-700">Color:</label>
-              <select id="color" name="color" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2" value={color} onChange={e => setColor(e.target.value)}>
+              <select id="color" name="color" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2" value={size} onChange={e => setSize(e.target.value)}>
                 <option value="">Selecciona un color</option>
                 <option value="color1">Color 1</option>
                 <option value="color2">Color 2</option>
@@ -185,7 +206,7 @@ const CustomizationPage = () => {
             </div>
             <div>
               <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">Cantidad:</label>
-              <input type="number" id="quantity" name="quantity" min="1" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2" value={quantity} onChange={e => setQuantity(e.target.value)}/>
+              <input type="number" id="quantity" name="quantity" min="1" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2" value={quantity} onChange={e => setQuantity(e.target.value)} />
             </div>
             <div>
               <label htmlFor="additional-description" className="block text-sm font-medium text-gray-700">Descripción Adicional:</label>

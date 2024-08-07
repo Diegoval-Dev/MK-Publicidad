@@ -1,16 +1,22 @@
-function ImageUploader({ setImage }) {
+import React from 'react';
+
+const ImageUploader = ({ images, setImages }) => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        console.log("File loaded successfully.");
-        setImage(reader.result);
+        setImages([...images, { src: reader.result, left: 50, top: 50, scaleX: 0.5, scaleY: 0.5 }]);
       };
       reader.readAsDataURL(file);
     } else {
       console.log("No file selected or file is not accessible.");
     }
+  };
+
+  const removeImage = (index) => {
+    const updatedImages = images.filter((_, i) => i !== index);
+    setImages(updatedImages);
   };
 
   return (
@@ -23,8 +29,22 @@ function ImageUploader({ setImage }) {
       >
         Cargar Imagen
       </button>
+      <div className="mt-2 space-y-2">
+        {images.map((image, index) => (
+          <div key={index} className="flex items-center space-x-2">
+            <img src={image.src} alt={`uploaded-${index}`} className="h-16 w-16 object-cover" />
+            <button
+              type="button"
+              className="text-sm text-red-500 hover:text-red-700"
+              onClick={() => removeImage(index)}
+            >
+              Eliminar
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
-}
+};
 
 export default ImageUploader;
