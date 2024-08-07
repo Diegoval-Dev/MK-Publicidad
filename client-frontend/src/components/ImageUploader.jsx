@@ -24,11 +24,12 @@ const ImageUploader = ({ images, setImages }) => {
       <input type="file" id="file-upload" className="hidden" onChange={handleImageChange} accept="image/*" />
       <button
         type="button"
-        className="text-sm bg-green-500 text-white p-1 rounded hover:bg-green-600"
+        className="text-sm bg-green-500 text-white py-2 px-4 rounded-md shadow-md hover:bg-green-600 border border-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-150"
         onClick={() => document.getElementById('file-upload').click()}
       >
         Cargar Imagen
       </button>
+
       <div className="mt-2 space-y-2">
         {images.map((image, index) => (
           <div key={index} className="flex items-center space-x-2">
