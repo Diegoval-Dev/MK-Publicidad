@@ -7,29 +7,19 @@ import PropTypes from 'prop-types';
 import ImageUploader from '../components/ImageUploader';
 import NavigationButtons from '../components/NavigationButtons';
 import useNavigate from '@hooks/useNavigate';
-import { Resend } from 'resend';
 
 const CustomizationPage = () => {
   const [editorVisible, setEditorVisible] = useState(false);
   const [images, setImages] = useState([]);
-  const [texts, setTexts] = useState([{ text: '', font: 'Arial', fontSize: 16, color: '#000000' }]);
+  const [texts, setTexts] = useState([]);
   const [size, setSize] = useState('');
   const [quantity, setQuantity] = useState('');
   const [description, setDescription] = useState('');
   const { navigate, params } = useNavigate();
   const [screenshot, setScreenshot] = useState(null);
-  const fabricCanvasRef = useRef(null);
-  const [fabricText, setFabricText] = useState(null); 
-  const fabricTextObject = new fabric.IText(text, {
-    left: 50,
-    top: 50,
-    fontFamily: font,
-    fill: color,
-    fontSize: fontSize,
-    textAlign: alignment 
-  });
+  const fabricCanvasRef = useRef(null); // Asegurarse de que esto esté definido
+  const [fabricTexts, setFabricTexts] = useState([]);
   const [product, setProduct] = useState({});
-  const [fabricImage, setFabricImage] = useState(null);
 
   const takeScreenshot = () => {
     const dataUrl = fabricCanvasRef.current.toDataURL({
@@ -40,7 +30,7 @@ const CustomizationPage = () => {
   };
 
   const handleCustomizationClick = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     takeScreenshot();
   };
 
@@ -49,49 +39,24 @@ const CustomizationPage = () => {
   };
 
   const removeText = (index) => {
-    const updatedTexts = texts.filter((_, i) => i !== index);
-    setTexts(updatedTexts);
-
-    const updatedFabricTexts = fabricTexts.filter((_, i) => i !== index);
-    setFabricTexts(updatedFabricTexts);
-
-    // Remove text from canvas
-    const canvas = fabricCanvasRef.current;
-    const fabricText = fabricTexts[index];
-    if (fabricText) {
-      canvas.remove(fabricText);
-      canvas.renderAll();
-    }
-  };
-
-  const removeImage = (index) => {
-    const updatedImages = images.filter((_, i) => i !== index);
-    setImages(updatedImages);
-
-    const updatedFabricImages = fabricImages.filter((_, i) => i !== index);
-    setFabricImages(updatedFabricImages);
-
-    // Remove image from canvas
-    const canvas = fabricCanvasRef.current;
-    const fabricImage = fabricImages[index];
-    if (fabricImage) {
-      canvas.remove(fabricImage);
-      canvas.renderAll();
-    }
+    setTexts((prevTexts) => prevTexts.filter((_, i) => i !== index));
+    setFabricTexts((prevTexts) => {
+      const updatedFabricTexts = [...prevTexts];
+      updatedFabricTexts.splice(index, 1);
+      return updatedFabricTexts;
+    });
   };
 
   useEffect(() => {
     if (screenshot) {
-      console.log("Adding customization to cart")
-      navigate(
-        'quote', 
-        { category: product.category,
-          productId: product.id,
-          screenshot: screenshot,
-          size: size,
-          quantity: quantity,
-          description: description
-        });
+      navigate('quote', {
+        category: product.category,
+        productId: product.id,
+        screenshot,
+        size,
+        quantity,
+        description
+      });
     }
   }, [screenshot]);
 
@@ -125,27 +90,25 @@ const CustomizationPage = () => {
       canvas.setBackgroundImage(backgroundImage, canvas.renderAll.bind(canvas));
     }
 
-    fabricTexts.forEach((fabricText, index) => {
-      const text = texts[index];
-      if (fabricText) {
-        fabricText.set({
-          text: text.text,
-          fontFamily: text.font,
-          fill: text.color,
-          fontSize: text.fontSize,
-          left: fabricText.left, // Mantener la posición
-          top: fabricText.top   // Mantener la posición
+    texts.forEach((textItem, index) => {
+      if (fabricTexts[index]) {
+        fabricTexts[index].set({
+          text: textItem.text,
+          fontFamily: textItem.font,
+          fill: textItem.color,
+          fontSize: textItem.fontSize,
         });
+        canvas.add(fabricTexts[index]);
       } else {
-        const newText = new fabric.IText(text.text, {
+        const newText = new fabric.IText(textItem.text, {
           left: 50,
           top: 50,
-          fontFamily: text.font,
-          fill: text.color,
-          fontSize: text.fontSize,
+          fontFamily: textItem.font,
+          fill: textItem.color,
+          fontSize: textItem.fontSize,
         });
         canvas.add(newText);
-        setFabricTexts(prevTexts => {
+        setFabricTexts((prevTexts) => {
           const newTexts = [...prevTexts];
           newTexts[index] = newText;
           return newTexts;
@@ -153,49 +116,21 @@ const CustomizationPage = () => {
       }
     });
 
-    images.forEach((image, index) => {
-      if (fabricImages[index]) {
-        // Actualizar la imagen existente
-        fabricImages[index].set({
-          left: image.left,
-          top: image.top,
-          scaleX: image.scaleX,
-          scaleY: image.scaleY,
-        });
-      } else {
-        // Crear nueva imagen
-        fabric.Image.fromURL(image.src, img => {
-          img.set({
-            left: image.left,
-            top: image.top,
-            scaleX: image.scaleX,
-            scaleY: image.scaleY,
-          });
-          canvas.add(img);
-          setFabricImages(prevImages => {
-            const newImages = [...prevImages];
-            newImages[index] = img;
-            return newImages;
-          });
-          canvas.renderAll();
-        }, { crossOrigin: 'Anonymous' });
-      }
-    });
-
-  }, [images, texts, fabricTexts]);
+    canvas.renderAll();
+  }, [texts]);
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-white">
       <Banner />
       <h1 className="text-3xl font-bold text-gray-800 mt-8">ID:{params.productId}</h1>
-      <NavigationButtons 
+      <NavigationButtons
         onClick={() => navigate('/home/catalogue', { category: product.category })}
       />
       <div className="flex justify-center items-start w-full max-w-4xl px-4 mt-8">
         <div className="flex-1">
-          <Canva 
-            backgroundImageUrl={product.image} 
-            uploadedImage={images[0]?.src} 
+          <Canva
+            backgroundImageUrl={product.image}
+            images={images} // Pasamos las imágenes aquí
             fabricTexts={fabricTexts}
             fabricCanvasRef={fabricCanvasRef}
           />
@@ -237,7 +172,10 @@ const CustomizationPage = () => {
             />
           ))}
           {editorVisible && (
-            <button onClick={addText} className="mt-4 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded text-white bg-color-button hover:bg-color-button-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-color-button">
+            <button
+              onClick={addText}
+              className="mt-4 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
               Añadir Texto
             </button>
           )}
@@ -263,7 +201,7 @@ const CustomizationPage = () => {
             </div>
             <div>
               <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">Cantidad:</label>
-              <input type="number" id="quantity" name="quantity" min="1" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2" value={quantity} onChange={e => setQuantity(e.target.value)}/>
+              <input type="number" id="quantity" name="quantity" min="1" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2" value={quantity} onChange={e => setQuantity(e.target.value)} />
             </div>
             <div>
               <label htmlFor="additional-description" className="block text-sm font-medium text-gray-700">Descripción Adicional:</label>

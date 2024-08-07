@@ -11,12 +11,12 @@ const TextEditor = ({ index, text, setText, font, setFont, fontSize, setFontSize
       fill: color,
       fontSize: parseInt(fontSize),
     });
-    setFabricText(prevTexts => {
+    setFabricText((prevTexts) => {
       const newTexts = [...prevTexts];
       newTexts[index] = newText;
       return newTexts;
     });
-  }, [text, font, fontSize, color, setFabricText, index]);
+  }, [text, font, fontSize, color, index, setFabricText]);
 
   return (
     <div className="space-y-1">
