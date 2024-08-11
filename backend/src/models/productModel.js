@@ -2,41 +2,43 @@ import { DataTypes } from 'sequelize';
 import { db } from '../database/config.js';
 
 const Product = db.define('Product', {
-    id: {
+    id_producto: {
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
-        unique: true,
         allowNull: false
     },
-    name: {
-        type: DataTypes.STRING(100),
+    nombre_producto: {
+        type: DataTypes.STRING(255),
         allowNull: false
     },
-    category: {
-        type: DataTypes.STRING(100),
-        allowNull: false
+    codigo_producto: {
+        type: DataTypes.STRING(20),
+        allowNull: false,
+        unique: true
     },
-    material: {
-        type: DataTypes.STRING(100)
+    id_categoria: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        references: {
+            model: 'Categorias',
+            key: 'id_categoria'
+        }
     },
-    description: {
-        type: DataTypes.TEXT
+    capacidad: {
+        type: DataTypes.STRING(50),
+        allowNull: true
     },
-    image: {
-        type: DataTypes.TEXT
+    tamaño: {
+        type: DataTypes.STRING(50),
+        allowNull: true
     },
-    size: {
-        type: DataTypes.STRING(50)
-    },
-    color: {
-        type: DataTypes.STRING(50)
-    },
-    technique: {
-        type: DataTypes.STRING(50)
+    url_imagen: {
+        type: DataTypes.STRING(255),
+        allowNull: true
     }
 }, {
-    tableName: 'productos',
+    tableName: 'Productos',
     paranoid: true,
     timestamps: false
 });
