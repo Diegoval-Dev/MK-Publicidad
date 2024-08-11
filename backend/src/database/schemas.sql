@@ -1,18 +1,28 @@
-create table productos (
-    id int primary key auto_increment,
-    name varchar(100) not null,
-    category varchar(50) not null,
-    material varchar(50),
-    description text,
-    image varchar(255),
-    deletedAt timestamp null
+CREATE TABLE Categorias (
+    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_categoria VARCHAR(100) NOT NULL
 );
-
-ALTER TABLE productos ADD COLUMN size VARCHAR(50);
-ALTER TABLE productos ADD COLUMN color VARCHAR(50);
-ALTER TABLE productos ADD COLUMN technique VARCHAR(50);
-ALTER TABLE productos MODIFY COLUMN image VARCHAR(255);
-
+CREATE TABLE Colores (
+    id_color INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_color VARCHAR(50) NOT NULL
+);
+CREATE TABLE Productos (
+    id_producto INT AUTO_INCREMENT PRIMARY KEY,
+    nombre_producto VARCHAR(255) NOT NULL,
+    codigo_producto VARCHAR(20) NOT NULL UNIQUE,
+    id_categoria INT NOT NULL,
+    capacidad VARCHAR(50),
+    tamaño VARCHAR(50),
+    url_imagen VARCHAR(255),
+    FOREIGN KEY (id_categoria) REFERENCES Categorias(id_categoria)
+);
+CREATE TABLE Productos_Colores (
+    id_producto_color INT AUTO_INCREMENT PRIMARY KEY,
+    id_producto INT NOT NULL,
+    id_color INT NOT NULL,
+    FOREIGN KEY (id_producto) REFERENCES Productos(id_producto),
+    FOREIGN KEY (id_color) REFERENCES Colores(id_color)
+);
 
 
 create table users (
