@@ -170,31 +170,3 @@ Then('debería ver la lista de productos pertenecientes a esa categoría', async
     assert.fail(error.message)
   }
 });
-
-// Given('que estoy en la página principal', async function () {
-//   driver = await new Builder().forBrowser('chrome').build();
-//   await driver.get('http://localhost:5173');
-// });
-
-// Then('debería ver el componente para realizar búsquedas', async function () {
-//   const searchInput = await driver.findElement(By.className('pl-4 border border-black-500 pe-20 py-2 rounded-lg focus:outline-none focus:border-green-500 mx-1'));
-//   const isInputDisplayed = await searchInput.isDisplayed();
-//   if (!isInputDisplayed) {
-//     throw new Error("El cuadro de búsqueda no está presente en la página.");
-
-//   } else {
-//     console.log('El cuadro de búsquedas está presente.')
-//   };
-// });
-
-// Then('debería ver las categorías', async function () {
-//   const categoriesHome = await driver.findElement(By.className('flex flex-col items-center'));
-//   const isCategoriesDisplayed = await categoriesHome.isDisplayed();
-//   if (!isCategoriesDisplayed) {
-//     throw new Error("Las categorías no están presentes en la página.");
-
-//   } else {
-//     console.log('El menú de categorías está presente.')
-
-//   };
-// });
