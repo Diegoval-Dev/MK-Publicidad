@@ -127,11 +127,10 @@ const CustomizationPage = () => {
   return (
     <div className="min-h-screen flex flex-col items-center bg-white">
       <Banner />
-      <div className="w-full flex justify-start">
-        <NavigationButtons
-          onClick={() => navigate('/home/catalogue', { category: product.category })}
-        />
-      </div>
+      <h1 className="text-3xl font-bold text-gray-800 mt-8">ID:{params.productId}</h1>
+      <NavigationButtons
+        onClick={() => navigate('/home/catalogue', { category: product.category })}
+      />
       <div className="flex justify-center items-start w-full max-w-4xl px-4 mt-8">
         <div className="flex-1">
           <Canva
@@ -142,11 +141,8 @@ const CustomizationPage = () => {
           />
         </div>
         <div className="flex-1 ml-8 space-y-4">
-          <button
-            onClick={() => setEditorVisible(!editorVisible)}
-            className="text-sm font-medium text-white bg-green-500 hover:bg-green-600 p-2 rounded-md shadow-md border border-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 w-full text-center transition duration-150"
-          >
-            Agregar diseño
+          <button onClick={() => setEditorVisible(!editorVisible)} className="text-sm font-medium text-gray-700 p-2 border-b border-gray-300 w-full text-left">
+            Diseño
           </button>
           {editorVisible && texts.map((textItem, index) => (
             <TextEditor
@@ -183,7 +179,7 @@ const CustomizationPage = () => {
           {editorVisible && (
             <button
               onClick={addText}
-              className="mt-4 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+              className="mt-4 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               Añadir Texto
             </button>

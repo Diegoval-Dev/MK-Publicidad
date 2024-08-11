@@ -5,13 +5,6 @@ function validateNit(nit) {
     return '';
 }
 
-function validateContactName(contactName) {
-    if (!/^[a-zA-Z\s]+$/.test(contactName)) {
-        return 'El nombre del contacto solo puede contener letras y espacios.';
-    }
-    return '';
-}
-
 function validateCompanyName(companyName) {
     if (!/^[a-zA-Z0-9\s]+$/.test(companyName)) {
         return 'El nombre de la compañía solo puede contener letras, números y espacios.';
@@ -38,6 +31,5 @@ export default {
     validateNit,
     validateCompanyName,
     validatePhoneNumber,
-    validateEmail,
-    validateContactName
+    validateEmail
 };

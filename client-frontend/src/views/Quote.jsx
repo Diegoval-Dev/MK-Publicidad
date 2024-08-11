@@ -36,14 +36,11 @@ function Quote() {
   return (
     <div className="min-h-screen flex flex-col justify-start bg-white">
       <Banner />
-      <div className="w-full flex justify-start">
-        <NavigationButtons
-          onClick={() =>
-            navigate("/home/catalogue", { category: params.category })
-          }
-        />
-      </div>
-
+      <NavigationButtons
+      onClick={() =>
+        navigate("/home/catalogue", { category: params.category })
+      }
+      />
 
       <div className="w-full flex flex-col lg:flex-row justify-around items-center mt-4">
         <div className="flex flex-col lg:w-1/2 gap-5 ml-4 mb-4 lg:mb-0">
@@ -73,7 +70,7 @@ function Quote() {
                   <td className="px-1 py-1">{quantity}</td>
                 </tr>
                 <tr>
-                  <td colSpan="5" className="px-2 py-2 border-t border-color-prices"> <strong className="font-bold">DESCRIPCIÓN</strong><br />{description}</td>
+                <td colSpan="5" className="px-2 py-2 border-t border-color-prices"> <strong className="font-bold">DESCRIPCIÓN</strong><br />{description}</td>
                 </tr>
               </tbody>
             </table>
