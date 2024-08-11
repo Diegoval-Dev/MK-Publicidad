@@ -15,16 +15,17 @@ const CustomizationPage = () => {
   const [size, setSize] = useState('');
   const [quantity, setQuantity] = useState('');
   const [description, setDescription] = useState('');
+  const [color, setColor] = useState('');
   const { navigate, params } = useNavigate();
   const [screenshot, setScreenshot] = useState(null);
-  const fabricCanvasRef = useRef(null); // Asegurarse de que esto esté definido
+  const fabricCanvasRef = useRef(null);
   const [fabricTexts, setFabricTexts] = useState([]);
   const [product, setProduct] = useState({});
 
   const takeScreenshot = () => {
     const dataUrl = fabricCanvasRef.current.toDataURL({
       format: 'png',
-      quality: 0.8
+      quality: 0.8,
     });
     setScreenshot(dataUrl);
   };
@@ -49,21 +50,19 @@ const CustomizationPage = () => {
 
   useEffect(() => {
     if (screenshot) {
-      console.log("Adding customization to cart")
-      navigate(
-        'quote', 
-        { category: product.category,
-          productId: product.id,
-          screenshot: screenshot,
-          color: color,
-          size: size,
-          quantity: quantity,
-          description: description,
-          name: product.name,
-          image: screenshot
-        });
+      console.log("Adding customization to cart");
+      navigate('quote', {
+        category: product.category,
+        productId: product.id,
+        screenshot: screenshot,
+        color: color,
+        size: size,
+        quantity: quantity,
+        description: description,
+        name: product.name,
+      });
     }
-  }, [screenshot]);
+  }, [screenshot, color, size, quantity, description, product, navigate]);
 
   useEffect(() => {
     const apiURL = `http://localhost:3000/user/products/${params.productId}`;
@@ -122,7 +121,7 @@ const CustomizationPage = () => {
     });
 
     canvas.renderAll();
-  }, [texts]);
+  }, [texts, fabricTexts]);
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-white">
@@ -188,7 +187,7 @@ const CustomizationPage = () => {
           <form className="bg-white shadow-md rounded px-4 pt-4 pb-2">
             <div>
               <label htmlFor="color" className="block text-sm font-medium text-gray-700">Color:</label>
-              <select id="color" name="color" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2" value={size} onChange={e => setSize(e.target.value)}>
+              <select id="color" name="color" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2" value={color} onChange={e => setColor(e.target.value)}>
                 <option value="">Selecciona un color</option>
                 <option value="color1">Color 1</option>
                 <option value="color2">Color 2</option>
