@@ -8,6 +8,7 @@ function ProducHomeList({ products = [], categories = [] }) {
   return (
     <div className="container mx-auto border border-black-300 p-4 mt-5 shadow-md rounded-lg">
       <div className="flex flex-wrap justify-center">
+        <button onClick={() => navigate('contact')}>TEST</button>
         {categories.length === 0 ? (
           <p>No hay categorías disponibles</p>
         ) : (
