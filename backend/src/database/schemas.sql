@@ -54,7 +54,8 @@ INSERT INTO Colores (nombre_color) VALUES
 ('Plateado'),
 ('Beige'),
 ('Multicolor');
-INSERT INTO Productos (nombre_producto, codigo_producto, id_categoria, capacidad, tamaño, url_imagen) VALUES
+
+INSERT INTO Productos (nombre_producto, codigo_producto, id_categoria, capacidad, tamano, url_imagen) VALUES
 ('Taza Blanca', 'T-0001', 1, '11 onz', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236003/img53_cvy7ki.jpg"),
 ('Taza con Interior', 'T-0002', 1, '11 onz', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236003/img54_xgk6bi.jpg"),
 ('Taza Mágica Negra', 'T-0003', 1, '11 onz', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236003/img52_jxmgot.jpg"),
@@ -74,7 +75,7 @@ INSERT INTO Productos (nombre_producto, codigo_producto, id_categoria, capacidad
 ('Lata Deportiva Blanca/Gris', 'L-0001', 3, '450 ml', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236262/img90_lqwrcw.jpg"),
 ('Botella doble pared', 'B-0001', 3, '500 ml', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236261/img89_x0fhct.jpg"),
 ('Pachón Tipo Starbucks', 'TA-0001', 3, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236263/img93_cigkrx.jpg"),
-('Taza de Acero Inoxidable con asa', 'TA-0001', 3, '10 oz', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236265/img92_zca1pr.jpg"),
+('Taza de Acero Inoxidable con asa', 'TA-0002', 3, '10 oz', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236265/img92_zca1pr.jpg"),
 ('Lata Blanca', 'L-0002', 3, '355 ml', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236263/img91_zki1yh.jpg"),
 ('Lata Gris', 'L-0003', 3, '355 ml', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236266/img86_zfsrst.jpg"),
 ('Lata Blanca c/pajilla', 'L-0004', 3, '355 ml', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236262/img88_eamdsu.jpg"),
@@ -83,16 +84,16 @@ INSERT INTO Productos (nombre_producto, codigo_producto, id_categoria, capacidad
 ('Pachón tapa roscable verde, rojo y azul', 'P-0001', 4, '750 ml', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236349/img107_dwtqco.jpg"),
 ('Pachón gris y blanco c/pajilla', 'P-0002', 4, '750 ml', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236346/img112_q1xgbp.jpg"),
 ('Pachón transparente rojo, negro y azul', 'P-0003', 4, '750 ml', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236345/img110_gnsyri.jpg"),
-('Botella Sport', 'B-0006', 4, '500 ml', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236347/img113_ddo05u.jpg"),
+('Botella Sport', 'B-0004', 4, '500 ml', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236347/img113_ddo05u.jpg"),
 ('Pachón blanco', 'P-0007', 4, '400 ml', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236347/img111_zcjpne.jpg"),
 ('Taza Nevado', 'T-0018', 5, '11 onz', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236460/img135_clwuao.jpg"),
 ('Taza Transparente', 'T-0019', 5, '11 onz', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236466/img129_bmr8a1.jpg"),
 ('Tarro cervecero Nevado', 'T-0020', 5, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236464/img127_i53d1g.jpg"),
 ('Tarro cervecero Transparente', 'T-0021', 5, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236458/img134_il6efw.jpg"),
 ('Vaso nevado', 'V-0001', 5, '8 onz', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236461/img126_abebqb.jpg"),
-('Botella con ventana Rectangular', 'B-0002', 5, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236459/img131_rhqq9p.jpg"),
-('Botella sin ventana', 'B-0003', 5, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236462/img133_dgtikt.jpg"),
-('Botella con ventana Circular', 'B-0004', 5, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236461/img132_dulhkg.jpg"),
+('Botella con ventana Rectangular', 'B-0002-VR', 5, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236459/img131_rhqq9p.jpg"), -- Código cambiado a 'B-0002-VR'
+('Botella sin ventana', 'B-0003-SV', 5, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236462/img133_dgtikt.jpg"), -- Código cambiado a 'B-0003-SV'
+('Botella con ventana Circular', 'B-0004-VC', 5, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236461/img132_dulhkg.jpg"), -- Código cambiado a 'B-0004-VC'
 ('Jarra Mason nevada', 'J-0001', 5, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236465/img128_eo2txz.jpg"),
 ('Jarra Mason Transparente', 'J-0002', 5, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236457/img130_xfzjgj.jpg"),
 ('Reconocimientos de Vidrio', 'RV-0003', 5, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236492/img141_hjkgwi.jpg"),
@@ -119,10 +120,10 @@ INSERT INTO Productos (nombre_producto, codigo_producto, id_categoria, capacidad
 ('Caja Con tapa de Vidrio', 'C-0006', 7, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236630/img178_d10gia.jpg"),
 ('Porta Vasos', 'P-0015', 7, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236629/img179_vr6psm.jpg"),
 ('Cosmetiquera', 'C-0007', 8, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236708/img197_cviugs.jpg"),
-('Cangurera', 'C-0008', 8, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236714/img204_erfmmu.jpg"),
+('Cangurera', 'C-0018', 8, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236714/img204_erfmmu.jpg"),
 ('Bolso de Mano', 'BM-0010', 8, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236715/img205_xqfy4n.jpg"),
 ('Kit Parrillero (Incluye accesorios)', 'K-0001', 8, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236712/img198_amjgsi.jpg"),
-('Bolsa Ecológica 38x40 cm', 'B-0006', 8, '', '38x40 cm', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236713/img201_os7r6o.jpg"),
+('Bolsa Ecológica 38x40 cm', 'B-0003', 8, '', '38x40 cm', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236713/img201_os7r6o.jpg"),
 ('Bolsa de compras De manta', 'B-0005', 8, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236709/img200_kxgmcw.jpg"),
 ('Bolsa Deportiva', 'B-0007', 8, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236707/img199_uuwzoe.jpg"),
 ('Bolsa Deportiva Colores', 'B-0008', 8, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236717/img206_yorfle.jpg"),
@@ -143,8 +144,8 @@ INSERT INTO Productos (nombre_producto, codigo_producto, id_categoria, capacidad
 ('Paraguas', 'P-0011', 9, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236808/img235_hmhgbf.jpg"),
 ('Porta vaso redondo', 'P-0012', 9, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236810/img236_j2zuct.jpg"),
 ('Mascarillas de Tela', 'M-0005', 10, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236927/img267_pktjuc.jpg"),
-('Bote de Gel', 'B-0008', 10, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236928/img278_ti7qnm.jpg"),
-('Bote de Gel', 'B-0009', 10, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236932/img269_bz1fz9.jpg"),
+('Bote de Gel', 'B-0009', 10, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236928/img278_ti7qnm.jpg"),
+('Bote de Gel', 'B-00010', 10, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236932/img269_bz1fz9.jpg"),
 ('Case de Mascarilla Quirúrgica', 'C-0008', 10, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236924/img265_miay77.jpg"),
 ('Case de Mascarillas KN95', 'C-0009', 10, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236925/img268_bfgyz3.jpg"),
 ('KIT', 'K-0002', 10, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236929/img272_jfftwn.jpg"),
@@ -178,6 +179,7 @@ INSERT INTO Productos (nombre_producto, codigo_producto, id_categoria, capacidad
 ('Exhibidor para nombre', 'P-0016', 14, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723237156/img416_ao62yg.jpg"),
 ('Mesas Promocionales', 'M-0007', 14, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723237159/img423_rnqobb.jpg"),
 ('Podium Informativo', 'P-0017', 14, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723237146/img415_qhd8lc.jpg");
+
 INSERT INTO Productos_Colores (id_producto, id_color) VALUES
 (1, 1),
 (2, 1),
