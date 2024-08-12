@@ -29,7 +29,7 @@ const Product = db.define('Product', {
         type: DataTypes.STRING(50),
         allowNull: true
     },
-    tamaño: {
+    tamano: { 
         type: DataTypes.STRING(50),
         allowNull: true
     },

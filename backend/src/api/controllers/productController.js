@@ -20,7 +20,7 @@ import productService from '../services/productService.js';
  *                 type: integer
  *               capacidad:
  *                 type: string
- *               tamaño:
+ *               tamano:
  *                 type: string
  *               url_imagen:
  *                 type: string
@@ -37,7 +37,7 @@ import productService from '../services/productService.js';
  */
 const createProduct = async (req, res) => {
     try {
-        const { nombre_producto, id_categoria, capacidad, tamaño } = req.body;
+        const { nombre_producto, id_categoria, capacidad, tamano } = req.body;
 
         // Verifica si hay un archivo de imagen cargado
         let url_imagen = null;
@@ -45,7 +45,7 @@ const createProduct = async (req, res) => {
             url_imagen = req.file.path;
         }
 
-        const product = { nombre_producto, id_categoria, capacidad, tamaño, url_imagen };
+        const product = { nombre_producto, id_categoria, capacidad, tamano, url_imagen };
 
         const newProduct = await productService.createProduct(product);
         res.status(201).json(newProduct);
@@ -78,10 +78,10 @@ const createProduct = async (req, res) => {
  *           type: string
  *         description: Capacidad del producto
  *       - in: query
- *         name: tamaño
+ *         name: tamano
  *         schema:
  *           type: string
- *         description: Tamaño del producto
+ *         description: tamano del producto
  *     responses:
  *       200:
  *         description: Lista de productos obtenida exitosamente
@@ -102,8 +102,8 @@ const createProduct = async (req, res) => {
  */
 const getAllProducts = async (req, res) => {
     try {
-        const { nombre_producto, id_categoria, capacidad, tamaño } = req.query;
-        const filters = { nombre_producto, id_categoria, capacidad, tamaño };
+        const { nombre_producto, id_categoria, capacidad, tamano } = req.query;
+        const filters = { nombre_producto, id_categoria, capacidad, tamano };
         const products = await productService.getProducts(filters);
         res.status(200).json({
             status: 'OK',
@@ -205,8 +205,8 @@ const getProductById = async (req, res) => {
 const updateProduct = async (req, res) => {
     try {
         const id = req.params.id;
-        const { nombre_producto, id_categoria, capacidad, tamaño, url_imagen } = req.body;
-        const updatedProduct = await productService.updateProduct(id, { nombre_producto, id_categoria, capacidad, tamaño, url_imagen });
+        const { nombre_producto, id_categoria, capacidad, tamano, url_imagen } = req.body;
+        const updatedProduct = await productService.updateProduct(id, { nombre_producto, id_categoria, capacidad, tamano, url_imagen });
         res.status(200).json(updatedProduct);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -271,7 +271,7 @@ const deleteProduct = async (req, res) => {
  *                   type: array
  *                   items:
  *                     type: string
- *                 tamaños:
+ *                 tamanos:
  *                   type: array
  *                   items:
  *                     type: string

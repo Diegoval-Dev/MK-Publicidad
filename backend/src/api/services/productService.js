@@ -21,8 +21,8 @@ const getProducts = async (filters = {}) => {
         if (filters.capacidad) {
             whereClause.capacidad = filters.capacidad;
         }
-        if (filters.tamaño) {
-            whereClause.tamaño = filters.tamaño;
+        if (filters.tamano) {
+            whereClause.tamano = filters.tamano;
         }
 
         return await Product.findAll({ where: whereClause });
@@ -64,14 +64,14 @@ const getFilterOptionsByCategory = async (id_categoria) => {
             where: { id_categoria }
         });
 
-        const tamaños = await Product.findAll({
-            attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('tamaño')), 'tamaño']],
+        const tamanos = await Product.findAll({
+            attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('tamano')), 'tamano']],
             where: { id_categoria }
         });
 
         return {
             capacidades: capacidades.map(item => item.capacidad),
-            tamaños: tamaños.map(item => item.tamaño)
+            tamanos: tamanos.map(item => item.tamano)
         };
     } catch (error) {
         throw new Error(`Error al obtener opciones de filtrado: ${error.message}`);
