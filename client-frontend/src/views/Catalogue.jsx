@@ -20,6 +20,8 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
     color: [],
   });
 
+  console.log(params)
+
   useEffect(() => {
     if (params.category) {
       onCategorySelection(params.category);
