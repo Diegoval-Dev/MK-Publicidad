@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-function Card({ productId, nombre_producto, codigo_producto, material, description, url_imagen }) {
+function Card({ id_producto, nombre_producto, codigo_producto, material, description, url_imagen }) {
   return (
     <div className="card-container">
       <img className="card-url_imagen" src={url_imagen} alt={nombre_producto} />

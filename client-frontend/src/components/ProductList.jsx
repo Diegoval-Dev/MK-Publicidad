@@ -29,7 +29,7 @@ function ProductList({ category, material, technique, size, color }) {
     }
     loadProducts(category);
     setLoading(false);
-  }, [params.category]);
+  }, [params.category, category]);
 
   useEffect(() => {
     console.log("DATA:", products)
@@ -49,7 +49,7 @@ function ProductList({ category, material, technique, size, color }) {
       <h2 className='centered-title'>{params.category}</h2>
       <div className="product-list-container">
         {products.map((product, index) => (
-          <div key={index} onClick={() => navigate('customization', { productId: product.id })}>
+          <div key={index} onClick={() => navigate('customization', { productId: product.id_producto })}>
             <Card {...product} />
           </div>
         ))}
