@@ -50,7 +50,7 @@ const CustomizationPage = () => {
   useEffect(() => {
     if (screenshot) {
       navigate('quote', {
-        category: product.category,
+        category: product.idcategoria,
         productId: product.id,
         screenshot,
         size,

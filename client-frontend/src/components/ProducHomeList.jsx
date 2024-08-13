@@ -17,7 +17,7 @@ function ProducHomeList({ products = [], categories = [] }) {
             return (
               <div
                 key={index}
-                onClick={() => navigate('catalogue', { category: category.category })}
+                onClick={() => navigate('catalogue', { category: category.id_categoria })}
                 className="cursor-pointer w-64 mx-4 my-4"
               >
                 <ProductCategory
