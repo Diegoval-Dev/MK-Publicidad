@@ -3,6 +3,7 @@ import ProductCategory from './ProductCategory';
 import useNavigate from '@hooks/useNavigate';
 
 function ProducHomeList({ products = [], categories = [] }) {
+  console.log("Productos:", products, "Categorías:", categories)
   const { navigate } = useNavigate();
 
   return (
@@ -20,7 +21,7 @@ function ProducHomeList({ products = [], categories = [] }) {
                 className="cursor-pointer w-64 mx-4 my-4"
               >
                 <ProductCategory
-                  image={category.image || 'ruta/a/imagen/predeterminada.jpg'} // Imagen predeterminada si `category.image` es undefined
+                  image={category.url_imagen || 'ruta/a/imagen/predeterminada.jpg'} // Imagen predeterminada si `category.image` es undefined
                   category={category.category}
                 />
               </div>
