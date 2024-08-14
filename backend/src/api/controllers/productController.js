@@ -102,8 +102,14 @@ const createProduct = async (req, res) => {
  */
 const getAllProducts = async (req, res) => {
     try {
-        const { nombre_producto, id_categoria, capacidad, tamano } = req.query;
-        const filters = { nombre_producto, id_categoria, capacidad, tamano };
+        const filters = {
+            nombre_producto: req.query.name || undefined,
+            id_categoria: req.query.category || undefined,
+            material: req.query.material || undefined,
+            capacidad: req.query.capacity || undefined,
+            tamano: req.query.size || undefined
+        };
+
         const products = await productService.getProducts(filters);
         res.status(200).json({
             status: 'OK',
@@ -113,6 +119,7 @@ const getAllProducts = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 /**
  * @openapi

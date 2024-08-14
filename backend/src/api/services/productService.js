@@ -1,4 +1,4 @@
-import Product from "../../models/productModel.js";
+import { Product, Category } from "../../models/productModel.js";
 import { Op, Sequelize } from "sequelize";
 
 const createProduct = async (product) => {
@@ -12,17 +12,21 @@ const createProduct = async (product) => {
 const getProducts = async (filters = {}) => {
     try {
         const whereClause = {};
+
         if (filters.nombre_producto) {
             whereClause.nombre_producto = { [Op.like]: `%${filters.nombre_producto}%` };
         }
         if (filters.id_categoria) {
             whereClause.id_categoria = filters.id_categoria;
         }
+        if (filters.material) {
+            whereClause.material = { [Op.like]: `%${filters.material}%` };
+        }
         if (filters.capacidad) {
-            whereClause.capacidad = filters.capacidad;
+            whereClause.capacidad = { [Op.like]: `%${filters.capacidad}%` };
         }
         if (filters.tamano) {
-            whereClause.tamano = filters.tamano;
+            whereClause.tamano = { [Op.like]: `%${filters.tamano}%` };
         }
 
         return await Product.findAll({ where: whereClause });
@@ -30,6 +34,8 @@ const getProducts = async (filters = {}) => {
         throw error;
     }
 };
+
+
 const getProductById = async (id) => {
     try {
         return await Product.findByPk(id);
@@ -83,14 +89,19 @@ const getAllCategories = async () => {
     try {
         const categories = await Product.findAll({
             attributes: [
-                [Sequelize.fn('DISTINCT', Sequelize.col('id_categoria')), 'id_categoria'],
-                [Sequelize.fn('MAX', Sequelize.col('url_imagen')), 'url_imagen']
+                [Sequelize.fn('DISTINCT', Sequelize.col('Product.id_categoria')), 'id_categoria'],
+                [Sequelize.fn('MAX', Sequelize.col('Product.url_imagen')), 'url_imagen']
             ],
-            group: ['id_categoria']
+            include: [{
+                model: Category,
+                attributes: ['nombre_categoria']
+            }],
+            group: ['Product.id_categoria', 'Category.id_categoria']
         });
 
         return categories.map(cat => ({
             id_categoria: cat.id_categoria,
+            nombre_categoria: cat.Category.nombre_categoria,
             url_imagen: cat.url_imagen
         }));
     } catch (error) {
