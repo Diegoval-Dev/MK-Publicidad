@@ -21,6 +21,8 @@ const CustomizationPage = () => {
   const [fabricTexts, setFabricTexts] = useState([]);
   const [product, setProduct] = useState({});
 
+  console.log("PARAMS", params)
+
   const takeScreenshot = () => {
     const dataUrl = fabricCanvasRef.current.toDataURL({
       format: 'png',
@@ -50,7 +52,7 @@ const CustomizationPage = () => {
   useEffect(() => {
     if (screenshot) {
       navigate('quote', {
-        category: product.category,
+        category: product.idcategoria,
         productId: product.id,
         screenshot,
         size,
@@ -130,7 +132,7 @@ const CustomizationPage = () => {
       <div className="flex justify-center items-start w-full max-w-4xl px-4 mt-8">
         <div className="flex-1">
           <Canva
-            backgroundImageUrl={product.image}
+            backgroundImageUrl={product.url_imagen}
             images={images} // Pasamos las imágenes aquí
             fabricTexts={fabricTexts}
             fabricCanvasRef={fabricCanvasRef}

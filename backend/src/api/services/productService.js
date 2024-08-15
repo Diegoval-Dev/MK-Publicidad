@@ -12,23 +12,17 @@ const createProduct = async (product) => {
 const getProducts = async (filters = {}) => {
     try {
         const whereClause = {};
-        if (filters.name) {
-            whereClause.name = { [Op.like]: `%${filters.name}%` };
+        if (filters.nombre_producto) {
+            whereClause.nombre_producto = { [Op.like]: `%${filters.nombre_producto}%` };
         }
-        if (filters.material) {
-            whereClause.material = filters.material;
+        if (filters.id_categoria) {
+            whereClause.id_categoria = filters.id_categoria;
         }
-        if (filters.category) {
-            whereClause.category = filters.category;
+        if (filters.capacidad) {
+            whereClause.capacidad = filters.capacidad;
         }
-        if (filters.size) {
-            whereClause.size = filters.size;
-        }
-        if (filters.color) {
-            whereClause.color = filters.color;
-        }
-        if (filters.technique) {
-            whereClause.technique = filters.technique;
+        if (filters.tamano) {
+            whereClause.tamano = filters.tamano;
         }
 
         return await Product.findAll({ where: whereClause });
@@ -36,7 +30,6 @@ const getProducts = async (filters = {}) => {
         throw error;
     }
 };
-
 const getProductById = async (id) => {
     try {
         return await Product.findByPk(id);
@@ -45,18 +38,18 @@ const getProductById = async (id) => {
     }
 };
 
-const updateProduct = async (id, product) => {
+const updateProduct = async (id_producto, product) => {
     try {
-        await Product.update(product, { where: { id } });
-        return await Product.findByPk(id);
+        await Product.update(product, { where: { id_producto } });
+        return await Product.findByPk(id_producto);
     } catch (error) {
         throw error;
     }
 };
 
-const deleteProduct = async (id) => {
+const deleteProduct = async (id_producto) => {
     try {
-        const product = await Product.findByPk(id);
+        const product = await Product.findByPk(id_producto);
         await product.destroy();
         return product;
     } catch (error) {
@@ -64,33 +57,21 @@ const deleteProduct = async (id) => {
     }
 };
 
-const getFilterOptionsByCategory = async (category) => {
+const getFilterOptionsByCategory = async (id_categoria) => {
     try {
-        const materials = await Product.findAll({
-            attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('material')), 'material']],
-            where: { category }
+        const capacidades = await Product.findAll({
+            attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('capacidad')), 'capacidad']],
+            where: { id_categoria }
         });
 
-        const sizes = await Product.findAll({
-            attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('size')), 'size']],
-            where: { category }
-        });
-
-        const colors = await Product.findAll({
-            attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('color')), 'color']],
-            where: { category }
-        });
-
-        const techniques = await Product.findAll({
-            attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('technique')), 'technique']],
-            where: { category }
+        const tamanos = await Product.findAll({
+            attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('tamano')), 'tamano']],
+            where: { id_categoria }
         });
 
         return {
-            materials: materials.map(item => item.material),
-            sizes: sizes.map(item => item.size),
-            colors: colors.map(item => item.color),
-            techniques: techniques.map(item => item.technique)
+            capacidades: capacidades.map(item => item.capacidad),
+            tamanos: tamanos.map(item => item.tamano)
         };
     } catch (error) {
         throw new Error(`Error al obtener opciones de filtrado: ${error.message}`);
@@ -102,15 +83,15 @@ const getAllCategories = async () => {
     try {
         const categories = await Product.findAll({
             attributes: [
-                [Sequelize.fn('DISTINCT', Sequelize.col('category')), 'category'],
-                [Sequelize.fn('MAX', Sequelize.col('image')), 'image'] 
+                [Sequelize.fn('DISTINCT', Sequelize.col('id_categoria')), 'id_categoria'],
+                [Sequelize.fn('MAX', Sequelize.col('url_imagen')), 'url_imagen']
             ],
-            group: ['category']
+            group: ['id_categoria']
         });
 
         return categories.map(cat => ({
-            category: cat.category,
-            image: cat.image
+            id_categoria: cat.id_categoria,
+            url_imagen: cat.url_imagen
         }));
     } catch (error) {
         throw new Error(`Error al obtener las categorías: ${error.message}`);
@@ -119,22 +100,21 @@ const getAllCategories = async () => {
 
 const getCategoriesByKeyword = async (keyword) => {
     try {
-        // Encuentra todas las categorías que coincidan con el keyword
         const categories = await Product.findAll({
             attributes: [
-                [Sequelize.fn('DISTINCT', Sequelize.col('category')), 'category'],
-                'image'
+                [Sequelize.fn('DISTINCT', Sequelize.col('id_categoria')), 'id_categoria'],
+                'url_imagen'
             ],
             where: {
-                category: {
+                id_categoria: {
                     [Sequelize.Op.like]: `%${keyword}%`
                 }
             }
         });
 
         return categories.map(cat => ({
-            category: cat.category,
-            image: cat.image
+            id_categoria: cat.id_categoria,
+            url_imagen: cat.url_imagen
         }));
     } catch (error) {
         throw new Error(`Error al obtener las categorías: ${error.message}`);
