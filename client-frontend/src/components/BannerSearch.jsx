@@ -70,7 +70,9 @@ function BannerSearch({ onResults }) {
           value="Buscar"
           className="border border-lime-600 px-4 py-2 rounded-lg ml-1 bg-800 text-white hover:bg-lime-600 cursor-pointer bg-lime-500"
         />
+        <button className="border border-lime-600 px-4 py-2 rounded-lg ml-1 bg-800 text-white hover:bg-lime-600 cursor-pointer bg-lime-500"  onClick={() => navigate('contact')}>Contáctanos</button>
       </form>
+
 
       {/* Mostrar resultados de la búsqueda */}
       <ul className="mt-4">

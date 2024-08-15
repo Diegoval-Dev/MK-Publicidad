@@ -3,6 +3,9 @@ import Banner from '../components/Banner';
 import NavigationButtons from '../components/NavigationButtons';
 import { useNavigate } from '@hooks/useNavigate';
 import '../styles/ContactForm.css';
+import facebookIcon from "../assets/imgs/facebook_icon.png";
+import instagramIcon from "../assets/imgs/instagram_icon.png";
+import mkLogo from "../assets/imgs/mk_logo.png";
 
 function Contact() {
     const { navigate } = useNavigate();
@@ -80,7 +83,7 @@ function Contact() {
                     </button>
                 </form>
 
-                <div className='container border border-black-300 p-3 mt-5 shadow-md rounded-lg text-[white] mt-8 w-[100%] p-6 justify-between items-center text-left bg-[#388E3C] flex'>
+                <div className='container border border-black-300 p-3 mt-5 shadow-md rounded-lg text-[white] mt-8 w-[100%] justify-between items-center text-left bg-[#388E3C] flex'>
                     <div>
                         <h1 className='boardTitle'>Boletín</h1>
                         <p>Recibe nuestras novedades, promociones y recomendaciones</p>
@@ -97,6 +100,44 @@ function Contact() {
                             className={`font-bold bg-${hovered ? 'color-prices' : 'lime'}-500 text-${hovered ? 'componentes' : 'color-text'} rounded hover:bg-color-prices hover:text-color-componentes transition-colors`}
                             >¡Estoy dentro!</button>
                     </div>
+                </div>
+
+                <div className='grid grid-cols-3 gap-9 mt-5'>
+                    <div>
+                        <img src={mkLogo} alt="Logo de MK"/>
+                        <div className=' flex w-[25%]'>
+                                <a href="https://m.facebook.com/people/MK-Publicidad-SA/100063825709539/" target='_blank' rel="noopener noreferrer">
+                                    <img src={facebookIcon} alt="Página de Facebook"/>
+                                </a>
+                                <a href="https://www.instagram.com/mkpublicidad?igsh=cnF3aW55OGp5dHNt" target='_blank' rel="noopener noreferrer">
+                                     <img src={instagramIcon} alt="Página de Instagram"/>
+                                </a>
+                        </div>
+                    </div>
+                    <div className='flex text-left'>
+                        <ul>
+                            <h1 className='footTitle'>Contacto</h1>
+                            <li>
+                                <p>ventas@mkpublicidadgt.com</p>
+                            </li>
+                            <li>
+                                <p>Cel: +502 5524-5975</p>
+                            </li>
+                            <li>
+                                <p>Oficina: +502 2293-2986</p>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul>
+                            <h1 className='footTitle'>Servicio al cliente</h1>
+                            <li>
+                                <p>INSERTAR TUTOS</p>
+                            </li>
+                        </ul>
+
+                    </div>
+
                 </div>
             </div>
         </div>
