@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FaTimes } from 'react-icons/fa';
+import useNavigate from '@hooks/useNavigate';
 
 function BannerSearch({ onResults }) {
   const [searchText, setSearchText] = useState('');
   const [results, setResults] = useState([]);
+  const { navigate } = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
