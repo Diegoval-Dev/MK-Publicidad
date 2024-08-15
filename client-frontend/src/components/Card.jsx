@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 
-function Card({ productId, name, category, material, description, image }) {
+function Card({ id_producto, nombre_producto, codigo_producto, material, description, url_imagen }) {
   return (
     <div className="card-container">
-      <img className="card-image" src={image} alt={name} />
-      <h2 className="card-title">{name}</h2>
-      <p className="card-category">{category}</p>
+      <img className="card-url_imagen" src={url_imagen} alt={nombre_producto} />
+      <h2 className="card-title">{nombre_producto}</h2>
+      <p className="card-codigo_producto">{codigo_producto}</p>
       <p className="card-material">Material: {material}</p>
       <p className="card-description">{description}</p>
     </div>
@@ -15,10 +15,10 @@ function Card({ productId, name, category, material, description, image }) {
 Card.propTypes = {
   productId: PropTypes.string,
   name: PropTypes.string,
-  category: PropTypes.string,
+  codigo_producto: PropTypes.string,
   material: PropTypes.string,
   description: PropTypes.string,
-  image: PropTypes.string.isRequired,
+  url_imagen: PropTypes.string.isRequired,
 };
 
 export default Card;

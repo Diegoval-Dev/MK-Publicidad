@@ -1,0 +1,32 @@
+.form {
+    width: 100%;
+}
+
+.input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border 0.5s;
+}
+
+textarea {
+    height: 10rem;
+}
+
+.input:focus {
+    border: 2px solid #388E3C;
+}
+
+.input:hover {
+    border: 2px solid #84d611;
+}
+
+.boardTitle {
+    font-weight: bolder;
+    font-size: larger;
+}

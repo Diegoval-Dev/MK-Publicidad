@@ -20,6 +20,8 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
     color: [],
   });
 
+  console.log(params)
+
   useEffect(() => {
     if (params.category) {
       onCategorySelection(params.category);
@@ -33,7 +35,7 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
   }, [selectedCategory]);
 
   const loadProductsByCategory = async (category) => {
-    const apiURL = `http://localhost:3000/user/products?category=${category}`;
+    const apiURL = `http://localhost:3000/user/products?id_categoria=${category}`;
     
     try {
       const response = await fetch(apiURL, {

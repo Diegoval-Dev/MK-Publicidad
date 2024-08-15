@@ -10,15 +10,16 @@ function ProductList({ category, material, technique, size, color }) {
   const { navigate, params } = useNavigate();
 
   useEffect(() => {
-    console.log(params.category);
+    console.log(params)
     async function loadProducts(category) {
-      const apiURL = `http://localhost:3000/user/products?category=${category}`;
+      const apiURL = `http://localhost:3000/user/products?id_categoria=${category}`;
       try {
         const response = await fetch(apiURL);
         console.log(response);
         if (response.ok) {
           const data = await response.json();
           setProducts(data.data);
+          
         } else {
           throw new Error("No fue posible obtener los productos.");
         }
@@ -26,9 +27,13 @@ function ProductList({ category, material, technique, size, color }) {
         console.log("Ocurrió un error al obtener los productos:", error);
       }
     }
-    loadProducts(params.category);
+    loadProducts(category);
     setLoading(false);
-  }, [params.category]);
+  }, [params.category, category]);
+
+  useEffect(() => {
+    console.log("DATA:", products)
+  }, [products])
 
   if (loading) {
     return <p>Loading...</p>;
@@ -44,7 +49,7 @@ function ProductList({ category, material, technique, size, color }) {
       <h2 className='centered-title'>{params.category}</h2>
       <div className="product-list-container">
         {products.map((product, index) => (
-          <div key={index} onClick={() => navigate('customization', { productId: product.id })}>
+          <div key={index} onClick={() => navigate('customization', { productId: product.id_producto })}>
             <Card {...product} />
           </div>
         ))}
