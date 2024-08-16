@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FaTimes } from 'react-icons/fa';
 
-function BannerSearch({ onResults }) {
+function BannerSearch({ onResults, onClear }) {
   const [searchText, setSearchText] = useState('');
 
   const handleSubmit = async (e) => {
@@ -22,11 +22,14 @@ function BannerSearch({ onResults }) {
         const data = await response.json();
         console.log('Datos recibidos:', data);
         
-        onResults && onResults(data);  // Asegúrate de que 'data' contenga las categorías correctas
+        onResults && onResults(data);
         
       } catch (error) {
         console.error('Error al buscar categorías:', error);
       }
+    } else {
+      // Si el campo de búsqueda está vacío, muestra todas las categorías
+      onClear && onClear();
     }
   };
 
@@ -36,7 +39,7 @@ function BannerSearch({ onResults }) {
 
   const handleClearSearch = () => {
     setSearchText('');
-    onResults && onResults([]);  // Limpia los resultados al borrar el texto de búsqueda
+    onClear && onClear();  // Muestra todas las categorías cuando se borra la búsqueda
   };
 
   return (
@@ -72,7 +75,8 @@ function BannerSearch({ onResults }) {
 }
 
 BannerSearch.propTypes = {
-  onResults: PropTypes.func.isRequired,  // Asegúrate de que se pase como requerido
+  onResults: PropTypes.func.isRequired,
+  onClear: PropTypes.func.isRequired, // Añade onClear como requerido
 };
 
 export default BannerSearch;

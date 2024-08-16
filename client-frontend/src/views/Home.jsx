@@ -38,14 +38,18 @@ function HomePage() {
   };
 
   const handleSearchResults = (categories) => {
-    setCategories(categories);  // Actualiza las categorías mostradas con los resultados de la búsqueda
+    setCategories(categories);
+  };
+
+  const handleClearResults = () => {
+    loadCategories();  // Carga todas las categorías si la búsqueda es vacía
   };
 
   if (loading) {
     return (
       <div className="flex flex-col items-center">
         <Banner />
-        <BannerSearch onResults={handleSearchResults} />
+        <BannerSearch onResults={handleSearchResults} onClear={handleClearResults} />
         <p>Loading...</p>
         <Footer />
       </div>
@@ -55,8 +59,8 @@ function HomePage() {
   return (
     <div className="flex flex-col items-center">
       <Banner />
-      <BannerSearch onResults={handleSearchResults} />
-      <ProducHomeList categories={categories} /> {/* Asegúrate de pasar las categorías correctas */}
+      <BannerSearch onResults={handleSearchResults} onClear={handleClearResults} />
+      <ProducHomeList products={products} categories={categories} />
       <Footer />
     </div>
   );
