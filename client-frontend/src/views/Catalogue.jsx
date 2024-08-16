@@ -11,14 +11,15 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
   const { navigate, params } = useNavigate();
 
   const [isFilterVisible, setIsFilterVisible] = useState(false);
-  const [appliedFilters, setAppliedFilters] = useState({});
-  const [products, setProducts] = useState([]);
-  const [tempFilters, setTempFilters] = useState({
+  const [appliedFilters, setAppliedFilters] = useState({
     material: [],
     technique: [],
     size: [],
     color: [],
   });
+  const [products, setProducts] = useState([]);
+  const [filteredProducts, setFilteredProducts] = useState([]); // Productos que se mostrarán después de aplicar filtros
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (params.category) {
@@ -28,27 +29,14 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
 
   useEffect(() => {
     if (selectedCategory) {
-      loadProductsByCategory(selectedCategory, appliedFilters);
+      loadProductsByCategory(selectedCategory);
     }
-  }, [selectedCategory, appliedFilters]);
+  }, [selectedCategory]);
 
-  const loadProductsByCategory = async (category, filters) => {
-    let apiURL = `http://localhost:3000/user/products?category=${category}`;
-
-    // Agrega los filtros seleccionados a la URL
-    if (filters.material.length > 0) {
-      apiURL += `&material=${filters.material.join(',')}`;
-    }
-    if (filters.technique.length > 0) {
-      apiURL += `&technique=${filters.technique.join(',')}`;
-    }
-    if (filters.size.length > 0) {
-      apiURL += `&size=${filters.size.join(',')}`;
-    }
-    if (filters.color.length > 0) {
-      apiURL += `&color=${filters.color.join(',')}`;
-    }
-
+  const loadProductsByCategory = async (category) => {
+    setLoading(true);
+    const apiURL = `http://localhost:3000/user/products?category=${category}`;
+    
     try {
       const response = await fetch(apiURL, {
         method: 'GET',
@@ -59,31 +47,53 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
 
       if (response.ok) {
         const data = await response.json();
-        setProducts(data.data); // Aseguramos que data.data sea el array de productos filtrados
-        console.log("Productos filtrados obtenidos:", data.data);
+        setProducts(data);
+        setFilteredProducts(data); // Inicialmente mostramos todos los productos
+        setLoading(false);
+
       } else {
         throw new Error("Ocurrió un error al obtener los productos.");
+
       }
+      
     } catch (error) {
       console.error(error);
+      setLoading(false);
     }
   };
 
+  const applyFilters = () => {
+    let filtered = products;
+
+    if (appliedFilters.material.length > 0) {
+      filtered = filtered.filter(product => appliedFilters.material.includes(product.material));
+    }
+    if (appliedFilters.technique.length > 0) {
+      filtered = filtered.filter(product => appliedFilters.technique.includes(product.technique));
+    }
+    if (appliedFilters.size.length > 0) {
+      filtered = filtered.filter(product => appliedFilters.size.includes(product.size));
+    }
+    if (appliedFilters.color.length > 0) {
+      filtered = filtered.filter(product => appliedFilters.color.includes(product.color));
+    }
+
+    setFilteredProducts(filtered);
+  };
+
   const handleApplyFilters = () => {
-    setAppliedFilters(tempFilters);
+    applyFilters();
     toggleFilterVisibility();
   };
 
   const handleClearFilters = () => {
-    const initialFilters = {
+    setAppliedFilters({
       material: [],
       technique: [],
       size: [],
       color: [],
-    };
-    setTempFilters(initialFilters);
-    setAppliedFilters(initialFilters);
-    loadProductsByCategory(selectedCategory, initialFilters); // Recargamos sin filtros
+    });
+    setFilteredProducts(products); // Restablecer la lista de productos a la original
   };
 
   const toggleFilterVisibility = () => {
@@ -100,16 +110,19 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
         <FilterControls
           toggleFilterVisibility={toggleFilterVisibility}
           isFilterVisible={isFilterVisible}
-          tempFilters={tempFilters}
-          setTempFilters={setTempFilters}
+          tempFilters={appliedFilters}
+          setTempFilters={setAppliedFilters}
           handleApplyFilters={handleApplyFilters}
           handleClearFilters={handleClearFilters}
           selectedCategory={selectedCategory}
         />
       </div>
-      <ProductList
-        products={products}
-      />
+      {!loading && (
+        <ProductList
+          products={filteredProducts} // Mostramos productos filtrados
+          appliedFilters={appliedFilters}
+        />
+      )}
     </div>
   );
 }
