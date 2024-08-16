@@ -52,28 +52,28 @@ function QuoteForm(quotationDetails) {
 
     return (
         <div className="max-w-md mx-auto mr-4">
-            <form onSubmit={handleSubmit} className='quote-form p-4 border-2 border-gray-300 rounded mb-4 bg-color-table '>
+            <form onSubmit={handleSubmit} className='quote-form p-4 border-2 border-gray-300 rounded mb-4 bg-color-table'>
                 <label className="font-bold flex justify-start items-center text-sm">EMPRESA:</label>
-                <input type="text" value={compania} onChange={(e) => setCompania(e.target.value)} className="w-full border-b border-gray-300 mb-1 focus:outline-none text-right bg-color-table" />
+                <input type="text" placeholder='Compañía S.A.' value={compania} onChange={(e) => setCompania(e.target.value)} className="w-full border-b border-gray-300 mb-1 focus:outline-none bg-color-table" />
                 {companiaError && <span className="error font-bold text-sm text-red-600">{companiaError}</span>}
 
                 <label className="font-bold flex justify-start items-center text-sm">CONTACTO:</label>
-                <input type="text" value={contacto} onChange={(e) => setContacto(e.target.value)} className="w-full border-b border-gray-300 mb-1 focus:outline-none text-right bg-color-table" />
+                <input type="text" placeholder='Nombre de la persona que solicita la cotización' value={contacto} onChange={(e) => setContacto(e.target.value)} className="w-full border-b border-gray-300 mb-1 focus:outline-none bg-color-table" />
 
                 <label className="font-bold flex justify-start items-center text-sm">NÚMERO DE TELÉFONO:</label>
-                <input type="text" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className="w-full border-b border-gray-300 mb-1 focus:outline-none text-right bg-color-table" />
+                <input type="text" placeholder='00000000' value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className="w-full border-b border-gray-300 mb-1 focus:outline-none bg-color-table" />
                 {phoneNumberError && <span className="error font-bold text-sm text-red-600">{phoneNumberError}</span>}
 
                 <label className="font-bold flex justify-start items-center text-sm">EMAIL:</label>
-                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full border-b border-gray-300 mb-1 focus:outline-none text-right bg-color-table" />
+                <input type="email" placeholder='example@example.com' value={email} onChange={(e) => setEmail(e.target.value)} className="w-full border-b border-gray-300 mb-1 focus:outline-none bg-color-table" />
                 {emailError && <span className="error font-bold text-sm text-red-600">{emailError}</span>}
 
                 <label className="font-bold flex justify-start items-center text-sm">NIT:</label>
-                <input type="text" value={nit} onChange={(e) => setNit(e.target.value)} className="w-full border-b border-gray-300 mb-1 focus:outline-none text-right bg-color-table" />
+                <input type="text" placeholder='Número de Identificación Tributario' value={nit} onChange={(e) => setNit(e.target.value)} className="w-full border-b border-gray-300 mb-1 focus:outline-none bg-color-table" />
                 {nitError && <span className="error font-bold text-sm text-red-600">{nitError}</span>}
 
                 <label className="font-bold flex justify-start items-center text-sm">DIRECCIÓN:</label>
-                <input type="text" value={direccion} onChange={(e) => setDireccion(e.target.value)} className="w-full border-b border-gray-300 mb-3 focus:outline-none text-right bg-color-table" />
+                <input type="text" placeholder='Calle 5 Z 2' value={direccion} onChange={(e) => setDireccion(e.target.value)} className="w-full border-b border-gray-300 mb-3 focus:outline-none bg-color-table" />
 
                 <button type="submit" className={`font-bold bg-${hovered ? 'color-prices' : 'lime'}-500 text-${hovered ? 'componentes' : 'color-text'} py-2 px-12 rounded hover:bg-color-prices hover:text-color-componentes transition-colors`} onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} > Submit </button>
             </form>

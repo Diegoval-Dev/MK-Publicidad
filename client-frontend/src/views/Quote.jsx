@@ -35,7 +35,7 @@ function Quote() {
   }, [params, unitPrice]);
 
   return (
-    <div className="min-h-screen flex flex-col justify-start bg-white">
+    <div className="min-h-screen flex flex-col justify-start items-center bg-white">
       <Banner />
       <NavigationButtons
         onClick={() =>
