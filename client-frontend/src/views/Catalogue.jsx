@@ -17,8 +17,8 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
     size: [],
     color: [],
   });
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]); // Productos que se mostrarán después de aplicar filtros
+  const [products, setProducts] = useState([]); 
+  const [filteredProducts, setFilteredProducts] = useState([]); 
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -47,17 +47,16 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
 
       if (response.ok) {
         const data = await response.json();
-        setProducts(data);
-        setFilteredProducts(data); // Inicialmente mostramos todos los productos
-        setLoading(false);
-
+        const productArray = Array.isArray(data.data) ? data.data : []; 
+        setProducts(productArray);
+        setFilteredProducts(productArray);
       } else {
         throw new Error("Ocurrió un error al obtener los productos.");
-
       }
       
     } catch (error) {
       console.error(error);
+    } finally {
       setLoading(false);
     }
   };
@@ -93,7 +92,7 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
       size: [],
       color: [],
     });
-    setFilteredProducts(products); // Restablecer la lista de productos a la original
+    setFilteredProducts(products); 
   };
 
   const toggleFilterVisibility = () => {
@@ -117,11 +116,13 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
           selectedCategory={selectedCategory}
         />
       </div>
-      {!loading && (
+      {!loading && filteredProducts.length > 0 && (
         <ProductList
-          products={filteredProducts} // Mostramos productos filtrados
-          appliedFilters={appliedFilters}
+          products={filteredProducts} 
         />
+      )}
+      {!loading && filteredProducts.length === 0 && (
+        <p>No se encontraron productos para la categoría seleccionada.</p>
       )}
     </div>
   );
