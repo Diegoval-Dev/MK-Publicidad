@@ -59,8 +59,8 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
 
       if (response.ok) {
         const data = await response.json();
-        setProducts(data);
-        console.log("Éxito en la obtención de productos con filtros:", data);
+        setProducts(data.data); // Aseguramos que data.data sea el array de productos filtrados
+        console.log("Productos filtrados obtenidos:", data.data);
       } else {
         throw new Error("Ocurrió un error al obtener los productos.");
       }
@@ -71,7 +71,6 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
 
   const handleApplyFilters = () => {
     setAppliedFilters(tempFilters);
-    loadProductsByCategory(selectedCategory, tempFilters); // Pasa los filtros aplicados
     toggleFilterVisibility();
   };
 
@@ -84,6 +83,7 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
     };
     setTempFilters(initialFilters);
     setAppliedFilters(initialFilters);
+    loadProductsByCategory(selectedCategory, initialFilters); // Recargamos sin filtros
   };
 
   const toggleFilterVisibility = () => {
@@ -104,15 +104,11 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
           setTempFilters={setTempFilters}
           handleApplyFilters={handleApplyFilters}
           handleClearFilters={handleClearFilters}
-          selectedCategory={selectedCategory} // Pasamos selectedCategory aquí
+          selectedCategory={selectedCategory}
         />
       </div>
       <ProductList
-        category={selectedCategory}
-        material={appliedFilters.material}
-        technique={appliedFilters.technique}
-        size={appliedFilters.size}
-        color={appliedFilters.color}
+        products={products}
       />
     </div>
   );
