@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import ImageUploader from '../components/ImageUploader';
 import NavigationButtons from '../components/NavigationButtons';
 import useNavigate from '@hooks/useNavigate';
+import { CustomButton } from '../styles/styled'; // Importa el botón desde styled.js
 
 const CustomizationPage = () => {
   const [editorVisible, setEditorVisible] = useState(false);
@@ -83,7 +84,6 @@ const CustomizationPage = () => {
 
     if (!canvas) return;
 
-    // Limpiar canvas pero mantener el fondo
     const backgroundImage = canvas.backgroundImage;
     canvas.clear();
     if (backgroundImage) {
@@ -137,12 +137,11 @@ const CustomizationPage = () => {
           />
         </div>
         <div className="flex-1 space-y-4">
-          <button
+          <CustomButton
             onClick={() => setEditorVisible(!editorVisible)}
-            className="custom-button w-full text-center"
           >
             Agregar diseño
-          </button>
+          </CustomButton>
 
           {editorVisible && texts.map((textItem, index) => (
             <TextEditor
@@ -177,12 +176,11 @@ const CustomizationPage = () => {
             />
           ))}
           {editorVisible && (
-            <button
+            <CustomButton
               onClick={addText}
-              className="mt-4 py-2 px-4 custom-button"
             >
               Añadir Texto
-            </button>
+            </CustomButton>
           )}
           {editorVisible && <ImageUploader images={images} setImages={setImages} />}
           <form className="bg-white shadow-md rounded px-4 pt-4 pb-2 space-y-4">
@@ -212,13 +210,12 @@ const CustomizationPage = () => {
               <label htmlFor="additional-description" className="block text-sm font-medium text-gray-700">Descripción Adicional:</label>
               <textarea id="additional-description" name="additional-description" placeholder="Ingresa una descripción adicional" className="form-field" value={description} onChange={e => setDescription(e.target.value)}></textarea>
             </div>
-            <button
+            <CustomButton
               type="button"
-              className="mt-4 py-2 px-4 custom-button"
               onClick={handleCustomizationClick}
             >
               Solicitar Cotización
-            </button>
+            </CustomButton>
           </form>
         </div>
       </div>
