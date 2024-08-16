@@ -28,13 +28,27 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
 
   useEffect(() => {
     if (selectedCategory) {
-      loadProductsByCategory(selectedCategory);
+      loadProductsByCategory(selectedCategory, appliedFilters);
     }
-  }, [selectedCategory]);
+  }, [selectedCategory, appliedFilters]);
 
-  const loadProductsByCategory = async (category) => {
-    const apiURL = `http://localhost:3000/user/products?category=${category}`;
-    
+  const loadProductsByCategory = async (category, filters) => {
+    let apiURL = `http://localhost:3000/user/products?category=${category}`;
+
+    // Agrega los filtros seleccionados a la URL
+    if (filters.material.length > 0) {
+      apiURL += `&material=${filters.material.join(',')}`;
+    }
+    if (filters.technique.length > 0) {
+      apiURL += `&technique=${filters.technique.join(',')}`;
+    }
+    if (filters.size.length > 0) {
+      apiURL += `&size=${filters.size.join(',')}`;
+    }
+    if (filters.color.length > 0) {
+      apiURL += `&color=${filters.color.join(',')}`;
+    }
+
     try {
       const response = await fetch(apiURL, {
         method: 'GET',
@@ -45,15 +59,11 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
 
       if (response.ok) {
         const data = await response.json();
-        setProducts(Array.from(data));
-        console.log("Éxito");
-        console.log(products);
-
+        setProducts(data);
+        console.log("Éxito en la obtención de productos con filtros:", data);
       } else {
-        throw new Error("Ocurrió un error al obtener los productos.")
-
+        throw new Error("Ocurrió un error al obtener los productos.");
       }
-      
     } catch (error) {
       console.error(error);
     }
@@ -61,6 +71,7 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
 
   const handleApplyFilters = () => {
     setAppliedFilters(tempFilters);
+    loadProductsByCategory(selectedCategory, tempFilters); // Pasa los filtros aplicados
     toggleFilterVisibility();
   };
 
