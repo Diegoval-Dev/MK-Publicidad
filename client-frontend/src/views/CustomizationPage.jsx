@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import ImageUploader from '../components/ImageUploader';
 import NavigationButtons from '../components/NavigationButtons';
 import useNavigate from '@hooks/useNavigate';
-import { CustomButton } from '../styles/styled'; // Importa el botón desde styled.js
+import { CustomButton, SubtleButton } from '../styles/styled'; // Importa el botón desde styled.js
 
 const CustomizationPage = () => {
   const [editorVisible, setEditorVisible] = useState(false);
@@ -176,11 +176,11 @@ const CustomizationPage = () => {
             />
           ))}
           {editorVisible && (
-            <CustomButton
+            <SubtleButton
               onClick={addText}
             >
               Añadir Texto
-            </CustomButton>
+            </SubtleButton>
           )}
           {editorVisible && <ImageUploader images={images} setImages={setImages} />}
           <form className="bg-white shadow-md rounded px-4 pt-4 pb-2 space-y-4">

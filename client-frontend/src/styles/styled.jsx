@@ -24,11 +24,34 @@ export const CustomButton = styled.button`
   margin: 0 auto; /* Centrar el botón */
 `;
 
+export const SubtleButton = styled.button`
+  display: block;
+  width: 90%; /* Menor ancho para ser más discreto */
+  max-width: 180px;
+  padding: 6px 12px; /* Padding más pequeño */
+  background-color: #FAFAF5; /* Color similar al del formulario */
+  color: var(--color-text); /* Mantener el color del texto */
+  border: 1px solid #e0e0e0; /* Borde similar al del formulario */
+  border-radius: 5px;
+  font-size: 12px; /* Tamaño de fuente más pequeño */
+  font-weight: 500; /* Texto menos grueso */
+  text-align: center;
+  cursor: pointer;
+
+  &:hover,
+  &:focus,
+  &:active {
+    background-color: #e0e0e0; /* Mismo color en todos los estados */
+    color: var(--color-text);
+  }
+
+  margin: 0 auto; /* Centrar el botón */
+`;
 
 export const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center; /* Centrar los elementos dentro del formulario */
+  align-items: center;
   width: 100%;
 `;
 
@@ -37,6 +60,7 @@ export const FormGroup = styled.div`
   margin-bottom: 15px;
 `;
 
+/* Otros estilos no modificados */
 
 export const Background = styled.div`
   display: flex;
@@ -132,4 +156,3 @@ export const ButtonsLogIn = styled.div`
     width: 100%;
   }
 `;
-

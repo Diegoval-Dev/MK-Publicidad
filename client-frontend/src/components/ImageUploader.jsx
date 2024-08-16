@@ -1,5 +1,5 @@
 import React from 'react';
-import { CustomButton } from '../styles/styled'; // Asegúrate de que la ruta es correcta
+import { CustomButton, SubtleButton } from '../styles/styled'; 
 
 const ImageUploader = ({ images, setImages }) => {
   const handleImageChange = (e) => {
@@ -23,12 +23,12 @@ const ImageUploader = ({ images, setImages }) => {
   return (
     <div>
       <input type="file" id="file-upload" className="hidden" onChange={handleImageChange} accept="image/*" />
-      <CustomButton
+      <SubtleButton
         type="button"
         onClick={() => document.getElementById('file-upload').click()}
       >
         Cargar Imagen
-      </CustomButton>
+      </SubtleButton>
 
       <div className="mt-2 space-y-2">
         {images.map((image, index) => (
