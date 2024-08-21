@@ -11,14 +11,15 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
   const { navigate, params } = useNavigate();
 
   const [isFilterVisible, setIsFilterVisible] = useState(false);
-  const [appliedFilters, setAppliedFilters] = useState({});
-  const [products, setProducts] = useState([]);
-  const [tempFilters, setTempFilters] = useState({
+  const [appliedFilters, setAppliedFilters] = useState({
     material: [],
     technique: [],
     size: [],
     color: [],
   });
+  const [products, setProducts] = useState([]); 
+  const [filteredProducts, setFilteredProducts] = useState([]); 
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (params.category) {
@@ -33,6 +34,7 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
   }, [selectedCategory]);
 
   const loadProductsByCategory = async (category) => {
+    setLoading(true);
     const apiURL = `http://localhost:3000/user/products?category=${category}`;
     
     try {
@@ -45,34 +47,52 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
 
       if (response.ok) {
         const data = await response.json();
-        setProducts(Array.from(data));
-        console.log("Éxito");
-        console.log(products);
-
+        const productArray = Array.isArray(data.data) ? data.data : []; 
+        setProducts(productArray);
+        setFilteredProducts(productArray);
       } else {
-        throw new Error("Ocurrió un error al obtener los productos.")
-
+        throw new Error("Ocurrió un error al obtener los productos.");
       }
       
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
+  const applyFilters = () => {
+    let filtered = products;
+
+    if (appliedFilters.material.length > 0) {
+      filtered = filtered.filter(product => appliedFilters.material.includes(product.material));
+    }
+    if (appliedFilters.technique.length > 0) {
+      filtered = filtered.filter(product => appliedFilters.technique.includes(product.technique));
+    }
+    if (appliedFilters.size.length > 0) {
+      filtered = filtered.filter(product => appliedFilters.size.includes(product.size));
+    }
+    if (appliedFilters.color.length > 0) {
+      filtered = filtered.filter(product => appliedFilters.color.includes(product.color));
+    }
+
+    setFilteredProducts(filtered);
+  };
+
   const handleApplyFilters = () => {
-    setAppliedFilters(tempFilters);
+    applyFilters();
     toggleFilterVisibility();
   };
 
   const handleClearFilters = () => {
-    const initialFilters = {
+    setAppliedFilters({
       material: [],
       technique: [],
       size: [],
       color: [],
-    };
-    setTempFilters(initialFilters);
-    setAppliedFilters(initialFilters);
+    });
+    setFilteredProducts(products); 
   };
 
   const toggleFilterVisibility = () => {
@@ -89,20 +109,21 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
         <FilterControls
           toggleFilterVisibility={toggleFilterVisibility}
           isFilterVisible={isFilterVisible}
-          tempFilters={tempFilters}
-          setTempFilters={setTempFilters}
+          tempFilters={appliedFilters}
+          setTempFilters={setAppliedFilters}
           handleApplyFilters={handleApplyFilters}
           handleClearFilters={handleClearFilters}
-          selectedCategory={selectedCategory} // Pasamos selectedCategory aquí
+          selectedCategory={selectedCategory}
         />
       </div>
-      <ProductList
-        category={selectedCategory}
-        material={appliedFilters.material}
-        technique={appliedFilters.technique}
-        size={appliedFilters.size}
-        color={appliedFilters.color}
-      />
+      {!loading && filteredProducts.length > 0 && (
+        <ProductList
+          products={filteredProducts} 
+        />
+      )}
+      {!loading && filteredProducts.length === 0 && (
+        <p>No se encontraron productos para la categoría seleccionada.</p>
+      )}
     </div>
   );
 }

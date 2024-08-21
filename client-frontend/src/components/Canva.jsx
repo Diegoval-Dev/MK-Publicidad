@@ -1,101 +1,86 @@
 import { fabric } from 'fabric'; 
 import { useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
 
-const Canva = ({ backgroundImageUrl, uploadedImages, fabricTexts, fabricCanvasRef }) => {
+const Canva = ({ backgroundImageUrl, images, fabricTexts, fabricCanvasRef }) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    let canvas;
-    if (canvasRef.current) {
-      canvas = new fabric.Canvas(canvasRef.current, {
-        height: 500,
-        width: 500,
-      });
+    const canvas = new fabric.Canvas(canvasRef.current, {
+      height: 500,
+      width: 500,
+    });
 
-      if (fabricCanvasRef) {
-        fabricCanvasRef.current = canvas; // Asegurarse de asignar correctamente el ref
-      }
+    fabricCanvasRef.current = canvas;
 
-      if (backgroundImageUrl) {
-        fabric.Image.fromURL(backgroundImageUrl, function(img) {
-          if (canvas) {
-            canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
-              scaleX: canvas.width / img.width,
-              scaleY: canvas.height / img.height
-            });
-          }
-        }, { crossOrigin: 'Anonymous' });
-      }
+    if (backgroundImageUrl) {
+      fabric.Image.fromURL(backgroundImageUrl, function(img) {
+        if (canvas) {
+          canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
+            scaleX: canvas.width / img.width,
+            scaleY: canvas.height / img.height
+          });
+        }
+      }, { crossOrigin: 'Anonymous' });
     }
 
     return () => {
-      if (canvas) {
-        canvas.dispose();
-      }
+      canvas.dispose();
     };
   }, [backgroundImageUrl, fabricCanvasRef]);
 
   useEffect(() => {
-    const canvas = fabricCanvasRef?.current;
+    const canvas = fabricCanvasRef.current;
     if (!canvas) return;
 
-    // Limpiar canvas pero mantener la imagen de fondo
+    // Clear all objects except the background image
     const backgroundImage = canvas.backgroundImage;
     canvas.clear();
     if (backgroundImage) {
       canvas.setBackgroundImage(backgroundImage, canvas.renderAll.bind(canvas));
     }
 
-<<<<<<< HEAD
-    // Agregar imágenes cargadas al canvas y permitir su manipulación
-    images.forEach((image, index) => {
-      fabric.Image.fromURL(image.src, img => {
-        img.set({
-          left: (canvas.width - img.width * 0.5) / 2,
-          top: (canvas.height - img.height * 0.5) / 2,
-          scaleX: 0.5,
-          scaleY: 0.5,
-          selectable: true,
-          hasControls: true,
-          hasBorders: true,
-=======
-    uploadedImages.forEach(image => {
-      fabric.Image.fromURL(image.src, img => {
+    // Add images to the canvas
+    images.forEach((image) => {
+      fabric.Image.fromURL(image.src, (img) => {
         img.set({
           left: image.left,
           top: image.top,
           scaleX: image.scaleX,
-          scaleY: image.scaleY
->>>>>>> customisation
+          scaleY: image.scaleY,
         });
         canvas.add(img);
-        canvas.renderAll();
       }, { crossOrigin: 'Anonymous' });
     });
 
-<<<<<<< HEAD
-    // Agregar textos al canvas
+    // Add texts to the canvas
     fabricTexts.forEach(text => {
       canvas.add(text);
     });
 
     canvas.renderAll();
   }, [images, fabricTexts, fabricCanvasRef]);
-=======
-    if (fabricTexts) {
-      fabricTexts.forEach(text => {
-        canvas.add(text);
-      });
-      canvas.renderAll();
-    }
-  }, [uploadedImages, fabricTexts, fabricCanvasRef]);
->>>>>>> customisation
 
   return (
     <div>
       <canvas ref={canvasRef} />
     </div>
   );
+};
+
+Canva.propTypes = {
+  backgroundImageUrl: PropTypes.string,
+  images: PropTypes.arrayOf(
+    PropTypes.shape({
+      src: PropTypes.string.isRequired,
+      left: PropTypes.number.isRequired,
+      top: PropTypes.number.isRequired,
+      scaleX: PropTypes.number.isRequired,
+      scaleY: PropTypes.number.isRequired,
+    })
+  ),
+  fabricTexts: PropTypes.arrayOf(PropTypes.object),
+  fabricCanvasRef: PropTypes.object,
 };
 
 export default Canva;

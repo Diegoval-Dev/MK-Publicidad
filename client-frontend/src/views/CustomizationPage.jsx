@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import ImageUploader from '../components/ImageUploader';
 import NavigationButtons from '../components/NavigationButtons';
 import useNavigate from '@hooks/useNavigate';
+import { CustomButton, SubtleButton } from '../styles/styled'; // Importa el botón desde styled.js
 
 const CustomizationPage = () => {
   const [editorVisible, setEditorVisible] = useState(false);
@@ -83,7 +84,6 @@ const CustomizationPage = () => {
 
     if (!canvas) return;
 
-    // Limpiar canvas pero mantener el fondo
     const backgroundImage = canvas.backgroundImage;
     canvas.clear();
     if (backgroundImage) {
@@ -128,7 +128,7 @@ const CustomizationPage = () => {
           onClick={() => navigate('/home/catalogue', { category: product.category })}
         />
       </div>
-      <div className="flex justify-center items-start w-full max-w-4xl px-4 mt-8">
+      <div className="flex justify-center items-start w-full max-w-4xl px-4 mt-8 space-x-8">
         <div className="flex-1">
           <Canva
             backgroundImageUrl={product.image}
@@ -136,13 +136,13 @@ const CustomizationPage = () => {
             images={images}
           />
         </div>
-        <div className="flex-1 ml-8 space-y-4">
-          <button
+        <div className="flex-1 space-y-4">
+          <CustomButton
             onClick={() => setEditorVisible(!editorVisible)}
             className="text-sm font-medium text-gray-700 p-2 bg-gray-200 hover:bg-gray-300 rounded-lg w-full text-left"
           >
             Agregar diseño 
-          </button>
+          </CustomButton>
           {editorVisible && texts.map((textItem, index) => (
             <TextEditor
               key={index}
@@ -176,48 +176,47 @@ const CustomizationPage = () => {
             />
           ))}
           {editorVisible && (
-            <button
+            <SubtleButton
               onClick={addText}
               className="mt-4 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               Añadir Texto
-            </button>
+            </SubtleButton>
           )}
           {editorVisible && <ImageUploader images={images} setImages={setImages} fabricCanvasRef={fabricCanvasRef} />}
           <form className="bg-white shadow-md rounded px-4 pt-4 pb-2">
             <div>
               <label htmlFor="color" className="block text-sm font-medium text-gray-700">Color:</label>
-              <select id="color" name="color" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2" value={size} onChange={e => setSize(e.target.value)}>
+              <select id="color" name="color" className="form-field" value={size} onChange={e => setSize(e.target.value)}>
                 <option value="">Selecciona un color</option>
                 <option value="color1">Color 1</option>
                 <option value="color2">Color 2</option>
                 <option value="color3">Color 3</option>
               </select>
             </div>
-            <div>
+            <div className="form-group">
               <label htmlFor="size" className="block text-sm font-medium text-gray-700">Talla:</label>
-              <select id="size" name="size" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2" value={size} onChange={e => setSize(e.target.value)}>
+              <select id="size" name="size" className="form-field" value={size} onChange={e => setSize(e.target.value)}>
                 <option value="">Selecciona una talla</option>
                 <option value="small">S</option>
                 <option value="medium">M</option>
                 <option value="large">L</option>
               </select>
             </div>
-            <div>
+            <div className="form-group">
               <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">Cantidad:</label>
-              <input type="number" id="quantity" name="quantity" min="1" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2" value={quantity} onChange={e => setQuantity(e.target.value)} />
+              <input type="number" id="quantity" name="quantity" min="1" className="form-field" value={quantity} onChange={e => setQuantity(e.target.value)} />
             </div>
-            <div>
+            <div className="form-group">
               <label htmlFor="additional-description" className="block text-sm font-medium text-gray-700">Descripción Adicional:</label>
-              <textarea id="additional-description" name="additional-description" placeholder="Ingresa una descripción adicional" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2" value={description} onChange={e => setDescription(e.target.value)}></textarea>
+              <textarea id="additional-description" name="additional-description" placeholder="Ingresa una descripción adicional" className="form-field" value={description} onChange={e => setDescription(e.target.value)}></textarea>
             </div>
-            <button
+            <CustomButton
               type="button"
-              className="mt-4 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded text-white bg-color-button hover:bg-color-button-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-color-button"
               onClick={handleCustomizationClick}
             >
               Solicitar Cotización
-            </button>
+            </CustomButton>
           </form>
         </div>
       </div>
