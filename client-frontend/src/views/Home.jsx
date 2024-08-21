@@ -15,6 +15,35 @@ function HomePage() {
 
   const loadCategories = async () => {
     const apiURL = 'http://localhost:3000/user/categories';
+      try {
+        const response = await fetch(apiURL, {
+          method: 'GET',
+          headers: {
+            'Content-type': 'application/json'
+          }
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Datos de categorías:", data);
+          setCategories(data); 
+          return data;
+        } else {
+          console.error("Error al obtener categorías:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error al cargar categorías:", error);
+      } finally {
+        setLoading(false);
+      }
+  }
+
+  const loadCategoriesSearch = async (keyword = '') => {
+    if (keyword == "") {
+      loadCategories();
+      return;
+    }
+    const apiURL = `http://localhost:3000/user/search/categories?keyword=${keyword}`;
     try {
       const response = await fetch(apiURL, {
         method: 'GET',

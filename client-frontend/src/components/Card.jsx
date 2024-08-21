@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import '../styles/Card.css';
 
 function Card({ nombre_producto, codigo_producto, material, description, url_imagen }) {
   return (

@@ -16,6 +16,7 @@ const CustomizationPage = () => {
   const [size, setSize] = useState('');
   const [quantity, setQuantity] = useState('');
   const [description, setDescription] = useState('');
+  const [color, setColor] = useState('');
   const { navigate, params } = useNavigate();
   const [screenshot, setScreenshot] = useState(null);
   const fabricCanvasRef = useRef(null);
@@ -27,7 +28,7 @@ const CustomizationPage = () => {
   const takeScreenshot = () => {
     const dataUrl = fabricCanvasRef.current.toDataURL({
       format: 'png',
-      quality: 0.8
+      quality: 0.8,
     });
     setScreenshot(dataUrl);
   };
@@ -52,16 +53,19 @@ const CustomizationPage = () => {
 
   useEffect(() => {
     if (screenshot) {
+      console.log("Adding customization to cart");
       navigate('quote', {
         category: product.idcategoria,
         productId: product.id,
-        screenshot,
-        size,
-        quantity,
-        description
+        screenshot: screenshot,
+        color: color,
+        size: size,
+        quantity: quantity,
+        description: description,
+        name: product.name,
       });
     }
-  }, [screenshot]);
+  }, [screenshot, color, size, quantity, description, product, navigate]);
 
   useEffect(() => {
     const apiURL = `http://localhost:3000/user/products/${params.productId}`;
@@ -119,18 +123,16 @@ const CustomizationPage = () => {
     });
 
     canvas.renderAll();
-  }, [texts]);
+  }, [texts, fabricTexts]);
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-white">
       <Banner />
       <h1 className="text-3xl font-bold text-gray-800 mt-8">ID:{params.productId}</h1>
-      <div className="self-start w-full">
-        <NavigationButtons
-          onClick={() => navigate('/home/catalogue', { category: product.category })}
-        />
-      </div>
-      <div className="flex justify-center items-start w-full max-w-4xl px-4 mt-8 space-x-8">
+      <NavigationButtons
+        onClick={() => navigate('/home/catalogue', { category: product.category })}
+      />
+      <div className="flex justify-center items-start w-full max-w-4xl px-4 mt-8">
         <div className="flex-1">
           <Canva
             backgroundImageUrl={product.url_imagen}
@@ -139,13 +141,10 @@ const CustomizationPage = () => {
             fabricCanvasRef={fabricCanvasRef}
           />
         </div>
-        <div className="flex-1 space-y-4">
-          <CustomButton
-            onClick={() => setEditorVisible(!editorVisible)}
-            className="text-sm font-medium text-gray-700 p-2 bg-gray-200 hover:bg-gray-300 rounded-lg w-full text-left"
-          >
-            Agregar diseño 
-          </CustomButton>
+        <div className="flex-1 ml-8 space-y-4">
+          <button onClick={() => setEditorVisible(!editorVisible)} className="text-sm font-medium text-gray-700 p-2 border-b border-gray-300 w-full text-left">
+            Diseño
+          </button>
           {editorVisible && texts.map((textItem, index) => (
             <TextEditor
               key={index}
@@ -190,7 +189,7 @@ const CustomizationPage = () => {
           <form className="bg-white shadow-md rounded px-4 pt-4 pb-2">
             <div>
               <label htmlFor="color" className="block text-sm font-medium text-gray-700">Color:</label>
-              <select id="color" name="color" className="form-field" value={size} onChange={e => setSize(e.target.value)}>
+              <select id="color" name="color" className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2" value={color} onChange={e => setColor(e.target.value)}>
                 <option value="">Selecciona un color</option>
                 <option value="color1">Color 1</option>
                 <option value="color2">Color 2</option>

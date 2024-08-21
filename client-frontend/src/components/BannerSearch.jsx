@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { FaTimes } from 'react-icons/fa';
+import useNavigate from '@hooks/useNavigate';
 
 function BannerSearch({ onResults, onClear }) {
   const [searchText, setSearchText] = useState('');
+  const { navigate } = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,7 +71,18 @@ function BannerSearch({ onResults, onClear }) {
           value="Buscar"
           className="border border-lime-600 px-4 py-2 rounded-lg ml-1 bg-800 text-white hover:bg-lime-600 cursor-pointer bg-lime-500"
         />
+        <button className="border border-lime-600 px-4 py-2 rounded-lg ml-1 bg-800 text-white hover:bg-lime-600 cursor-pointer bg-lime-500"  onClick={() => navigate('contact')}>Contáctanos</button>
       </form>
+
+
+      {/* Mostrar resultados de la búsqueda */}
+      <ul className="mt-4">
+        {results.map((category, index) => (
+          <li key={index} className="py-1">
+            {category.name || 'Nombre de categoría no disponible'} 
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

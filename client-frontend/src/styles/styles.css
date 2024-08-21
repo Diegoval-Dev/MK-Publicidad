@@ -33,7 +33,7 @@ body {
 .centered-title {
   text-align: center;
   font-size: 28px;
-  margin: 20px 0;
+  margin: 10px 0;
   color: var(--color-symbols);
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;

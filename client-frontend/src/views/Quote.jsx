@@ -6,29 +6,42 @@ import QuoteForm from "@components/QuoteForn";
 
 function Quote() {
   const { navigate, params } = useNavigate();
+  const [name, setName] = useState("");
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
-  const [quantity, setQuantity] = useState("");
+  const [quantity, setQuantity] = useState(0);
   const [description, setDescription] = useState("");
+  const [quotationDetails, setQuotationDetails] = useState({});
+  const [unitPrice, setUnitPrice] = useState(80);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
+    setName(params.name);
     setColor(params.color);
     setSize(params.size);
     setQuantity(params.quantity);
     setDescription(params.description);
-  }, []);
+    const calculatedTotal = unitPrice * params.quantity;
+    setTotal(calculatedTotal);
+
+    setQuotationDetails({
+      name: params.name,
+      description: params.description,
+      quantity: params.quantity,
+      unitPrice: unitPrice,
+      total: calculatedTotal,
+      image: params.screenshot
+    });
+  }, [params, unitPrice]);
 
   return (
     <div className="min-h-screen flex flex-col justify-start bg-white">
       <Banner />
-      <div className="w-full flex justify-start">
-        <NavigationButtons
-          onClick={() =>
-            navigate("/home/catalogue", { category: params.category })
-          }
-        />
-      </div>
-
+      <NavigationButtons
+        onClick={() =>
+          navigate("/home/catalogue", { category: params.category })
+        }
+      />
 
       <div className="w-full flex flex-col lg:flex-row justify-around items-center mt-4">
         <div className="flex flex-col lg:w-1/2 gap-5 ml-4 mb-4 lg:mb-0">
@@ -58,14 +71,16 @@ function Quote() {
                   <td className="px-1 py-1">{quantity}</td>
                 </tr>
                 <tr>
-                  <td colSpan="5" className="px-2 py-2 border-t border-color-prices"> <strong className="font-bold">DESCRIPCIÓN</strong><br />{description}</td>
+                  <td colSpan="5" className="px-2 py-2 border-t border-color-prices">
+                    <strong className="font-bold">DESCRIPCIÓN</strong><br />{description}
+                  </td>
                 </tr>
               </tbody>
             </table>
           </div>
         </div>
         <div className="flex flex-col lg:w-2/5 mb-4 lg:mb-0">
-          <QuoteForm />
+          <QuoteForm {...quotationDetails}/>
         </div>
       </div>
     </div>
