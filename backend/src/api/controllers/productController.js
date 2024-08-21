@@ -14,21 +14,15 @@ import productService from '../services/productService.js';
  *           schema:
  *             type: object
  *             properties:
- *               name:
+ *               nombre_producto:
  *                 type: string
- *               category:
+ *               id_categoria:
+ *                 type: integer
+ *               capacidad:
  *                 type: string
- *               material:
+ *               tamano:
  *                 type: string
- *               description:
- *                 type: string
- *               size:
- *                 type: string
- *               color:
- *                 type: string
- *               technique:
- *                 type: string
- *               image:
+ *               url_imagen:
  *                 type: string
  *                 format: binary
  *     responses:
@@ -42,21 +36,16 @@ import productService from '../services/productService.js';
  *         description: Error en el servidor
  */
 const createProduct = async (req, res) => {
-    console.log("ENTRO Al controller");
     try {
-        const { name, category, material, description, size, color, technique } = req.body;
+        const { nombre_producto, id_categoria, capacidad, tamano } = req.body;
 
         // Verifica si hay un archivo de imagen cargado
-        console.log("Req Body:", req.body);
-        console.log("Req File:", req.file);
-        let image = null;
+        let url_imagen = null;
         if (req.file) {
-            image = req.file.path;
-            console.log("File path:", image);
-        } else {
-            console.log("File not uploaded.");
+            url_imagen = req.file.path;
         }
-        const product = { name, category, material, description, image, size, color, technique };
+
+        const product = { nombre_producto, id_categoria, capacidad, tamano, url_imagen };
 
         const newProduct = await productService.createProduct(product);
         res.status(201).json(newProduct);
@@ -74,20 +63,25 @@ const createProduct = async (req, res) => {
  *     summary: Obtiene todos los productos con filtros opcionales
  *     parameters:
  *       - in: query
- *         name: name
+ *         name: nombre_producto
  *         schema:
  *           type: string
  *         description: Nombre del producto
  *       - in: query
- *         name: material
+ *         name: id_categoria
  *         schema:
- *           type: string
- *         description: Material del producto
+ *           type: integer
+ *         description: ID de la categoría del producto
  *       - in: query
- *         name: category
+ *         name: capacidad
  *         schema:
  *           type: string
- *         description: Categoría del producto
+ *         description: Capacidad del producto
+ *       - in: query
+ *         name: tamano
+ *         schema:
+ *           type: string
+ *         description: tamano del producto
  *     responses:
  *       200:
  *         description: Lista de productos obtenida exitosamente
@@ -108,8 +102,14 @@ const createProduct = async (req, res) => {
  */
 const getAllProducts = async (req, res) => {
     try {
-        const { name, material, category } = req.query;
-        const filters = { name, material, category };
+        const filters = {
+            nombre_producto: req.query.name || undefined,
+            id_categoria: req.query.category || undefined,
+            material: req.query.material || undefined,
+            capacidad: req.query.capacity || undefined,
+            tamano: req.query.size || undefined
+        };
+
         const products = await productService.getProducts(filters);
         res.status(200).json({
             status: 'OK',
@@ -118,7 +118,8 @@ const getAllProducts = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-}; 
+};
+
 
 /**
  * @openapi
@@ -169,7 +170,7 @@ const getProductById = async (req, res) => {
         if (product) {
             res.status(200).json(product);
         } else {
-            res.status(404).json({ message: 'Product not found' });
+            res.status(404).json({ message: 'Producto no encontrado' });
         }
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -211,8 +212,8 @@ const getProductById = async (req, res) => {
 const updateProduct = async (req, res) => {
     try {
         const id = req.params.id;
-        const { name, category, material, description, image } = req.body;
-        const updatedProduct = await productService.updateProduct(id, { name, category, material, description, image });
+        const { nombre_producto, id_categoria, capacidad, tamano, url_imagen } = req.body;
+        const updatedProduct = await productService.updateProduct(id, { nombre_producto, id_categoria, capacidad, tamano, url_imagen });
         res.status(200).json(updatedProduct);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -260,11 +261,11 @@ const deleteProduct = async (req, res) => {
  *     summary: Obtiene las opciones de filtrado para una categoría específica
  *     parameters:
  *       - in: path
- *         name: category
+ *         name: id_categoria
  *         schema:
- *           type: string
+ *           type: integer
  *         required: true
- *         description: Nombre de la categoría
+ *         description: ID de la categoría
  *     responses:
  *       200:
  *         description: Opciones de filtrado obtenidas exitosamente
@@ -273,19 +274,11 @@ const deleteProduct = async (req, res) => {
  *             schema:
  *               type: object
  *               properties:
- *                 materials:
+ *                 capacidades:
  *                   type: array
  *                   items:
  *                     type: string
- *                 sizes:
- *                   type: array
- *                   items:
- *                     type: string
- *                 colors:
- *                   type: array
- *                   items:
- *                     type: string
- *                 techniques:
+ *                 tamanos:
  *                   type: array
  *                   items:
  *                     type: string
@@ -294,8 +287,8 @@ const deleteProduct = async (req, res) => {
  */
 const getFilterOptionsByCategory = async (req, res) => {
     try {
-        const category = req.params.category;
-        const filters = await productService.getFilterOptionsByCategory(category);
+        const id_categoria = req.params.id_categoria;
+        const filters = await productService.getFilterOptionsByCategory(id_categoria);
 
         res.status(200).json(filters);
     } catch (error) {
@@ -318,7 +311,12 @@ const getFilterOptionsByCategory = async (req, res) => {
  *             schema:
  *               type: array
  *               items:
- *                 type: string
+ *                 type: object
+ *                 properties:
+ *                   id_categoria:
+ *                     type: integer
+ *                   url_imagen:
+ *                     type: string
  *       500:
  *         description: Error en el servidor
  */
@@ -354,18 +352,14 @@ const getAllCategories = async (req, res) => {
  *             schema:
  *               type: array
  *               items:
- *                 type: string
- *                 example: "camisetas"
+ *                 type: object
+ *                 properties:
+ *                   id_categoria:
+ *                     type: integer
+ *                   url_imagen:
+ *                     type: string
  *       500:
  *         description: Error en el servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: "Error en el servidor"
  */
 const getCategoriesByKeyword = async (req, res) => {
     try {
