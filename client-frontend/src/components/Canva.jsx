@@ -1,7 +1,7 @@
 import { fabric } from 'fabric'; 
 import { useEffect, useRef } from 'react';
 
-const Canva = ({ backgroundImageUrl, images = [], fabricTexts = [], fabricCanvasRef }) => {
+const Canva = ({ backgroundImageUrl, uploadedImages, fabricTexts, fabricCanvasRef }) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -46,6 +46,7 @@ const Canva = ({ backgroundImageUrl, images = [], fabricTexts = [], fabricCanvas
       canvas.setBackgroundImage(backgroundImage, canvas.renderAll.bind(canvas));
     }
 
+<<<<<<< HEAD
     // Agregar imágenes cargadas al canvas y permitir su manipulación
     images.forEach((image, index) => {
       fabric.Image.fromURL(image.src, img => {
@@ -57,12 +58,22 @@ const Canva = ({ backgroundImageUrl, images = [], fabricTexts = [], fabricCanvas
           selectable: true,
           hasControls: true,
           hasBorders: true,
+=======
+    uploadedImages.forEach(image => {
+      fabric.Image.fromURL(image.src, img => {
+        img.set({
+          left: image.left,
+          top: image.top,
+          scaleX: image.scaleX,
+          scaleY: image.scaleY
+>>>>>>> customisation
         });
         canvas.add(img);
         canvas.renderAll();
       }, { crossOrigin: 'Anonymous' });
     });
 
+<<<<<<< HEAD
     // Agregar textos al canvas
     fabricTexts.forEach(text => {
       canvas.add(text);
@@ -70,6 +81,15 @@ const Canva = ({ backgroundImageUrl, images = [], fabricTexts = [], fabricCanvas
 
     canvas.renderAll();
   }, [images, fabricTexts, fabricCanvasRef]);
+=======
+    if (fabricTexts) {
+      fabricTexts.forEach(text => {
+        canvas.add(text);
+      });
+      canvas.renderAll();
+    }
+  }, [uploadedImages, fabricTexts, fabricCanvasRef]);
+>>>>>>> customisation
 
   return (
     <div>

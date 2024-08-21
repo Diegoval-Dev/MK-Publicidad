@@ -6,7 +6,7 @@ const ImageUploader = ({ images, setImages }) => {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImages([...images, { src: reader.result, left: 50, top: 50, scaleX: 0.5, scaleY: 0.5 }]);
+        setImages(prevImages => [...prevImages, { src: reader.result, left: 50, top: 50, scaleX: 0.5, scaleY: 0.5 }]);
       };
       reader.readAsDataURL(file);
     } else {
@@ -15,8 +15,7 @@ const ImageUploader = ({ images, setImages }) => {
   };
 
   const removeImage = (index) => {
-    const updatedImages = images.filter((_, i) => i !== index);
-    setImages(updatedImages);
+    setImages(prevImages => prevImages.filter((_, i) => i !== index));
   };
 
   return (

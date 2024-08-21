@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { fabric } from 'fabric';
 import Banner from '../components/Banner';
 import Canva from '../components/Canva';
@@ -17,7 +17,7 @@ const CustomizationPage = () => {
   const [description, setDescription] = useState('');
   const { navigate, params } = useNavigate();
   const [screenshot, setScreenshot] = useState(null);
-  const fabricCanvasRef = useRef(null); // Asegurarse de que esto esté definido
+  const fabricCanvasRef = useRef(null);
   const [fabricTexts, setFabricTexts] = useState([]);
   const [product, setProduct] = useState({});
 
@@ -122,7 +122,8 @@ const CustomizationPage = () => {
   return (
     <div className="min-h-screen flex flex-col items-center bg-white">
       <Banner />
-      <div className="w-full flex justify-start">
+      <h1 className="text-3xl font-bold text-gray-800 mt-8">ID:{params.productId}</h1>
+      <div className="self-start w-full">
         <NavigationButtons
           onClick={() => navigate('/home/catalogue', { category: product.category })}
         />
@@ -131,19 +132,17 @@ const CustomizationPage = () => {
         <div className="flex-1">
           <Canva
             backgroundImageUrl={product.image}
-            images={images} // Pasamos las imágenes aquí
-            fabricTexts={fabricTexts}
             fabricCanvasRef={fabricCanvasRef}
+            images={images}
           />
         </div>
         <div className="flex-1 ml-8 space-y-4">
           <button
             onClick={() => setEditorVisible(!editorVisible)}
-            className="text-sm font-medium text-white bg-green-500 hover:bg-green-600 p-2 rounded-md shadow-md border border-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 w-full text-center transition duration-150"
+            className="text-sm font-medium text-gray-700 p-2 bg-gray-200 hover:bg-gray-300 rounded-lg w-full text-left"
           >
-            Agregar diseño
+            Agregar diseño 
           </button>
-
           {editorVisible && texts.map((textItem, index) => (
             <TextEditor
               key={index}
@@ -179,12 +178,12 @@ const CustomizationPage = () => {
           {editorVisible && (
             <button
               onClick={addText}
-              className="mt-4 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+              className="mt-4 py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded text-white bg-blue-500 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               Añadir Texto
             </button>
           )}
-          {editorVisible && <ImageUploader images={images} setImages={setImages} />}
+          {editorVisible && <ImageUploader images={images} setImages={setImages} fabricCanvasRef={fabricCanvasRef} />}
           <form className="bg-white shadow-md rounded px-4 pt-4 pb-2">
             <div>
               <label htmlFor="color" className="block text-sm font-medium text-gray-700">Color:</label>
