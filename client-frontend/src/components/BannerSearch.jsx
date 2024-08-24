@@ -76,13 +76,7 @@ function BannerSearch({ onResults, onClear }) {
 
 
       {/* Mostrar resultados de la búsqueda */}
-      <ul className="mt-4">
-        {results.map((category, index) => (
-          <li key={index} className="py-1">
-            {category.name || 'Nombre de categoría no disponible'} 
-          </li>
-        ))}
-      </ul>
+
     </div>
   );
 }
