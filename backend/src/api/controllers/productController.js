@@ -81,7 +81,7 @@ const createProduct = async (req, res) => {
  *         name: tamano
  *         schema:
  *           type: string
- *         description: tamano del producto
+ *         description: Tamaño del producto
  *     responses:
  *       200:
  *         description: Lista de productos obtenida exitosamente
@@ -96,7 +96,31 @@ const createProduct = async (req, res) => {
  *                 data:
  *                   type: array
  *                   items:
- *                     $ref: '#/components/schemas/Product'
+ *                     type: object
+ *                     properties:
+ *                       id_producto:
+ *                         type: integer
+ *                       nombre_producto:
+ *                         type: string
+ *                       codigo_producto:
+ *                         type: string
+ *                       id_categoria:
+ *                         type: integer
+ *                       capacidad:
+ *                         type: string
+ *                       tamano:
+ *                         type: string
+ *                       url_imagen:
+ *                         type: string
+ *                       colores:
+ *                         type: array
+ *                         items:
+ *                           type: object
+ *                           properties:
+ *                             nombre_color:
+ *                               type: string
+ *                             codigo_hex:
+ *                               type: string
  *       500:
  *         description: Error en el servidor
  */
@@ -121,6 +145,7 @@ const getAllProducts = async (req, res) => {
 };
 
 
+
 /**
  * @openapi
  * /api/products/{id}:
@@ -141,7 +166,31 @@ const getAllProducts = async (req, res) => {
  *         content:
  *           application/json:
  *             schema:
- *               $ref: '#/components/schemas/Product'
+ *               type: object
+ *               properties:
+ *                 id_producto:
+ *                   type: integer
+ *                 nombre_producto:
+ *                   type: string
+ *                 codigo_producto:
+ *                   type: string
+ *                 id_categoria:
+ *                   type: integer
+ *                 capacidad:
+ *                   type: string
+ *                 tamano:
+ *                   type: string
+ *                 url_imagen:
+ *                   type: string
+ *                 colores:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       nombre_color:
+ *                         type: string
+ *                       codigo_hex:
+ *                         type: string
  *       404:
  *         description: Producto no encontrado
  *         content:
@@ -176,6 +225,7 @@ const getProductById = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 /**
  * @openapi

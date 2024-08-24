@@ -5,8 +5,10 @@ CREATE TABLE Categorias (
 
 CREATE TABLE Colores (
     id_color INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_color VARCHAR(50) NOT NULL
+    nombre_color VARCHAR(50) NOT NULL,
+    codigo_hexadecimal VARCHAR(7) NOT NULL
 );
+
 
 CREATE TABLE Productos (
     id_producto INT AUTO_INCREMENT PRIMARY KEY,
@@ -41,19 +43,21 @@ INSERT INTO Categorias (nombre_categoria) VALUES
 ('Sandblast'),
 ('Letras recortadas, placas, acrílico y PVC'),
 ('Display');
-INSERT INTO Colores (nombre_color) VALUES
-('Blanco'),
-('Negro'),
-('Rojo'),
-('Azul'),
-('Gris'),
-('Verde'),
-('Amarillo'),
-('Rosa'),
-('Transparente'),
-('Plateado'),
-('Beige'),
-('Multicolor');
+
+INSERT INTO Colores (nombre_color, codigo_hexadecimal) VALUES
+('Blanco', '#FFFFFF'),
+('Negro', '#000000'),
+('Rojo', '#FF0000'),
+('Azul', '#0000FF'),
+('Gris', '#808080'),
+('Verde', '#008000'),
+('Amarillo', '#FFFF00'),
+('Rosa', '#FFC0CB'),
+('Transparente', '#FFFFFF'), 
+('Plateado', '#C0C0C0'),
+('Beige', '#F5F5DC'),
+('Multicolor', '#FFD700'); 
+
 
 INSERT INTO Productos (nombre_producto, codigo_producto, id_categoria, capacidad, tamano, url_imagen) VALUES
 ('Taza Blanca', 'T-0001', 1, '11 onz', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236003/img53_cvy7ki.jpg"),
@@ -337,13 +341,13 @@ INSERT INTO Productos_Colores (id_producto, id_color) VALUES
 (111, 4),
 (112, 1),
 (112, 3),
-(113, NULL),
-(114, NULL),
-(115, NULL),
-(116, NULL),
+(113, 7),
+(114, 1),
+(115, 1),
+(116, 7),
 (117, 1),
 (118, 1),
-(119, NULL),
+(119, 7),
 (120, 7);
 
 

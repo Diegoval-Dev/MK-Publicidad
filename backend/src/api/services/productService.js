@@ -1,4 +1,4 @@
-import { Product, Category } from "../../models/productModel.js";
+import { Product, Category, Color } from "../../models/productModel.js"; 
 import { Op, Sequelize } from "sequelize";
 
 const createProduct = async (product) => {
@@ -10,35 +10,50 @@ const createProduct = async (product) => {
 };
 
 const getProducts = async (filters = {}) => {
-    try {
-        const whereClause = {};
+  try {
+      const whereClause = {};
 
-        if (filters.nombre_producto) {
-            whereClause.nombre_producto = { [Op.like]: `%${filters.nombre_producto}%` };
-        }
-        if (filters.id_categoria) {
-            whereClause.id_categoria = filters.id_categoria;
-        }
-        if (filters.material) {
-            whereClause.material = { [Op.like]: `%${filters.material}%` };
-        }
-        if (filters.capacidad) {
-            whereClause.capacidad = { [Op.like]: `%${filters.capacidad}%` };
-        }
-        if (filters.tamano) {
-            whereClause.tamano = { [Op.like]: `%${filters.tamano}%` };
-        }
+      if (filters.nombre_producto) {
+          whereClause.nombre_producto = { [Op.like]: `%${filters.nombre_producto}%` };
+      }
+      if (filters.id_categoria) {
+          whereClause.id_categoria = filters.id_categoria;
+      }
+      if (filters.material) {
+          whereClause.material = { [Op.like]: `%${filters.material}%` };
+      }
+      if (filters.capacidad) {
+          whereClause.capacidad = { [Op.like]: `%${filters.capacidad}%` };
+      }
+      if (filters.tamano) {
+          whereClause.tamano = { [Op.like]: `%${filters.tamano}%` };
+      }
 
-        return await Product.findAll({ where: whereClause });
-    } catch (error) {
-        throw error;
-    }
+      return await Product.findAll({
+          where: whereClause,
+          include: [{
+              model: Color,
+              attributes: ['nombre_color', 'codigo_hexadecimal'], 
+              through: { attributes: [] } 
+          }]
+      });
+  } catch (error) {
+      throw error;
+  }
 };
 
 
 const getProductById = async (id) => {
     try {
-        return await Product.findByPk(id);
+        return await Product.findByPk(id, {
+            include: [
+                {
+                    model: Color,
+                    attributes: ['nombre_color', 'codigo_hexadecimal'],
+                    through: { attributes: [] } 
+                }
+            ]
+        });
     } catch (error) {
         throw error;
     }
@@ -47,7 +62,14 @@ const getProductById = async (id) => {
 const updateProduct = async (id_producto, product) => {
     try {
         await Product.update(product, { where: { id_producto } });
-        return await Product.findByPk(id_producto);
+        return await Product.findByPk(id_producto, {
+            include: [
+                {
+                    model: Color,
+                    attributes: ['nombre_color', 'codigo_hexadecimal']
+                }
+            ]
+        });
     } catch (error) {
         throw error;
     }
@@ -55,7 +77,14 @@ const updateProduct = async (id_producto, product) => {
 
 const deleteProduct = async (id_producto) => {
     try {
-        const product = await Product.findByPk(id_producto);
+        const product = await Product.findByPk(id_producto, {
+            include: [
+                {
+                    model: Color,
+                    attributes: ['nombre_color', 'codigo_hexadecimal']
+                }
+            ]
+        });
         await product.destroy();
         return product;
     } catch (error) {
@@ -83,7 +112,6 @@ const getFilterOptionsByCategory = async (id_categoria) => {
         throw new Error(`Error al obtener opciones de filtrado: ${error.message}`);
     }
 };
-
 
 const getAllCategories = async () => {
     try {

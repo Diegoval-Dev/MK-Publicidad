@@ -1,21 +1,7 @@
 import { DataTypes } from 'sequelize';
 import { db } from '../database/config.js';
-
-const Category = db.define('Category', {
-    id_categoria: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
-        allowNull: false
-    },
-    nombre_categoria: {
-        type: DataTypes.STRING(100),
-        allowNull: false
-    }
-}, {
-    tableName: 'Categorias',
-    timestamps: false
-});
+import Color from './colorModel.js';
+import Category from './categoryModel.js';
 
 const Product = db.define('Product', {
     id_producto: {
@@ -59,7 +45,10 @@ const Product = db.define('Product', {
     timestamps: false
 });
 
-// Definir la relación entre Product y Category
+// relación entre Product y Category
 Product.belongsTo(Category, { foreignKey: 'id_categoria' });
 
-export { Product, Category };
+// Relación entre Product y Color a través de la tabla intermedia Productos_Colores
+Product.belongsToMany(Color, { through: 'Productos_Colores', foreignKey: 'id_producto', otherKey: 'id_color' });
+
+export { Product, Category, Color };
