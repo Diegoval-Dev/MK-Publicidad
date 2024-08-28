@@ -2,9 +2,10 @@ import express from "express";
 import productController from '../controllers/productController.js';
 import template from "../../assets/template.js";
 import { Resend } from "resend";
-
+import dotenv from "dotenv";
+dotenv.config();
 const router = express.Router();
-const resend = new Resend("re_W7fQeeRt_Fx4JciPu3LhhBRU843mLEPmR");
+const resend = new Resend(process.env.RESEND_KEY);
 
 /**
  * @openapi
