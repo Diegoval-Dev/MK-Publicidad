@@ -21,7 +21,7 @@ function ProducHomeList({ products = [], categories = [] }) {
               >
                 <ProductCategory
                   image={category.url_imagen || 'ruta/a/imagen/predeterminada.jpg'} // Imagen predeterminada si `category.image` es undefined
-                  category={category.id_categoria}
+                  category={category.nombre_categoria}
                 />
               </div>
             );
