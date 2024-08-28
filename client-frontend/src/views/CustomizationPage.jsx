@@ -127,7 +127,7 @@ const CustomizationPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-white">
-      <Banner />
+        <Banner />
       <h1 className="text-3xl font-bold text-gray-800 mt-8">ID:{params.productId}</h1>
       <NavigationButtons
         onClick={() => navigate('/home/catalogue', { category: product.category })}
