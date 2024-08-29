@@ -2,8 +2,7 @@ import PropTypes from 'prop-types';
 import ProductCategory from './ProductCategory';
 import useNavigate from '@hooks/useNavigate';
 
-function ProducHomeList({ products = [], categories = [] }) {
-  console.log("Productos:", products, "Categorías:", categories)
+function ProducHomeList({ categories = [] }) {
   const { navigate } = useNavigate();
 
   return (
@@ -16,11 +15,11 @@ function ProducHomeList({ products = [], categories = [] }) {
             return (
               <div
                 key={index}
-                onClick={() => navigate('catalogue', { category: category.id_categoria })}
+                onClick={() => navigate('catalogue', { category: category.nombre_categoria })}
                 className="cursor-pointer w-64 mx-4 my-4"
               >
                 <ProductCategory
-                  image={category.url_imagen || 'ruta/a/imagen/predeterminada.jpg'} // Imagen predeterminada si `category.image` es undefined
+                  image={category.url_imagen || ''} 
                   category={category.nombre_categoria}
                 />
               </div>

@@ -104,8 +104,8 @@ const createProduct = async (req, res) => {
  *                         type: string
  *                       codigo_producto:
  *                         type: string
- *                       id_categoria:
- *                         type: integer
+ *                       categoria:
+ *                         type: string
  *                       capacidad:
  *                         type: string
  *                       tamano:
@@ -128,12 +128,12 @@ const getAllProducts = async (req, res) => {
     try {
         const filters = {
             nombre_producto: req.query.name || undefined,
-            id_categoria: req.query.category || undefined,
+            nombre_categoria: req.query.categoria || undefined, // Cambiar para buscar por nombre de categoría
             material: req.query.material || undefined,
             capacidad: req.query.capacity || undefined,
             tamano: req.query.size || undefined
         };
-
+        console.log("FILTROS DEL BACKEND", filters);
         const products = await productService.getProducts(filters);
         res.status(200).json({
             status: 'OK',
@@ -143,6 +143,7 @@ const getAllProducts = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 
 

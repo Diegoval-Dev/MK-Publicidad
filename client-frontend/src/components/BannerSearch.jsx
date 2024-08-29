@@ -13,7 +13,7 @@ function BannerSearch({ onResults, onClear }) {
     const trimmedSearchText = searchText.trim();
     if (trimmedSearchText) {
       try {
-        console.log(`Enviando búsqueda con la palabra clave: ${trimmedSearchText}`);
+
 
         const response = await fetch(`http://localhost:3000/user/search/categories?keyword=${encodeURIComponent(trimmedSearchText)}`);
         
@@ -22,7 +22,6 @@ function BannerSearch({ onResults, onClear }) {
         }
         
         const data = await response.json();
-        console.log('Datos recibidos:', data);
         
         onResults && onResults(data);
         

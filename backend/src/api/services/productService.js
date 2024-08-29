@@ -10,36 +10,44 @@ const createProduct = async (product) => {
 };
 
 const getProducts = async (filters = {}) => {
-  try {
-      const whereClause = {};
+	try {
+			const whereClause = {};
 
-      if (filters.nombre_producto) {
-          whereClause.nombre_producto = { [Op.like]: `%${filters.nombre_producto}%` };
-      }
-      if (filters.id_categoria) {
-          whereClause.id_categoria = filters.id_categoria;
-      }
-      if (filters.material) {
-          whereClause.material = { [Op.like]: `%${filters.material}%` };
-      }
-      if (filters.capacidad) {
-          whereClause.capacidad = { [Op.like]: `%${filters.capacidad}%` };
-      }
-      if (filters.tamano) {
-          whereClause.tamano = { [Op.like]: `%${filters.tamano}%` };
-      }
+			if (filters.nombre_producto) {
+					whereClause.nombre_producto = { [Op.like]: `%${filters.nombre_producto}%` };
+			}
+			if (filters.nombre_categoria) {
 
-      return await Product.findAll({
-          where: whereClause,
-          include: [{
-              model: Color,
-              attributes: ['nombre_color', 'codigo_hexadecimal'], 
-              through: { attributes: [] } 
-          }]
-      });
-  } catch (error) {
-      throw error;
-  }
+					const categoria = await Category.findOne({
+							where: { nombre_categoria: { [Op.like]: `%${filters.nombre_categoria}%` } }
+					});
+					if (categoria) {
+							whereClause.id_categoria = categoria.id_categoria; 
+					} else {
+							return []; 
+					}
+			}
+			if (filters.material) {
+					whereClause.material = { [Op.like]: `%${filters.material}%` };
+			}
+			if (filters.capacidad) {
+					whereClause.capacidad = { [Op.like]: `%${filters.capacidad}%` };
+			}
+			if (filters.tamano) {
+					whereClause.tamano = { [Op.like]: `%${filters.tamano}%` };
+			}
+
+			return await Product.findAll({
+					where: whereClause,
+					include: [{
+							model: Color,
+							attributes: ['nombre_color', 'codigo_hexadecimal'], 
+							through: { attributes: [] } 
+					}]
+			});
+	} catch (error) {
+			throw error;
+	}
 };
 
 
