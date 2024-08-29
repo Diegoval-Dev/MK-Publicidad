@@ -7,19 +7,21 @@ import '../styles/styles.css';
 function ProductList({ category }) {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { navigate, params } = useNavigate();
+  const { navigate } = useNavigate();
 
   useEffect(() => {
-    console.log(params)
     async function loadProducts(category) {
-      const apiURL = `http://localhost:3000/user/products?id_categoria=${category}`;
+      if (!category) {
+        console.error('Category is undefined');
+        return;
+      }
+
+      const apiURL = `http://localhost:3000/user/products?categoria=${category}`;
       try {
         const response = await fetch(apiURL);
-        console.log(response);
         if (response.ok) {
           const data = await response.json();
           setProducts(data.data);
-          
         } else {
           throw new Error("No fue posible obtener los productos.");
         }
@@ -29,11 +31,7 @@ function ProductList({ category }) {
     }
     loadProducts(category);
     setLoading(false);
-  }, [params.category, category]);
-
-  useEffect(() => {
-    console.log("DATA:", products)
-  }, [products])
+  }, [category]); // Aquí solo dependemos de 'category'
 
   if (loading) {
     return <p>Loading...</p>;
@@ -44,9 +42,9 @@ function ProductList({ category }) {
       <div className="circle circle-1"></div>
       <div className="circle circle-2"></div>
       <div className="circle circle-3"></div>
-      <div className="circle circle-4"></div> 
-      <div className="circle circle-5"></div> 
-      <h2 className='centered-title'>{params.category}</h2>
+      <div className="circle circle-4"></div>
+      <div className="circle circle-5"></div>
+      <h2 className='centered-title'>{category}</h2>
       <div className="product-list-container">
         {products.map((product, index) => (
           <div key={index} onClick={() => navigate('customization', { productId: product.id_producto })}>
@@ -59,12 +57,7 @@ function ProductList({ category }) {
 }
 
 ProductList.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  category: PropTypes.string,
-  material: PropTypes.array,
-  technique: PropTypes.array,
-  size: PropTypes.array,
-  color: PropTypes.array,
+  category: PropTypes.string.isRequired,
 };
 
 export default ProductList;

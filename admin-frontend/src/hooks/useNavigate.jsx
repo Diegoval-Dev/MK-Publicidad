@@ -26,9 +26,8 @@ const NavigationProvider = ({ children }) => {
     }, [path])
 
     const navigate = (url, params = {}) => {
-        console.log('Navigating to', url);
         const newUrl = url.startsWith('/') ? url : `${page}/${url}`;
-        console.log('New URL', newUrl)
+
         setPage(newUrl)
         setParams(params)
         window.history.pushState({}, '', newUrl);

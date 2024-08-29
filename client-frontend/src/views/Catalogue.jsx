@@ -21,22 +21,29 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
   const [filteredProducts, setFilteredProducts] = useState([]); 
   const [loading, setLoading] = useState(true);
 
-  console.log(params)
 
   useEffect(() => {
     if (params.category) {
+      console.log('Category from params:', params.category); // Verifica el valor de params.category
       onCategorySelection(params.category);
     }
   }, [params.category, onCategorySelection]);
-
+  
   useEffect(() => {
     if (selectedCategory) {
+      console.log('Selected Category:', selectedCategory); // Verifica el valor de selectedCategory
       loadProductsByCategory(selectedCategory);
     }
   }, [selectedCategory]);
+  
 
   const loadProductsByCategory = async (category) => {
-    const apiURL = `http://localhost:3000/user/products?id_categoria=${category}`;
+    if (!category) {
+      console.error('Category is undefined');
+      return;
+    }
+  
+    const apiURL = `http://localhost:3000/user/products?categoria=${category}`;
     
     try {
       const response = await fetch(apiURL, {
@@ -45,7 +52,7 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
           'Content-type': 'application/json'
         }
       });
-
+  
       if (response.ok) {
         const data = await response.json();
         const productArray = Array.isArray(data.data) ? data.data : []; 
@@ -61,7 +68,6 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
       setLoading(false);
     }
   };
-
   const applyFilters = () => {
     let filtered = products;
 
@@ -101,31 +107,33 @@ function Catalogue({ selectedCategory, onCategorySelection }) {
   };
 
   return (
-    <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
-      <Banner />
-      <div className="container flex justify-between w-full p-4">
-        <NavigationButtons
-          onClick={() => navigate('/home')}
-        />
-        <FilterControls
-          toggleFilterVisibility={toggleFilterVisibility}
-          isFilterVisible={isFilterVisible}
-          tempFilters={appliedFilters}
-          setTempFilters={setAppliedFilters}
-          handleApplyFilters={handleApplyFilters}
-          handleClearFilters={handleClearFilters}
-          selectedCategory={selectedCategory}
-        />
-      </div>
-      {!loading && filteredProducts.length > 0 && (
-        <ProductList
-          products={filteredProducts} 
-        />
-      )}
-      {!loading && filteredProducts.length === 0 && (
-        <p>No se encontraron productos para la categoría seleccionada.</p>
-      )}
-    </div>
+<div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
+  <Banner />
+  <div className="container flex justify-between w-full p-4">
+    <NavigationButtons
+      onClick={() => navigate('/home')}
+    />
+    <FilterControls
+      toggleFilterVisibility={toggleFilterVisibility}
+      isFilterVisible={isFilterVisible}
+      tempFilters={appliedFilters}
+      setTempFilters={setAppliedFilters}
+      handleApplyFilters={handleApplyFilters}
+      handleClearFilters={handleClearFilters}
+      selectedCategory={selectedCategory}
+    />
+  </div>
+  {!loading && filteredProducts.length > 0 && (
+    <ProductList
+      products={filteredProducts}
+      category={selectedCategory} 
+    />
+  )}
+  {!loading && filteredProducts.length === 0 && (
+    <p>No se encontraron productos para la categoría seleccionada.</p>
+  )}
+</div>
+
   );
 }
 
