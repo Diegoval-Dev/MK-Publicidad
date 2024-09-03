@@ -2,19 +2,11 @@
 :root {
   --color-text: #030303;
   --color-symbols: #262932;
-  --calendar-days: #716A6E;
-  --calendar-selectday: #6FB74B;
   --color-tittlesAdmin: #3B6B27;
   --color-prices: #426B1F;
-  --top-banners: #B8B3B6;
   --color-componentes: #FAFAF5;
-  --color-backgroundText: #FFFFFF;
-  --color-searcher: #D9D9D9;
-  --color-contorno: #E6E6E6;
-  --color-contornoButtons: #000000;
-  --color-shadow: #7a7a7a;
-  --color-button: #4CAF50; /* Verde para el botón */
-  --color-button-hover: #388E3C; /* Verde más oscuro al hacer hover */
+  --color-button: #65a30d; /* Verde más claro */
+  --color-button-hover: #4CAF50; /* Verde más oscuro */
   --color-button-text: #FFFFFF; /* Texto blanco */
 }
 
@@ -29,11 +21,46 @@ body {
   box-sizing: border-box;
 }
 
+/* Estilos para los botones */
+.button,
+.agregar-diseno-button,
+.solicitar-cotizacion-button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: var(--color-button) !important; /* Verde constante */
+  color: var(--color-button-text) !important;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover,
+.agregar-diseno-button:hover,
+.solicitar-cotizacion-button:hover {
+  background-color: var(--color-button-hover) !important; /* Verde más oscuro */
+}
+
+/* Forzando estilos para evitar sobrescrituras */
+.button:focus,
+.button:active,
+.agregar-diseno-button:focus,
+.agregar-diseno-button:active,
+.solicitar-cotizacion-button:focus,
+.solicitar-cotizacion-button:active {
+  background-color: var(--color-button) !important;
+  color: var(--color-button-text) !important;
+}
+
 /* Estilos para títulos */
 .centered-title {
   text-align: center;
   font-size: 28px;
-  margin: 10px 0;
+  margin: 20px 0;
   color: var(--color-symbols);
   font-family: 'Montserrat', sans-serif;
   font-weight: 400;
@@ -142,46 +169,4 @@ form textarea:focus {
   outline: none;
   border-color: var(--color-button);
   box-shadow: 0 0 5px rgba(76, 175, 80, 0.2);
-}
-
-/* Estilos para los botones */
-button, .agregar-diseno-button, .solicitar-cotizacion-button {
-  display: block;
-  width: 100%;
-  padding: 12px;
-  background-color: var(--color-button); /* Verde constante */
-  color: var(--color-button-text);
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  font-weight: 600;
-  text-align: center;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:hover, .agregar-diseno-button:hover, .solicitar-cotizacion-button:hover {
-  background-color: var(--color-button-hover); /* Verde más oscuro */
-}
-
-/* Forzando estilos para evitar sobrescrituras */
-button:focus,
-button:active,
-.agregar-diseno-button:focus,
-.agregar-diseno-button:active,
-.solicitar-cotizacion-button:focus,
-.solicitar-cotizacion-button:active {
-  background-color: var(--color-button) !important;
-  color: var(--color-button-text) !important;
-}
-
-/* Estilo específico para el botón "Agregar diseño" y "Solicitar Cotización" */
-.agregar-diseno-button {
-  background-color: var(--color-button) !important; /* Verde constante */
-  color: var(--color-button-text) !important;
-}
-
-.solicitar-cotizacion-button {
-  background-color: var(--color-button) !important; /* Verde constante */
-  color: var(--color-button-text) !important;
 }
