@@ -75,6 +75,7 @@ const CustomizationPage = () => {
         if (response.ok) {
           const data = await response.json();
           setProduct(data);
+          console.log('Producto cargado:', data); // Para depuración
         } else {
           console.error("Error al obtener producto:", response.statusText);
         }
@@ -84,6 +85,7 @@ const CustomizationPage = () => {
     };
     fetchData();
   }, [params.productId]);
+  
 
   useEffect(() => {
     const canvas = fabricCanvasRef.current;
@@ -126,12 +128,21 @@ const CustomizationPage = () => {
   }, [texts, fabricTexts]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-white">
+      <div className="min-h-screen flex flex-col items-center bg-white">
         <Banner />
-      <h1 className="text-3xl font-bold text-gray-800 mt-8">ID:{params.productId}</h1>
+        
+        {/* Sección del título mejorada */}
+        <div className="w-full text-center py-4">
+        <h1 className="text-4xl font-semibold text-gray-900">{product.nombre_producto}</h1>
+        <div className="mt-2 mx-auto w-80 border-b-2 border-green-600"></div>
+      </div>
+
+      <div className="container flex justify-between items-center p-4">
       <NavigationButtons
-        onClick={() => navigate('/home/catalogue', { category: product.category })}
-      />
+          onClick={() => navigate('/home/catalogue', { category: product.category })} className="ml-4" 
+        />
+      </div>
+
       <div className="flex justify-center items-start w-full max-w-4xl px-4 mt-8">
         <div className="flex-1">
           <Canva

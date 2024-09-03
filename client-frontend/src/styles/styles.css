@@ -92,19 +92,36 @@ body {
   background-color: var(--color-componentes);
 }
 
-.card-image {
+.card-url_imagen {
   width: 100%;
-  height: 150px;
-  object-fit: cover;
+  height: 150px; /* Asegura que todas las imágenes tengan la misma altura */
+  object-fit: cover; /* Escala la imagen y recorta si es necesario para llenar el contenedor */
+  border-radius: 8px; /* Mantiene un diseño consistente con la tarjeta */
 }
 
 .card-title {
   font-size: 18px;
-  font-weight: bold;
-  text-align: center;
-  margin: 8px 0;
-  color: var(--color-text);
+  font-weight: 700;
+  color: #333;
+  margin: 15px 0;
+  max-width: 100%; /* Asegura que el ancho sea el del contenedor */
+  overflow: hidden; /* Oculta el contenido que no cabe */
+  text-overflow: ellipsis; /* Agrega los puntos suspensivos */
+  white-space: nowrap; /* Evita el salto de línea */
 }
+
+.card-description {
+  font-size: 14px;
+  color: #666;
+  padding: 0 10px 15px;
+  max-width: 100%; /* Asegura que el ancho sea el del contenedor */
+  overflow: hidden; /* Oculta el contenido que no cabe */
+  text-overflow: ellipsis; /* Agrega los puntos suspensivos */
+  white-space: nowrap; /* Evita el salto de línea */
+}
+
+
+
 
 .card-category {
   font-weight: bold;
@@ -123,11 +140,11 @@ body {
   margin-left: 4px;
 }
 
-.card-description {
-  color: var(--color-text);
-  margin-top: 4px;
-  text-align: center;
+.card-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(11, 73, 35, 0.2);
 }
+
 
 /* Estilos para el formulario */
 form {
