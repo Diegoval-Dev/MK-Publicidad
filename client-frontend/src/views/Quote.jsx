@@ -35,20 +35,24 @@ function Quote() {
   }, [params, unitPrice]);
 
   return (
-    <div className="min-h-screen flex flex-col justify-start items-center bg-white">
+    <div className="min-h-screen flex flex-col bg-white">
       <Banner />
-      <NavigationButtons
-        onClick={() =>
-          navigate("/home/catalogue", { category: params.category })
-        }
-      />
+      
+      {/* Contenedor del botón de navegación */}
+      <div className="container flex justify-between items-center p-4">
+        <NavigationButtons
+          onClick={() =>
+            navigate("/home/catalogue", { category: params.category })
+          }
+        />
+      </div>
   
       {/* Título con la línea decorativa */}
       <div className="w-full text-center mt-4 mb-8">
-      <h1 className="text-3xl font-bold text-gray-800 relative inline-block mb-8">
-  Formulario de Cotización
-  <span className="block absolute h-1 bg-green-600 w-full top-full mt-2"></span>
-</h1>
+        <h1 className="text-3xl font-bold text-gray-800 relative inline-block mt[0px]  mb-4">
+        Formulario de Cotización
+        <span className="block absolute h-1 bg-green-600 w-full top-full mt-2"></span>
+      </h1>
 
       </div>
   
@@ -94,6 +98,7 @@ function Quote() {
       </div>
     </div>
   );
+  
   
 }
 

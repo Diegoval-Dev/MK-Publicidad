@@ -133,14 +133,16 @@ const CustomizationPage = () => {
         
         {/* Sección del título mejorada */}
         <div className="w-full text-center py-4">
-          <h1 className="text-4xl font-semibold text-gray-900">{product.nombre_producto}</h1>
-          <div className="mt-2 mx-auto w-64 border-b-2 border-gray-300"></div>
+        <h1 className="text-4xl font-semibold text-gray-900">{product.nombre_producto}</h1>
+        <div className="mt-2 mx-auto w-80 border-b-2 border-green-600"></div>
       </div>
 
-  
-        <NavigationButtons
-          onClick={() => navigate('/home/catalogue', { category: product.category })}
+      <div className="container flex justify-between items-center p-4">
+      <NavigationButtons
+          onClick={() => navigate('/home/catalogue', { category: product.category })} className="ml-4" 
         />
+      </div>
+
       <div className="flex justify-center items-start w-full max-w-4xl px-4 mt-8">
         <div className="flex-1">
           <Canva
