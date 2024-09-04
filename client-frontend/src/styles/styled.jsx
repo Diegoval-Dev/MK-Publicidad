@@ -5,8 +5,8 @@ export const CustomButton = styled.button`
   width: 100%;
   max-width: 200px;
   padding: 8px 16px;
-  background-color: var(--color-button); /* Color verde constante */
-  color: var(--color-button-text);
+  background-color: #8BC34A !important; /* Forzar el color verde */
+  color: #FFFFFF; /* Asegurar que el texto sea blanco */
   border: none;
   border-radius: 5px;
   font-size: 14px;
@@ -17,11 +17,11 @@ export const CustomButton = styled.button`
   &:hover,
   &:focus,
   &:active {
-    background-color: var(--color-button); /* Mismo color verde en todos los estados */
-    color: var(--color-button-text); /* Mantener el color del texto */
+    background-color: #7CB342 !important; /* Usar un verde ligeramente diferente al hacer hover o click */
+    color: #FFFFFF;
   }
 
-  margin: 0 auto; /* Centrar el botón */
+  margin: 0 auto;
 `;
 
 export const SubtleButton = styled.button`
