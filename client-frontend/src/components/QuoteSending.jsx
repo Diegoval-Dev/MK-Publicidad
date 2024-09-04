@@ -1,6 +1,4 @@
 async function quoteSending(email, nit, compania, contacto, phoneNumber, direccion, quotationDetails) {
-      
-    let receiver = "pen22217@uvg.edu.gt";
 
     const quoteConfirmation = async () => {
         const apiURL = `http://localhost:3000/user/send-email`;
@@ -12,7 +10,7 @@ async function quoteSending(email, nit, compania, contacto, phoneNumber, direcci
                 headers: {
                     'Content-type': 'application/json'
                 },
-                body: JSON.stringify({nit, compania, contacto, phoneNumber, direccion, receiver, quotationDetails})
+                body: JSON.stringify({nit, compania, contacto, phoneNumber, direccion, email, quotationDetails})
             });
             
             if (response.ok) {
