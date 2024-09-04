@@ -17,13 +17,16 @@
     "react-dom": "^18.2.0",
     "react-icons": "^5.2.1",
     "resend": "^3.5.0",
-    "styled-components": "^6.1.8"
+    "selenium-webdriver": "^4.24.0",
+    "styled-components": "^6.1.8",
+    "webdriver-manager": "^12.1.9"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.8",
     "@testing-library/react": "^16.0.0",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
+    "@types/selenium-webdriver": "^4.1.26",
     "@vitejs/plugin-react": "^4.2.1",
     "autoprefixer": "^10.4.19",
     "eslint": "^8.57.0",
