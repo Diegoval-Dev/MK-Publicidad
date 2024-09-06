@@ -26,26 +26,34 @@ export const CustomButton = styled.button`
 
 export const SubtleButton = styled.button`
   display: block;
-  width: 90%; /* Menor ancho para ser más discreto */
+  width: 90%; /* Mantener el ancho más discreto */
   max-width: 180px;
-  padding: 6px 12px; /* Padding más pequeño */
-  background-color: #FAFAF5; /* Color similar al del formulario */
-  color: var(--color-text); /* Mantener el color del texto */
-  border: 1px solid #e0e0e0; /* Borde similar al del formulario */
+  padding: 6px 12px;
+  background-color: #FAFAF5;
+  color: var(--color-text);
+  border: 1px solid #e0e0e0;
   border-radius: 5px;
-  font-size: 12px; /* Tamaño de fuente más pequeño */
-  font-weight: 500; /* Texto menos grueso */
+  font-size: 12px;
+  font-weight: 500;
   text-align: center;
   cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
 
   &:hover,
-  &:focus,
-  &:active {
-    background-color: #e0e0e0; /* Mismo color en todos los estados */
-    color: var(--color-text);
+  &:focus {
+    background-color: #f0f0f0; /* Cambio sutil de color en hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Aumentar la sombra */
+    transform: translateY(-2px); /* Pequeño desplazamiento hacia arriba */
   }
 
-  margin: 0 auto; /* Centrar el botón */
+  &:active {
+    background-color: #e0e0e0; /* Color más oscuro en active */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Restaurar la sombra */
+    transform: translateY(0); /* Volver a la posición original */
+  }
+
+  margin: 0 auto;
 `;
 
 export const FormContainer = styled.div`
