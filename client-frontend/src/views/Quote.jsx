@@ -35,7 +35,7 @@ function Quote() {
   }, [params, unitPrice]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-white">
+    <div className="min-h-screen flex-col bg-white">
       <Banner />
       
       {/* Contenedor del botón de navegación */}
