@@ -155,10 +155,11 @@ const CustomizationPage = () => {
         <div className="flex-1 ml-8 space-y-4">
         <button 
           onClick={() => setEditorVisible(!editorVisible)} 
-          className="text-sm font-medium text-gray-700 p-2 bg-[#FDFDFB] hover:bg-[#F5F5F0] border border-[#EAE8DC] rounded-md w-full text-center"
+          className="text-sm font-medium text-gray-700 p-3 bg-[#f9f9f7] hover:bg-[#f5f5f0] border border-[#eae8dc] rounded-md w-full text-center shadow-sm"
         >
           Diseño
         </button>
+
 
 
           {editorVisible && texts.map((textItem, index) => (
