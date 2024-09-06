@@ -37,7 +37,7 @@ function Quote() {
   return (
     <div className="min-h-screen flex-col bg-white">
       <Banner />
-      
+      |
       {/* Contenedor del botón de navegación */}
       <div className="container flex justify-between items-center p-4">
         <NavigationButtons

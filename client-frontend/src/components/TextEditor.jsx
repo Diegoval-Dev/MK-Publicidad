@@ -44,7 +44,14 @@ const TextEditor = ({ index, text, setText, font, setFont, fontSize, setFontSize
           onChange={(e) => setFontSize(e.target.value)}
           placeholder="16"
         />
-        <button onClick={() => removeText(index)} className="text-sm text-red-500 hover:text-red-700">Eliminar</button>
+       <button 
+        onClick={() => removeText(index)} 
+        className="text-sm bg-red-600 text-white hover:bg-red-700 hover:shadow-lg transition duration-300 ease-in-out px-4 py-2 rounded-md"
+      >
+        Eliminar
+      </button>
+
+
       </div>
       <div className="flex items-center justify-center space-x-2">
         <input

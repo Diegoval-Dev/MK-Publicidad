@@ -31,7 +31,7 @@
   .carousel-content span {
     display: inline-block;
     padding-right: 50px; /* Espacio entre los elementos del carrusel */
-    color: var(--color-backgroundText);
+    color: white; /* Cambiar el color a blanco */
     font-size: 16px;
   }
   
