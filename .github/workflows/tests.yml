@@ -16,7 +16,7 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: latest
-        cache: 'npm'
-    - run: cd tests && npm ci  # Cambia el directorio si tu package-lock.json está en otra carpeta
+        cache: 'none'
+    - run: cd tests && npm install  # Cambia el directorio si tu package-lock.json está en otra carpeta
     - run: cd tests && npm run build --if-present
     - run: cd tests && npm test
