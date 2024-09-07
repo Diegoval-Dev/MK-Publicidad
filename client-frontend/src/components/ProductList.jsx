@@ -49,7 +49,7 @@ function ProductList({ category }) {
       <h2 className='centered-title'>{params.category}</h2>
       <div className="product-list-container">
         {products.map((product, index) => (
-          <div key={index} onClick={() => navigate('customization', { productId: product.id_producto })}>
+          <div key={index} onClick={() => navigate('customization', { productId: product.id_producto, productCode: product.codigo_producto, categoryId: product.id_categoria, name: product.nombre_producto })}>
             <Card {...product} />
           </div>
         ))}

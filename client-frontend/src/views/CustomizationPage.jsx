@@ -55,14 +55,14 @@ const CustomizationPage = () => {
     if (screenshot) {
       console.log("Adding customization to cart");
       navigate('quote', {
-        category: product.idcategoria,
-        productId: product.id,
+        category: params.categoryId,
+        productId: params.productCode,
         screenshot: screenshot,
         color: color,
         size: size,
         quantity: quantity,
         description: description,
-        name: product.name,
+        name: params.name,
       });
     }
   }, [screenshot, color, size, quantity, description, product, navigate]);

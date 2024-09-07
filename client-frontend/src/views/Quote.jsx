@@ -32,6 +32,8 @@ function Quote() {
       total: calculatedTotal,
       image: params.screenshot
     });
+
+    console.log("ednjemjmokewmikcew", params)
   }, [params, unitPrice]);
 
   return (
@@ -51,8 +53,8 @@ function Quote() {
                 <tr>
                   <th className="font-bold px-1 py-1 border-b border-color-prices">PRODUCTO</th>
                   <th className="font-bold px-1 py-1 border-b border-color-prices">ID</th>
+                  <th className="font-bold px-1 py-1 border-b border-color-prices">NOMBRE</th>
                   <th className="font-bold px-1 py-1 border-b border-color-prices">COLOR</th>
-                  <th className="font-bold px-1 py-1 border-b border-color-prices">TALLA</th>
                   <th className="font-bold px-1 py-1 border-b border-color-prices">CANTIDAD</th>
                 </tr>
               </thead>
@@ -66,13 +68,13 @@ function Quote() {
                     </div>
                   </td>
                   <td className="px-1 py-1">{params.productId}</td>
+                  <td className="px-1 py-1">{name}</td>
                   <td className="px-1 py-1">{color}</td>
-                  <td className="px-1 py-1">{size}</td>
                   <td className="px-1 py-1">{quantity}</td>
                 </tr>
                 <tr>
                   <td colSpan="5" className="px-2 py-2 border-t border-color-prices">
-                    <strong className="font-bold">DESCRIPCIÓN</strong><br />{description}
+                    <strong className="font-bold">DESCRIPCIÓN ADICIONAL</strong><br />{description}
                   </td>
                 </tr>
               </tbody>
