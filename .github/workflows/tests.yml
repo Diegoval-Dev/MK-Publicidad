@@ -18,8 +18,8 @@ jobs:
       with:
         node-version: latest
         cache: 'npm'
-    - run: npm ci
-      working-directory: ./tests
+    - run: npm install
+      working-directory: ./nombre_del_directorio
     - run: npm run build --if-present
       working-directory: ./tests
     - run: npm test
