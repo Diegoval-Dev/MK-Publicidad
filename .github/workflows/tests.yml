@@ -18,4 +18,7 @@ jobs:
         node-version: latest
     - run: cd client-frontend && npm install  # Cambia el directorio si tu package-lock.json está en otra carpeta
     - run: cd client-frontend && npm run build --if-present
-    - run: cd client-frontend && npm test
+    - run: cd client-frontend npm test
+    - run: cd .. && cd tests && npm install  # Cambia el directorio si tu package-lock.json está en otra carpeta
+    - run: cd tests && cd tests &&  npm run build --if-present
+    - run: cd .. cd tests && npm test
