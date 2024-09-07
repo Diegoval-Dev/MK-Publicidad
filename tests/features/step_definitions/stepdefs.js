@@ -144,12 +144,12 @@ Then('debería ver la lista de productos con ese nombre', async function () {
 });
 
 When('ingreso el material del producto', async function () {
-  await loadProductsByMaterial("Algodón")
+  await loadProductsByMaterial("1")
 });
 
 Then('debería ver la lista de productos fabricados con ese material', async function () {
   try {
-    const productList = await loadProductsByMaterial("Algodón");
+    const productList = await loadProductsByMaterial("1");
     assert.ok(Array.isArray(productList), 'La lista de productos no está disponible.')
 
   } catch (error) {
