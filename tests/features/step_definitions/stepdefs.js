@@ -60,7 +60,7 @@ async function loadProductsByName(name) {
 };
 
 const loadProductsByMaterial = async (material) => {
-  const apiURL = `http://localhost:3000/user/products?material=${material}`;
+  const apiURL = `http://localhost:3000/user/products?category=${material}`;
   
   try {
     const response = await fetch(apiURL, {
@@ -130,12 +130,12 @@ Then('debería ver la lista de productos disponibles', async function () {
 });
 
 When('ingreso el nombre del producto', async function () {
-  await loadProductsByName("Suéter")
+  await loadProductsByName("Taza")
 });
 
 Then('debería ver la lista de productos con ese nombre', async function () {
   try {
-    const productList = await loadProductsByName("Suéter");
+    const productList = await loadProductsByName("Taza");
     assert.ok(Array.isArray(productList), 'La lista de productos no está disponible.');
 
   } catch (error) {
