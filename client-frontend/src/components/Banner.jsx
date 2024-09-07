@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from '@assets/imgs/mk_logo.png';
+import logo from '../assets/imgs/mk_logo.png';
 import '../styles/Banner.css'; 
 
 function Banner() {

@@ -138,7 +138,6 @@ function template(nit, compania, contacto, phoneNumber, direccion, receiver, quo
         <div class="row" style="background-color: #f1f1f1;">
           <div class="column side">
             <img height="50%" src="${item.image}" alt="Imagen del producto">
-            <p>${item.product}</p>
           </div>
           <div class="column sides">
             <p>${item.description}</p>
