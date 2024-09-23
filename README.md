@@ -78,7 +78,6 @@ docker-compose up -d
 Un reconocimiento a las personas que han contribuido al desarrollo y éxito de MK Platform. Su dedicación, conocimiento y habilidades han sido fundamentales para llevar el proyecto a su estado actual.
 
 - **Diego Valenzuela** - *Desarrollo Backend y Frontend* - [Perfil de Diego](https://github.com/diegoval-dev)
-- **Ruth de Leon** - *a* - [Perfil de Ruth](https://github.com/Anaru03)
 - **Silvia Illescas** - *a* - [Perfil de Silvia](https://github.com/Silviaillescas)
 - **Héctor Penedo** - *a* - [Perfil de Héctor](https://github.com/DANdelion-0908)
 - **Michelle Mejia** - *a* - [Perfil de Michelle](https://github.com/michellemej22596)
