@@ -133,7 +133,14 @@ const CustomizationPage = () => {
             onTextDragEnd={handleTextDragEnd}
             onImageDragEnd={handleImageDragEnd}
           /> */}
-          <FabricCanvas />
+          <FabricCanvas 
+            backgroundImageUrl={product.url_imagen}
+            images={images}
+            texts={texts}
+            stageRef={stageRef}
+            onTextDragEnd={handleTextDragEnd}
+            onImageDragEnd={handleImageDragEnd}
+          />
 
         </div>
         <div className="flex-1 ml-8 space-y-4">

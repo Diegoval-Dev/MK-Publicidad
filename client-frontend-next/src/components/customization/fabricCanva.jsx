@@ -1,7 +1,7 @@
 import dynamic from 'next/dynamic';
 import { useEffect, useRef } from 'react';
 
-const FabricCanvas = () => {
+const FabricCanvas = ({ backgroundImageUrl, images, fabricTexts, fabricCanvasRef }) => {
   const canvasRef = useRef(null);
 
   useEffect(() => {
@@ -9,29 +9,28 @@ const FabricCanvas = () => {
     const loadFabric = async () => {
       const fabricModule = await import('fabric-pure-browser'); // Import fabric-pure-browser dynamically
       const fabric = fabricModule.fabric;
-
-      console.log("Fabric module loaded:", fabric);
-
-      // Ensure that `fabric.Canvas` is available after it's loaded
       if (fabric) {
         const canvas = new fabric.Canvas(canvasRef.current, {
-          height: 900,
-          width: 1800,
-          backgroundColor: 'blue',
+          height: 500,
+          width: 500,
+          backgroundColor: 'white',
         });
 
         console.log("Canvas created with fabric-pure-browser:", canvas);
 
-        // Add a text object to the canvas
-        const text = new fabric.IText('Hello, Fabric.js (pure browser)!', {
-          left: 100,
-          top: 100,
-          fontFamily: 'Arial',
-          fill: 'white',
-          fontSize: 50,
-        });
+        if (backgroundImageUrl) {
+          fabric.Image.fromURL(
+            backgroundImageUrl,
+            function (img) {
+              canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
+                scaleX: canvas.width / img.width,
+                scaleY: canvas.height / img.height,
+              });
+            },
+            { crossOrigin: 'Anonymous' }
+          );
+        }
 
-        canvas.add(text); // Add the text to the canvas
         canvas.renderAll(); // Ensure everything is rendered
 
         // Clean up canvas on component unmount
@@ -44,6 +43,57 @@ const FabricCanvas = () => {
     // Call the dynamic load function
     loadFabric();
   }, []);
+
+  useEffect(() => {
+    // Second useEffect for loading images and texts after the canvas has been created
+    const loadFabric = async () => {
+      const fabricModule = await import('fabric-pure-browser');
+      const fabric = fabricModule.fabric;
+      const canvas = fabricCanvasRef.current;
+      if (!canvas) return;
+
+      const backgroundImage = canvas.backgroundImage;
+      canvas.clear();
+      if (backgroundImage) {
+        fabric.Image.fromURL(
+          backgroundImage.src,
+          function (img) {
+            canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
+              scaleX: canvas.width / img.width,
+              scaleY: canvas.height / img.height,
+            });
+          },
+          { crossOrigin: 'Anonymous' }
+        );
+      }
+
+      // Load images
+      images.forEach((image) => {
+        fabric.Image.fromURL(
+          image.src,
+          function (img) {
+            canvas.add(img);
+          },
+          { crossOrigin: 'Anonymous' }
+        );
+      });
+
+      // Load texts
+      fabricTexts.forEach((text) => {
+        const fabricText = new fabric.Text(text.text, {
+          left: text.left,
+          top: text.top,
+          fill: text.fill,
+        });
+        canvas.add(fabricText);
+      });
+
+      canvas.renderAll(); // Ensure everything is rendered
+    };
+
+    // Call the dynamic load function
+    loadFabric();
+  }, [images, fabricTexts]); 
 
   return <canvas id="fabricCanvas" ref={canvasRef} style={{ border: '1px solid black' }} />;
 };
