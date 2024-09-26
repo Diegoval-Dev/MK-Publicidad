@@ -1,11 +1,14 @@
 'use client';
 
-import { useEffect, useState, useRef } from 'react';
-import dynamic from 'next/dynamic';
+import { useEffect, useState, useRef, useMemo } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import NavigationButtons from '@components/utils/NavigationButtons';
 import { CustomButton, SubtleButton } from '@styles/styled';
 import { fetchProductById } from '@api/products';
+
+import FabricCanvas from './FabricCanva';
+import TextEditor from './TextEditor';
+import ImageUploader from './ImageUploader';
 
 const CustomizationPage = () => {
   const [editorVisible, setEditorVisible] = useState(false);
@@ -18,21 +21,49 @@ const CustomizationPage = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const Canva = dynamic(() => import('./Canva'), { ssr: false });
-  const TextEditor = dynamic(() => import('./TextEditor'), { ssr: false });
-  const ImageUploader = dynamic(() => import('./ImageUploader'), { ssr: false });
-  const FabricCanvas = dynamic(() => import('./FabricCanva'), { ssr: false });
-  const stageRef = useRef(null);
+  const fabricCanvasRef = useRef(null);
 
   const router = useRouter();
   const { nombre_categoria, productId } = useParams();
 
+  // Llamadas a hooks deben estar antes de cualquier retorno condicional
+  const memoizedImages = useMemo(() => images, [images]);
+  const memoizedTexts = useMemo(() => texts, [texts]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchProductById(productId);
+        setProduct(data);
+      } catch (error) {
+        console.error('Error al cargar producto:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    if (productId) {
+      fetchData();
+    }
+  }, [productId]);
+
+  // Retornos condicionales después de los hooks
+  if (loading) {
+    return <p>Cargando producto...</p>;
+  }
+
+  if (!product) {
+    return <p>No se encontró el producto.</p>;
+  }
+
   const takeScreenshot = () => {
-    const dataUrl = stageRef.current.toDataURL({
-      mimeType: 'image/png',
-      quality: 0.8,
-    });
-    return dataUrl;
+    if (fabricCanvasRef.current) {
+      const dataUrl = fabricCanvasRef.current.toDataURL({
+        format: 'png',
+        quality: 0.8,
+      });
+      return dataUrl;
+    }
+    return null;
   };
 
   const handleCustomizationClick = (e) => {
@@ -58,6 +89,7 @@ const CustomizationPage = () => {
     setTexts([
       ...texts,
       {
+        id: Date.now(), // Asegúrate de que cada texto tenga un ID único
         text: '',
         fontFamily: 'Arial',
         fontSize: 16,
@@ -84,30 +116,6 @@ const CustomizationPage = () => {
     setImages(newImages);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const data = await fetchProductById(productId);
-        setProduct(data);
-      } catch (error) {
-        console.error('Error al cargar producto:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    if (productId) {
-      fetchData();
-    }
-  }, [productId]);
-
-  if (loading) {
-    return <p>Cargando producto...</p>;
-  }
-
-  if (!product) {
-    return <p>No se encontró el producto.</p>;
-  }
-
   return (
     <div className="min-h-screen flex flex-col items-center bg-white">
       {/* Sección del título */}
@@ -125,23 +133,14 @@ const CustomizationPage = () => {
 
       <div className="flex justify-center items-start w-full max-w-4xl px-4 mt-8">
         <div className="flex-1">
-          {/* <Canva
+          <FabricCanvas
             backgroundImageUrl={product.url_imagen}
-            images={images}
-            texts={texts}
-            stageRef={stageRef}
-            onTextDragEnd={handleTextDragEnd}
-            onImageDragEnd={handleImageDragEnd}
-          /> */}
-          <FabricCanvas 
-            backgroundImageUrl={product.url_imagen}
-            images={images}
-            texts={texts}
-            stageRef={stageRef}
+            images={memoizedImages}
+            texts={memoizedTexts}
+            fabricCanvasRef={fabricCanvasRef}
             onTextDragEnd={handleTextDragEnd}
             onImageDragEnd={handleImageDragEnd}
           />
-
         </div>
         <div className="flex-1 ml-8 space-y-4">
           <button
@@ -180,40 +179,6 @@ const CustomizationPage = () => {
             />
           )}
           <form className="bg-white shadow-md rounded px-4 pt-4 pb-2">
-            <div>
-              <label htmlFor="color" className="block text-sm font-medium text-gray-700">
-                Color:
-              </label>
-              <select
-                id="color"
-                name="color"
-                className="mt-1 block w-full border border-gray-300 rounded shadow-sm p-2"
-                value={color}
-                onChange={(e) => setColor(e.target.value)}
-              >
-                <option value="">Selecciona un color</option>
-                <option value="color1">Color 1</option>
-                <option value="color2">Color 2</option>
-                <option value="color3">Color 3</option>
-              </select>
-            </div>
-            <div className="form-group">
-              <label htmlFor="size" className="block text-sm font-medium text-gray-700">
-                Talla:
-              </label>
-              <select
-                id="size"
-                name="size"
-                className="form-field"
-                value={size}
-                onChange={(e) => setSize(e.target.value)}
-              >
-                <option value="">Selecciona una talla</option>
-                <option value="small">S</option>
-                <option value="medium">M</option>
-                <option value="large">L</option>
-              </select>
-            </div>
             <div className="form-group">
               <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">
                 Cantidad:
@@ -223,6 +188,7 @@ const CustomizationPage = () => {
                 id="quantity"
                 name="quantity"
                 min="1"
+                placeholder="Ingresa la cantidad"
                 className="form-field"
                 value={quantity}
                 onChange={(e) => setQuantity(e.target.value)}

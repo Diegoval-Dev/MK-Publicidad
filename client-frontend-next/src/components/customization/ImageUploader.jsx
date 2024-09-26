@@ -36,7 +36,7 @@ const ImageUploader = ({ images, setImages }) => {
           <div key={index} className="flex items-center space-x-2">
             <img src={image.src} alt={`uploaded-${index}`} className="h-16 w-16 object-cover" />
             <button 
-              onClick={() => removeText(index)} 
+              onClick={() => removeImage(index)} 
               className="text-sm bg-red-600 text-white hover:bg-red-700 hover:shadow-lg transition duration-300 ease-in-out px-4 py-2 rounded-md"
             >
               Eliminar
