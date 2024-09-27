@@ -100,7 +100,7 @@ function Catalogue() {
   return (
     <div className="flex flex-col items-center">
       <div className="container flex justify-between w-full p-4">
-        <NavigationButtons onClick={() => router.push('/categorias')} />
+        <NavigationButtons />
         <FilterControls
           toggleFilterVisibility={toggleFilterVisibility}
           isFilterVisible={isFilterVisible}

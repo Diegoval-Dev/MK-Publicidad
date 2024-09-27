@@ -67,11 +67,19 @@ const CustomizationPage = () => {
   };
 
   const handleCustomizationClick = (e) => {
+
     e.preventDefault();
+    console.log('Customization data:', product);
     const screenshotData = takeScreenshot();
 
+    console.log('Customization data:', {
+      screenshot: screenshotData,
+    });
+
+    // Guardar la categoría y otros datos en localStorage
     const customizationData = {
-      category: product.idcategoria,
+      funciona: "Aún no funciona",
+      category: product.nombre_categoria, // Guardar la categoría
       productId: product.id_producto,
       screenshot: screenshotData,
       color,
@@ -126,7 +134,6 @@ const CustomizationPage = () => {
 
       <div className="container flex justify-between items-center p-4">
         <NavigationButtons
-          onClick={() => router.push(`/categorias/${nombre_categoria}`)}
           className="ml-4"
         />
       </div>
