@@ -149,24 +149,34 @@ const getCategoriesByKeyword = async (keyword) => {
     try {
         const categories = await Product.findAll({
             attributes: [
-                [Sequelize.fn('DISTINCT', Sequelize.col('id_categoria')), 'id_categoria'],
-                'url_imagen'
+                [Sequelize.fn('DISTINCT', Sequelize.col('Category.id_categoria')), 'id_categoria'],
+                [Sequelize.col('Category.nombre_categoria'), 'nombre_categoria'],
+                [Sequelize.fn('MAX', Sequelize.col('Product.url_imagen')), 'url_imagen']
             ],
-            where: {
-                id_categoria: {
-                    [Sequelize.Op.like]: `%${keyword}%`
+            include: [
+                {
+                    model: Category,
+                    attributes: [], // No traer más atributos aparte de los seleccionados
+                    where: {
+                        nombre_categoria: {
+                            [Sequelize.Op.like]: `%${keyword}%`
+                        }
+                    }
                 }
-            }
+            ],
+            group: ['Category.id_categoria', 'Category.nombre_categoria']
         });
 
         return categories.map(cat => ({
             id_categoria: cat.id_categoria,
+            nombre_categoria: cat.nombre_categoria,
             url_imagen: cat.url_imagen
         }));
     } catch (error) {
         throw new Error(`Error al obtener las categorías: ${error.message}`);
     }
 };
+
 
 export default {
     createProduct,
