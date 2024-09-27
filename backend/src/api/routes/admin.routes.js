@@ -9,6 +9,7 @@ const adminRouter = express.Router();
 // RUTAS PROTEGIDAS
 // Estas rutas requieren autenticación con JWT
 
+// Ruta para crear un producto
 /**
  * @openapi
  * /api/admin/products:
@@ -59,6 +60,7 @@ adminRouter.post('/products', authMiddleware, (req, res) => {
     });
 });
 
+// Ruta para actualizar un producto existente
 /**
  * @openapi
  * /api/admin/products/{id}:
@@ -97,6 +99,7 @@ adminRouter.post('/products', authMiddleware, (req, res) => {
  */
 adminRouter.put('/products/:id', authMiddleware, productController.updateProduct);
 
+// Ruta para eliminar un producto
 /**
  * @openapi
  * /api/admin/products/{id}:
@@ -125,9 +128,78 @@ adminRouter.put('/products/:id', authMiddleware, productController.updateProduct
  */
 adminRouter.delete('/products/:id', authMiddleware, productController.deleteProduct);
 
+// Ruta para actualizar un usuario (requiere autenticación con JWT)
+/**
+ * @openapi
+ * /api/admin/users/{user_email}:
+ *   put:
+ *     tags:
+ *       - Admin
+ *     summary: Actualiza un usuario existente por su correo electrónico
+ *     security:
+ *       - bearerAuth: []  # Indica que esta ruta necesita autenticación JWT
+ *     parameters:
+ *       - in: path
+ *         name: user_email
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: El correo electrónico del usuario a actualizar
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       200:
+ *         description: Usuario actualizado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       404:
+ *         description: Usuario no encontrado
+ *       401:
+ *         description: Token faltante o inválido
+ *       500:
+ *         description: Error en el servidor
+ */
+adminRouter.put('/users/:user_email', authMiddleware, adminController.updateUser);
+
+// Ruta para eliminar un usuario (requiere autenticación con JWT)
+/**
+ * @openapi
+ * /api/admin/users/{user_email}:
+ *   delete:
+ *     tags:
+ *       - Admin
+ *     summary: Elimina un usuario por su correo electrónico
+ *     security:
+ *       - bearerAuth: []  # Indica que esta ruta necesita autenticación JWT
+ *     parameters:
+ *       - in: path
+ *         name: user_email
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: El correo electrónico del usuario a eliminar
+ *     responses:
+ *       200:
+ *         description: Usuario eliminado exitosamente
+ *       404:
+ *         description: Usuario no encontrado
+ *       401:
+ *         description: Token faltante o inválido
+ *       500:
+ *         description: Error en el servidor
+ */
+adminRouter.delete('/users/:user_email', authMiddleware, adminController.deleteUser);
+
 // RUTAS PÚBLICAS
 // Estas rutas no requieren autenticación
 
+// Registro de usuario
 /**
  * @openapi
  * /api/admin/register:
@@ -153,6 +225,7 @@ adminRouter.delete('/products/:id', authMiddleware, productController.deleteProd
  */
 adminRouter.post('/register', adminController.register);
 
+// Inicio de sesión
 /**
  * @openapi
  * /api/admin/login:
