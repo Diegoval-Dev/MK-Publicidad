@@ -1,4 +1,3 @@
-// controllers/adminController.js
 import adminService from '../services/AdminService.js';
 
 /**
@@ -126,7 +125,74 @@ const login = async (req, res) => {
     }
 };
 
+/**
+ * @openapi
+ * /api/admin/update/{user_email}:
+ *   put:
+ *     tags:
+ *       - Admin
+ *     summary: Actualiza un usuario existente
+ *     parameters:
+ *       - in: path
+ *         name: user_email
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: El correo electrónico del usuario a actualizar
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               user_password:
+ *                 type: string
+ *                 example: NewPassword123!
+ *               user_role:
+ *                 type: string
+ *                 example: admin
+ *               user_name:
+ *                 type: string
+ *                 example: John Updated
+ *               position:
+ *                 type: string
+ *                 example: Updated Manager
+ *               user_phone:
+ *                 type: string
+ *                 example: '0987654321'
+ *               user_officePhone:
+ *                 type: string
+ *                 example: '1234567890'
+ *     responses:
+ *       200:
+ *         description: Usuario actualizado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       404:
+ *         description: Usuario no encontrado
+ *       500:
+ *         description: Error en el servidor
+ */
+const updateUser = async (req, res) => {
+    try {
+        const { user_email } = req.params;
+        const updatedUser = await adminService.updateUser(user_email, req.body);
+
+        if (!updatedUser) {
+            return res.status(404).json({ message: "Usuario no encontrado" });
+        }
+
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 export default {
     register,
-    login
+    login,
+    updateUser // método de edición
 };
