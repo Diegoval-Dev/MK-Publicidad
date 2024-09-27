@@ -1,0 +1,229 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-text: #030303;
+  --color-symbols: #262932;
+  --color-tittlesAdmin: #3B6B27;
+  --color-prices: #426B1F;
+  --color-componentes: #FAFAF5;
+  --color-button: #65a30d; /* Verde más claro */
+  --color-button-hover: #4CAF50; /* Verde más oscuro */
+  --color-button-text: #FFFFFF; /* Texto blanco */
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+
+/* Paleta de colores */
+:root {
+  --color-text: #030303;
+  --color-symbols: #262932;
+  --color-tittlesAdmin: #3B6B27;
+  --color-prices: #426B1F;
+  --color-componentes: #FAFAF5;
+  --color-button: #65a30d; /* Verde más claro */
+  --color-button-hover: #4CAF50; /* Verde más oscuro */
+  --color-button-text: #FFFFFF; /* Texto blanco */
+}
+
+/* Tipografía */
+body {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-text); 
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Estilos para los botones */
+.button,
+.agregar-diseno-button,
+.solicitar-cotizacion-button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: var(--color-button) !important; /* Verde constante */
+  color: var(--color-button-text) !important;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover,
+.agregar-diseno-button:hover,
+.solicitar-cotizacion-button:hover {
+  background-color: var(--color-button-hover) !important; /* Verde más oscuro */
+}
+
+/* Forzando estilos para evitar sobrescrituras */
+.button:focus,
+.button:active,
+.agregar-diseno-button:focus,
+.agregar-diseno-button:active,
+.solicitar-cotizacion-button:focus,
+.solicitar-cotizacion-button:active {
+  background-color: var(--color-button) !important;
+  color: var(--color-button-text) !important;
+}
+
+/* Estilos para títulos */
+.centered-title {
+  text-align: center;
+  font-size: 28px;
+  margin: 20px 0;
+  color: var(--color-symbols);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  text-shadow: 1px 1px 2px var(--color-shadow);
+  letter-spacing: 1px;
+}
+
+/* Estilos para la lista de productos */
+.product-list-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+  padding-bottom: 100px;
+}
+
+.card-container {
+  width: 240px;
+  height: auto;
+  margin: 10px;
+  border: 1px solid var(--color-contorno);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px;
+  background-color: var(--color-componentes);
+}
+
+.card-url_imagen {
+  width: 100%;
+  height: 150px; /* Asegura que todas las imágenes tengan la misma altura */
+  object-fit: cover; /* Escala la imagen y recorta si es necesario para llenar el contenedor */
+  border-radius: 8px; /* Mantiene un diseño consistente con la tarjeta */
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin: 15px 0;
+  max-width: 100%; /* Asegura que el ancho sea el del contenedor */
+  overflow: hidden; /* Oculta el contenido que no cabe */
+  text-overflow: ellipsis; /* Agrega los puntos suspensivos */
+  white-space: nowrap; /* Evita el salto de línea */
+}
+
+.card-description {
+  font-size: 14px;
+  color: #666;
+  padding: 0 10px 15px;
+  max-width: 100%; /* Asegura que el ancho sea el del contenedor */
+  overflow: hidden; /* Oculta el contenido que no cabe */
+  text-overflow: ellipsis; /* Agrega los puntos suspensivos */
+  white-space: nowrap; /* Evita el salto de línea */
+}
+
+
+
+
+.card-category {
+  font-weight: bold;
+  color: var(--color-prices);
+  align-self: start;
+  margin-left: 4px;
+  padding: 1px 4px;
+  border: 1px solid var(--color-contornoButtons);
+  border-radius: 5px; /* Más cuadrado */
+}
+
+.card-material {
+  font-weight: bold;
+  color: var(--color-prices);
+  align-self: start;
+  margin-left: 4px;
+}
+
+.card-container:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(11, 73, 35, 0.2);
+}
+
+
+/* Estilos para el formulario */
+form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+form div {
+  margin-bottom: 15px;
+}
+
+form label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #555;
+  display: block;
+  margin-bottom: 5px;
+}
+
+form select, 
+form input[type="number"], 
+form textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--color-contorno);
+  border-radius: 4px;
+  background-color: var(--color-componentes);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+  font-size: 14px;
+  color: #333;
+}
+
+form select:focus, 
+form input[type="number"]:focus, 
+form textarea:focus {
+  outline: none;
+  border-color: var(--color-button);
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.2);
+}
