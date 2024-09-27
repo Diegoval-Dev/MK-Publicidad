@@ -4,13 +4,10 @@ import productController from '../controllers/productController.js';
 import adminController from '../controllers/AdminController.js';
 import parser from '../middlewares/imagesMiddleware.js';
 
-
 const adminRouter = express.Router();
 
-//RUTAS PROTEGIDAS 
-// Endpoint para crear un nuevo producto
-
-adminRouter.post('/products', authMiddleware, parser.single('image'), productController.createProduct);
+// RUTAS PROTEGIDAS
+// Estas rutas requieren autenticación con JWT
 
 /**
  * @openapi
@@ -19,6 +16,8 @@ adminRouter.post('/products', authMiddleware, parser.single('image'), productCon
  *     tags:
  *       - Admin
  *     summary: Crea un nuevo producto
+ *     security:
+ *       - bearerAuth: []  # Indica que esta ruta necesita autenticación JWT
  *     requestBody:
  *       required: true
  *       content:
@@ -44,22 +43,22 @@ adminRouter.post('/products', authMiddleware, parser.single('image'), productCon
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Product'
+ *       401:
+ *         description: Token faltante o inválido
  *       500:
  *         description: Error en el servidor
  */
-adminRouter.post('/products', (req, res) => {
+adminRouter.post('/products', authMiddleware, (req, res) => {
     parser.single('image')(req, res, (err) => {
-      if (err) {
-        console.error(err);
-        res.status(500).json({ error: err });
-      } else {
-        productController.createProduct(req, res);
-      }
+        if (err) {
+            console.error(err);
+            res.status(500).json({ error: err });
+        } else {
+            productController.createProduct(req, res);
+        }
     });
-  });
+});
 
-// Endpoint para actualizar un producto existente
-//adminRouter.put('/products/:id', authMiddleware, productController.updateProduct);
 /**
  * @openapi
  * /api/admin/products/{id}:
@@ -67,6 +66,8 @@ adminRouter.post('/products', (req, res) => {
  *     tags:
  *       - Admin
  *     summary: Actualiza un producto existente
+ *     security:
+ *       - bearerAuth: []  # Indica que esta ruta necesita autenticación JWT
  *     parameters:
  *       - in: path
  *         name: id
@@ -89,13 +90,13 @@ adminRouter.post('/products', (req, res) => {
  *               $ref: '#/components/schemas/Product'
  *       404:
  *         description: Producto no encontrado
+ *       401:
+ *         description: Token faltante o inválido
  *       500:
  *         description: Error en el servidor
  */
-adminRouter.put('/products/:id', productController.updateProduct);
+adminRouter.put('/products/:id', authMiddleware, productController.updateProduct);
 
-// Endpoint para eliminar un producto
-//adminRouter.delete('/products/:id', authMiddleware, productController.deleteProduct);
 /**
  * @openapi
  * /api/admin/products/{id}:
@@ -103,6 +104,8 @@ adminRouter.put('/products/:id', productController.updateProduct);
  *     tags:
  *       - Admin
  *     summary: Elimina un producto
+ *     security:
+ *       - bearerAuth: []  # Indica que esta ruta necesita autenticación JWT
  *     parameters:
  *       - in: path
  *         name: id
@@ -115,13 +118,16 @@ adminRouter.put('/products/:id', productController.updateProduct);
  *         description: Producto eliminado exitosamente
  *       404:
  *         description: Producto no encontrado
+ *       401:
+ *         description: Token faltante o inválido
  *       500:
  *         description: Error en el servidor
  */
-adminRouter.delete('/products/:id', productController.deleteProduct);
+adminRouter.delete('/products/:id', authMiddleware, productController.deleteProduct);
 
-//RUTAS PUBLICAS
-//Enlace para registrar un usuario
+// RUTAS PÚBLICAS
+// Estas rutas no requieren autenticación
+
 /**
  * @openapi
  * /api/admin/register:
@@ -147,7 +153,6 @@ adminRouter.delete('/products/:id', productController.deleteProduct);
  */
 adminRouter.post('/register', adminController.register);
 
-//Enlace para iniciar sesion
 /**
  * @openapi
  * /api/admin/login:
@@ -178,6 +183,8 @@ adminRouter.post('/register', adminController.register);
  *                   type: string
  *                 user:
  *                   $ref: '#/components/schemas/User'
+ *                 token:
+ *                   type: string
  *       401:
  *         description: Credenciales inválidas
  *       500:
