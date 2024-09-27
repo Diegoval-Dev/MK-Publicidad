@@ -1,27 +1,23 @@
 from locust import HttpUser, task, between
 
-class AdminUser(HttpUser):
-    wait_time = between(1, 3)  # Tiempo de espera entre las solicitudes, en segundos
+class WebsiteUser(HttpUser):
+    wait_time = between(1, 3)
 
-    # Prueba para el endpoint POST /api/admin/register
-    @task(1)
-    def register_user(self):
-        payload = {
-            "user_email": "newuser@example.com",
-            "user_password": "Password123!",
-            "user_role": "admin",
-            "user_name": "John Doe",
-            "position": "Manager",
-            "user_phone": "1234567890",
-            "user_officePhone": "0987654321"
+    @task
+    def search_categories(self):
+        # Definimos el parámetro que vamos a enviar en la búsqueda
+        params = {
+            "keyword": "1"
         }
-        self.client.post("/api/admin/register", json=payload)
+        
+        # Hacemos una petición GET al endpoint de búsqueda con el parámetro 'keyword'
+        response = self.client.get("/user/search/categories", params=params)
+        
+        # Verificamos si la respuesta es exitosa
+        if response.status_code == 200:
+            print("Búsqueda de categorías exitosa")
+        else:
+            print(f"Error en la búsqueda de categorías: {response.status_code}")
 
-    # Prueba para el endpoint POST /api/admin/login
-    @task(2)  # Mayor peso porque se espera más actividad en login
-    def login_user(self):
-        payload = {
-            "user_email": "newuser@example.com",
-            "user_password": "Password123!"
-        }
-        self.client.post("/api/admin/login", json=payload)
+        # Puedes imprimir el contenido de la respuesta para verificar
+        print(response.text)
