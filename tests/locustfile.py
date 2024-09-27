@@ -25,3 +25,9 @@ class AdminUser(HttpUser):
             "user_password": "Password123!"
         }
         self.client.post("/api/admin/login", json=payload)
+
+ # Prueba para el endpoint GET /api/products/categories/search
+    @task(3)
+    def search_by_keyword(self):
+        keyword = "camisetas"  # Cambia la palabra clave según sea necesario
+        self.client.get(f"/api/products/categories/search?keyword={keyword}")
