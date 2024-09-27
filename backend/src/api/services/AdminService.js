@@ -30,7 +30,6 @@ const registerUser = async (userData) => {
 
 // Actualizar usuario
 const updateUser = async (email, userData) => {
-    // Buscar usuario por su correo electrónico
     const user = await userModel.findOne({ where: { user_email: email } });
     
     if (!user) {
@@ -43,12 +42,25 @@ const updateUser = async (email, userData) => {
     }
 
     // Actualizamos el usuario
-    await user.update(userData); // Actualiza solo los campos proporcionados en userData
+    await user.update(userData);
+    return user;
+};
+
+// Eliminar usuario
+const deleteUser = async (email) => {
+    const user = await userModel.findOne({ where: { user_email: email } });
+    
+    if (!user) {
+        return null;  // Usuario no encontrado
+    }
+
+    await user.destroy();  // Eliminar el usuario
     return user;
 };
 
 export default {
     registerUser,
     authenticateUser,
-    updateUser  // Agregamos el método de actualización de usuarios
+    updateUser,
+    deleteUser  //  método de eliminación de usuarios
 };
