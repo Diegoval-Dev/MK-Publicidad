@@ -6,12 +6,13 @@ const authMiddleware = (req, res, next) => {
     const token = authHeader && authHeader.split(' ')[1]; // Formato esperado "Bearer [TOKEN]"
 
     if (!token) {
-        return res.sendStatus(401); // No token provided
+        return res.status(401).json({ message: 'Acceso denegado. No se proporcionó un token.' });
     }
 
+    // Verificar el token
     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
         if (err) {
-            return res.sendStatus(403); // Invalid token
+            return res.status(403).json({ message: 'Token no válido o expirado.' });
         }
 
         req.user = user; // Adjuntar información del usuario al objeto de solicitud

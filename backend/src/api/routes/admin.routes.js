@@ -9,7 +9,8 @@ const adminRouter = express.Router();
 
 //RUTAS PROTEGIDAS 
 // Endpoint para crear un nuevo producto
-//adminRouter.post('/products', authMiddleware, parser.single('image'), productController.createProduct);
+
+adminRouter.post('/products', authMiddleware, parser.single('image'), productController.createProduct);
 
 /**
  * @openapi
