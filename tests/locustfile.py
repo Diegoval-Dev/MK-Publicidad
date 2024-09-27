@@ -21,3 +21,17 @@ class WebsiteUser(HttpUser):
 
         # Puedes imprimir el contenido de la respuesta para verificar
         print(response.text)
+
+    @task
+    def get_products(self):
+        # Hacemos una petición GET al endpoint de productos
+        response = self.client.get("/user/products")
+        
+        # Verificamos si la respuesta es exitosa
+        if response.status_code == 200:
+            print("Obtención de productos exitosa")
+        else:
+            print(f"Error al obtener productos: {response.status_code}")
+        
+        # Imprimimos la respuesta para verificar los datos obtenidos
+        print(response.text)
