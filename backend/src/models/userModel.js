@@ -1,4 +1,3 @@
- // models/userModel.js
 import { DataTypes } from 'sequelize';
 import { db } from '../database/config.js';
 
@@ -19,15 +18,13 @@ const User = db.define(
             type: DataTypes.STRING(150),
             allowNull: false,
             validate: {
-                isLongEnough: (val) => {
-                    if (val.length < 8) {
-                        throw new Error("La contraseña debe tener al menos 8 caracteres.");
-                    }
+                len: {
+                    args: [8, 150],
+                    msg: "La contraseña debe tener al menos 8 caracteres."
                 },
-                hasSpecialCharacter: (val) => {
-                    if (!/[!@#$%^&*(),.?":{}|<>]/g.test(val)) {
-                        throw new Error("La contraseña debe incluir al menos un símbolo.");
-                    }
+                is: {
+                    args: /[!@#$%^&*(),.?":{}|<>]/g,
+                    msg: "La contraseña debe incluir al menos un símbolo."
                 }
             }
         },
@@ -36,7 +33,7 @@ const User = db.define(
             allowNull: false,
             validate: {
                 isIn: {
-                    args: ['admin', 'contador', 'diseñadora', 'administrador de contenido'],
+                    args: [['admin', 'contador', 'diseñadora', 'administrador de contenido']],
                     msg: "El rol especificado no es válido."
                 }
             }
@@ -55,9 +52,12 @@ const User = db.define(
             validate: {
                 isNumeric: {
                     msg: "El teléfono debe contener solo números."
+                },
+                len: {
+                    args: [8, 15],
+                    msg: "El número de teléfono debe tener entre 8 y 15 dígitos."
                 }
             }
-
         },
         user_officePhone: {
             type: DataTypes.STRING(50),
@@ -65,7 +65,8 @@ const User = db.define(
         }
     }, {
         tableName: 'users',
-        timestamps: false 
-    });
+        timestamps: true
+    }
+);
 
 export default User;
