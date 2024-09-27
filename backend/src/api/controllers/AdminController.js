@@ -102,14 +102,6 @@ const register = async (req, res) => {
  *                   example: Credenciales inválidas
  *       500:
  *         description: Error en el servidor
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 error:
- *                   type: string
- *                   example: Error en el servidor
  */
 const login = async (req, res) => {
     try {
@@ -191,8 +183,62 @@ const updateUser = async (req, res) => {
     }
 };
 
+/**
+ * @openapi
+ * /api/admin/delete/{user_email}:
+ *   delete:
+ *     tags:
+ *       - Admin
+ *     summary: Elimina un usuario existente
+ *     parameters:
+ *       - in: path
+ *         name: user_email
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: El correo electrónico del usuario a eliminar
+ *     responses:
+ *       200:
+ *         description: Usuario eliminado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Usuario eliminado exitosamente
+ *       404:
+ *         description: Usuario no encontrado
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: Usuario no encontrado
+ *       500:
+ *         description: Error en el servidor
+ */
+const deleteUser = async (req, res) => {
+    try {
+        const { user_email } = req.params;
+        const deletedUser = await adminService.deleteUser(user_email);
+
+        if (!deletedUser) {
+            return res.status(404).json({ message: "Usuario no encontrado" });
+        }
+
+        res.status(200).json({ message: "Usuario eliminado exitosamente" });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
 export default {
     register,
     login,
-    updateUser // método de edición
+    updateUser,
+    deleteUser  // método para eliminar usuarios
 };
