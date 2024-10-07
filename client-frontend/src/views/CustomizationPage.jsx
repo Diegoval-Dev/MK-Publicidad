@@ -138,8 +138,7 @@ const CustomizationPage = () => {
       </div>
 
       <div className="container flex justify-between items-center p-4">
-      <NavigationButtons
-          onClick={() => navigate('/home/catalogue', { category: product.category })} className="ml-4" 
+      <NavigationButtons className="ml-4" 
         />
       </div>
 

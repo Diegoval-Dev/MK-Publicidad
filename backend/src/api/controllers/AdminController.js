@@ -46,6 +46,7 @@ import adminService from '../services/AdminService.js';
  *         description: Error en el servidor
  */
 const register = async (req, res) => {
+    console.log(req.body);
     try {
         const user = await adminService.registerUser(req.body);
         res.status(201).json(user);

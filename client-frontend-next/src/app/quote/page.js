@@ -55,7 +55,7 @@ export default function Quote() {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       {/* Contenedor del botón de navegación */}
-      <div className="container flex justify-between items-center p-4">
+      <div className="flex justify-start items-center p-4">
         <NavigationButtons />
       </div>
 
@@ -83,7 +83,7 @@ export default function Quote() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
+                <tr className='text-center'>
                   <td className="px-2 py-2 w-1/3">
                     <div>
                       <br />
