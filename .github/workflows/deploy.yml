@@ -20,11 +20,11 @@ jobs:
 
     - name: Copy files to EC2
       run: |
-        scp -r -o StrictHostKeyChecking=no ./ ubuntu@your-ec2-ip:/path/to/your/project
+        scp -r -o StrictHostKeyChecking=no ./ ubuntu@y172-31-8-73:/var/www/html/mk#
 
     - name: Deploy backend with Docker Compose
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@your-ec2-ip << 'EOF'
+        ssh -o StrictHostKeyChecking=no ubuntu@172-31-8-73 << 'EOF'
         cd backend
         docker-compose down
         docker-compose up -d --build
@@ -32,7 +32,7 @@ jobs:
 
     - name: Deploy admin frontend
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@your-ec2-ip << 'EOF'
+        ssh -o StrictHostKeyChecking=no ubuntu@172-31-8-73 << 'EOF'
         cd client-frontend-next
         npm install
         npm run build
@@ -41,7 +41,7 @@ jobs:
 
     - name: Deploy client frontend
       run: |
-        ssh -o StrictHostKeyChecking=no ubuntu@your-ec2-ip << 'EOF'
+        ssh -o StrictHostKeyChecking=no ubuntu@172-31-8-73 << 'EOF'
         cd admin-frontent-next
         npm install
         npm run build
