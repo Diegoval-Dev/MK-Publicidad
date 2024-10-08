@@ -33,21 +33,3 @@ jobs:
         docker-compose down
         docker-compose up -d --build
         EOF
-
-    - name: Deploy admin frontend
-      run: |
-        ssh -p 30 -o StrictHostKeyChecking=no ubuntu@13.58.67.97 << 'EOF'
-        cd admin-frontend-next
-        npm install
-        npm run build
-        npm run start
-        EOF
-
-    - name: Deploy client frontend
-      run: |
-        ssh -p 30 -o StrictHostKeyChecking=no ubuntu@13.58.67.97 << 'EOF'
-        cd client-frontend-next
-        npm install
-        npm run build
-        npm run start
-        EOF
