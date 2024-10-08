@@ -16,7 +16,7 @@ jobs:
     - name: Set up SSH
       uses: webfactory/ssh-agent@v0.5.3
       with:
-        ssh-private-key: ${{ secrets.SERVER_SSH_PRIVATE_KEYY }}
+        ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
 
     - name: Add SSH keyscan
       run: |
@@ -32,4 +32,22 @@ jobs:
         cd backend
         docker-compose down
         docker-compose up -d --build
+        EOF
+
+    - name: Deploy admin frontend
+      run: |
+        ssh -p 30 -o StrictHostKeyChecking=no ubuntu@13.58.67.97 << 'EOF'
+        cd admin-frontend-next
+        npm install
+        npm run build
+        npm run start
+        EOF
+
+    - name: Deploy client frontend
+      run: |
+        ssh -p 30 -o StrictHostKeyChecking=no ubuntu@13.58.67.97 << 'EOF'
+        cd client-frontend-next
+        npm install
+        npm run build
+        npm run start
         EOF
