@@ -24,7 +24,7 @@ jobs:
 
     - name: Copy files to EC2
       run: |
-        scp -r -P 30 -o StrictHostKeyChecking=no ./ ubuntu@13.58.67.97:/var/www/html/mk
+        scp -r -P 30 -o StrictHostKeyChecking=no * ubuntu@13.58.67.97:/var/www/html/mk
 
     - name: Deploy backend with Docker Compose
       run: |
