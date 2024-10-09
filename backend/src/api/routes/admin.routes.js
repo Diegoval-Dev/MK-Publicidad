@@ -6,6 +6,17 @@ import parser from '../middlewares/imagesMiddleware.js';
 
 const adminRouter = express.Router();
 
+// Verificar que el usuario tenga rol de administrador
+const verifyAdminRole = (req, res, next) => {
+    if (req.role !== 'admin') {
+        return res.status(403).json({ message: 'Acceso denegado. Solo administradores.' });
+    }
+    next();
+};
+adminRouter.post('/products', authMiddleware, verifyAdminRole, productController.createProduct);
+adminRouter.put('/products/:id', authMiddleware, verifyAdminRole, productController.updateProduct);
+adminRouter.delete('/products/:id', authMiddleware, verifyAdminRole, productController.deleteProduct);
+
 // RUTAS PROTEGIDAS
 // Estas rutas requieren autenticación con JWT
 
@@ -49,16 +60,7 @@ const adminRouter = express.Router();
  *       500:
  *         description: Error en el servidor
  */
-adminRouter.post('/products', authMiddleware, (req, res) => {
-    parser.single('image')(req, res, (err) => {
-        if (err) {
-            console.error(err);
-            res.status(500).json({ error: err });
-        } else {
-            productController.createProduct(req, res);
-        }
-    });
-});
+
 
 // Ruta para actualizar un producto existente
 /**
@@ -97,7 +99,7 @@ adminRouter.post('/products', authMiddleware, (req, res) => {
  *       500:
  *         description: Error en el servidor
  */
-adminRouter.put('/products/:id', authMiddleware, productController.updateProduct);
+
 
 // Ruta para eliminar un producto
 /**
@@ -126,7 +128,7 @@ adminRouter.put('/products/:id', authMiddleware, productController.updateProduct
  *       500:
  *         description: Error en el servidor
  */
-adminRouter.delete('/products/:id', authMiddleware, productController.deleteProduct);
+
 
 // Ruta para actualizar un usuario (requiere autenticación con JWT)
 /**

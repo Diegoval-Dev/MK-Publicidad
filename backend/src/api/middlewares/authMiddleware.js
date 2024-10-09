@@ -10,13 +10,17 @@ const authMiddleware = (req, res, next) => {
     }
 
     // Verificar el token
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+    jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
         if (err) {
             return res.status(403).json({ message: 'Token no válido o expirado.' });
         }
 
-        req.user = user; // Adjuntar información del usuario al objeto de solicitud
-        next(); // Pasar control a la siguiente middleware/ruta
+        // Extraer el userId y role del token desencriptado
+        req.userId = decoded.userId;
+        req.role = decoded.role;
+
+        // Pasar control a la siguiente middleware o ruta
+        next();
     });
 };
 
