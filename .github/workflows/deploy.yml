@@ -29,7 +29,7 @@ jobs:
     - name: Deploy backend with Docker Compose
       run: |
         ssh -p 30 -o StrictHostKeyChecking=no ubuntu@13.58.67.97 << 'EOF'
-        cd /var/www/html/mk/backend
+        cd /var/www/html/mk/
         docker-compose down
         docker-compose up -d --build
         EOF
@@ -37,7 +37,7 @@ jobs:
     - name: Deploy admin frontend
       run: |
         ssh -p 30 -o StrictHostKeyChecking=no ubuntu@13.58.67.97 << 'EOF'
-        cd admin-frontend-next
+        cd /var/www/html/mk/admin-frontend-next
         npm install
         npm run build
         npm run start
@@ -46,7 +46,7 @@ jobs:
     - name: Deploy client frontend
       run: |
         ssh -p 30 -o StrictHostKeyChecking=no ubuntu@13.58.67.97 << 'EOF'
-        cd client-frontend-next
+        cd /var/www/html/mk/client-frontend-next
         npm install
         npm run build
         npm run start

@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  backend:
+    container_name: mk_backend
+    build: ./backend/
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/backend  # Montea el código local en el contenedor
+    command: npm run dev    # Ejecuta el script 'dev' que usa nodemon
+    depends_on:
+      - mysql
+    restart: always
+
+  mysql:
+    container_name: mk_mysql
+    build: ./backend/src/database/
+    restart: always
+    environment:
+      MYSQL_DATABASE: mkdb
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3309:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./backend/src/database/schemas.sql:/docker-entrypoint-initdb.d/init-db.sql
+
+volumes:
+  mysql-data:
+    driver: "local"
