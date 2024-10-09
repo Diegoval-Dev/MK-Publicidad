@@ -13,7 +13,20 @@ const verifyAdminRole = (req, res, next) => {
     }
     next();
 };
-adminRouter.post('/products', authMiddleware, verifyAdminRole, productController.createProduct);
+
+adminRouter.post('/products', (req, res) => {
+    console.log(req.body); // <-- Verificar qué datos está recibiendo
+    parser.single('image')(req, res, (err) => {
+      if (err) {
+        console.error(err);
+        res.status(500).json({ error: err });
+      } else {
+        productController.createProduct(req, res);
+      }
+    });
+});
+
+
 adminRouter.put('/products/:id', authMiddleware, verifyAdminRole, productController.updateProduct);
 adminRouter.delete('/products/:id', authMiddleware, verifyAdminRole, productController.deleteProduct);
 
