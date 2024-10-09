@@ -1,4 +1,5 @@
 import adminService from '../services/AdminService.js';
+import jwt from 'jsonwebtoken';
 
 /**
  * @openapi
@@ -109,7 +110,12 @@ const login = async (req, res) => {
         const { user_email, user_password } = req.body;
         const authResult = await adminService.authenticateUser(user_email, user_password);
         if (authResult) {
-            res.status(200).json({ message: "Inicio de sesión exitoso", ...authResult });
+            const token = jwt.sign(
+                { userId: authResult.user.id, role: authResult.user.user_role }, // Agregar rol al payload
+                process.env.JWT_SECRET,
+                { expiresIn: '1h' }  // Duración del token
+            );
+            res.status(200).json({ message: "Inicio de sesión exitoso", token }); // Enviar token en la respuesta
         } else {
             res.status(401).json({ message: "Credenciales inválidas" });
         }
@@ -117,6 +123,7 @@ const login = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 /**
  * @openapi
