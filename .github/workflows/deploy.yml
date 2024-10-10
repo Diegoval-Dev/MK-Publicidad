@@ -39,8 +39,7 @@ jobs:
         ssh -p 30 -o StrictHostKeyChecking=no ubuntu@13.58.67.97 << 'EOF'
         cd /var/www/html/mk/admin-frontent-next 
         npm install
-        npm run build
-        npm run start
+        npm run dev
         EOF
 
     - name: Deploy client frontend
@@ -48,6 +47,5 @@ jobs:
         ssh -p 30 -o StrictHostKeyChecking=no ubuntu@13.58.67.97 << 'EOF'
         cd /var/www/html/mk/client-frontend-next
         npm install
-        npm run build
-        npm run start
+        npm run dev
         EOF
