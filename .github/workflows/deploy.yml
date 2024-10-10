@@ -36,7 +36,7 @@ jobs:
 
     - name: Deploy admin frontend
       run: |
-        ssh -t -p 30 -o StrictHostKeyChecking=no -o ServerAliveInterval=60 ubuntu@13.58.67.97 << 'EOF'
+        ssh -t -p 30 -o StrictHostKeyChecking=no ubuntu@13.58.67.97 << 'EOF'
         cd /var/www/html/mk/admin-frontent-next 
         npm install
         npm run dev
