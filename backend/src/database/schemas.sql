@@ -1,36 +1,34 @@
-
-
-CREATE TABLE Categorias (
-    id_categoria INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_categoria VARCHAR(100) NOT NULL
+CREATE TABLE Categories (
+    category_id INT AUTO_INCREMENT PRIMARY KEY,
+    category_name VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE Colores (
-    id_color INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_color VARCHAR(50) NOT NULL,
-    codigo_hexadecimal VARCHAR(7) NOT NULL
+CREATE TABLE Colors (
+    color_id INT AUTO_INCREMENT PRIMARY KEY,
+    color_name VARCHAR(50) NOT NULL,
+    hex_code VARCHAR(7) NOT NULL
 );
 
-
-CREATE TABLE Productos (
-    id_producto INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_producto VARCHAR(255) NOT NULL,
-    codigo_producto VARCHAR(20) NOT NULL UNIQUE,
-    id_categoria INT NOT NULL,
-    capacidad VARCHAR(50),
-    tamano VARCHAR(50),  
-    url_imagen VARCHAR(255),
-    FOREIGN KEY (id_categoria) REFERENCES Categorias(id_categoria)
+CREATE TABLE Products (
+    product_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_name VARCHAR(255) NOT NULL,
+    product_code VARCHAR(20) NOT NULL UNIQUE,
+    category_id INT NOT NULL,
+    capacity VARCHAR(50),
+    size VARCHAR(50),
+    image_url VARCHAR(255),
+    FOREIGN KEY (category_id) REFERENCES Categories(category_id)
 );
 
-CREATE TABLE Productos_Colores (
-    id_producto_color INT AUTO_INCREMENT PRIMARY KEY,
-    id_producto INT NOT NULL,
-    id_color INT NOT NULL,
-    FOREIGN KEY (id_producto) REFERENCES Productos(id_producto),
-    FOREIGN KEY (id_color) REFERENCES Colores(id_color)
+CREATE TABLE Product_Colors (
+    product_color_id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT NOT NULL,
+    color_id INT NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES Products(product_id),
+    FOREIGN KEY (color_id) REFERENCES Colors(color_id)
 );
-INSERT INTO Categorias (nombre_categoria) VALUES
+
+INSERT INTO Categories (category_name) VALUES
 ('Cerámica'),
 ('Peltre'),
 ('Acero Inoxidable'),
@@ -46,20 +44,19 @@ INSERT INTO Categorias (nombre_categoria) VALUES
 ('Letras recortadas, placas, acrílico y PVC'),
 ('Display');
 
-INSERT INTO Colores (nombre_color, codigo_hexadecimal) VALUES
-('Blanco', '#FFFFFF'),
-('Negro', '#000000'),
-('Rojo', '#FF0000'),
-('Azul', '#0000FF'),
-('Gris', '#808080'),
-('Verde', '#008000'),
-('Amarillo', '#FFFF00'),
-('Rosa', '#FFC0CB'),
-('Transparente', '#FFFFFF'), 
-('Plateado', '#C0C0C0'),
+INSERT INTO Colors (color_name, hex_code) VALUES
+('White', '#FFFFFF'),
+('Black', '#000000'),
+('Red', '#FF0000'),
+('Blue', '#0000FF'),
+('Gray', '#808080'),
+('Green', '#008000'),
+('Yellow', '#FFFF00'),
+('Pink', '#FFC0CB'),
+('Transparent', '#FFFFFF'),
+('Silver', '#C0C0C0'),
 ('Beige', '#F5F5DC'),
-('Multicolor', '#FFD700'); 
-
+('Multicolor', '#FFD700');
 
 INSERT INTO Productos (nombre_producto, codigo_producto, id_categoria, capacidad, tamano, url_imagen) VALUES
 ('Taza Blanca', 'T-0001', 1, '11 onz', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236003/img53_cvy7ki.jpg"),
