@@ -1,30 +1,28 @@
 import express from 'express';
 import authMiddleware from '../middlewares/authMiddleware.js';
+import verifyAdminRole from '../middlewares/verifyAdminRole.js';
 import productController from '../controllers/productController.js';
 import adminController from '../controllers/AdminController.js';
 import parser from '../middlewares/imagesMiddleware.js';
 
 const adminRouter = express.Router();
 
-// Verificar que el usuario tenga rol de administrador
-const verifyAdminRole = (req, res, next) => {
-    if (req.role !== 'admin') {
-        return res.status(403).json({ message: 'Acceso denegado. Solo administradores.' });
-    }
-    next();
-};
-
-adminRouter.post('/products', (req, res) => {
-    console.log(req.body); // <-- Verificar qué datos está recibiendo
-    parser.single('image')(req, res, (err) => {
-      if (err) {
-        console.error(err);
-        res.status(500).json({ error: err });
-      } else {
-        productController.createProduct(req, res);
-      }
-    });
-});
+adminRouter.post(
+  '/products', 
+  authMiddleware,   // Verifica si el token es válido
+  verifyAdminRole,  // Verifica si el rol es admin
+  (req, res) => {
+      console.log(req.body); // <-- Verificar qué datos está recibiendo
+      parser.single('image')(req, res, (err) => {
+          if (err) {
+              console.error(err);
+              res.status(500).json({ error: err });
+          } else {
+              productController.createProduct(req, res);
+          }
+      });
+  }
+);
 
 
 adminRouter.put('/products/:id', authMiddleware, verifyAdminRole, productController.updateProduct);
