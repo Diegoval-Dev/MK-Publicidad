@@ -37,7 +37,7 @@ import productService from '../services/productService.js';
  */
 const createProduct = async (req, res) => {
     try {
-        const { nombre_producto, id_categoria, capacidad, tamano } = req.body;
+        const { nombre_producto, codigo_producto, id_categoria, capacidad, tamano } = req.body;
 
         // Verifica si hay un archivo de imagen cargado
         let url_imagen = null;
@@ -45,7 +45,7 @@ const createProduct = async (req, res) => {
             url_imagen = req.file.path;
         }
 
-        const product = { nombre_producto, id_categoria, capacidad, tamano, url_imagen };
+        const product = { nombre_producto, codigo_producto, id_categoria, capacidad, tamano, url_imagen };
 
         const newProduct = await productService.createProduct(product);
         res.status(201).json(newProduct);
