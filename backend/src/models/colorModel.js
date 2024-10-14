@@ -2,22 +2,22 @@ import { DataTypes } from 'sequelize';
 import { db } from '../database/config.js';
 
 const Color = db.define('Color', {
-    id_color: {
+    color_id: { 
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
         allowNull: false
     },
-    nombre_color: {
+    color_name: {  
         type: DataTypes.STRING(50),
         allowNull: false
     },
-    codigo_hexadecimal: {
+    hex_code: {  
         type: DataTypes.STRING(7), 
         allowNull: false
     }
 }, {
-    tableName: 'Colores',
+    tableName: 'Colors',  
     timestamps: false
 });
 
