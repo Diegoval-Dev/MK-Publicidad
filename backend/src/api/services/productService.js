@@ -10,46 +10,44 @@ const createProduct = async (product) => {
 };
 
 const getProducts = async (filters = {}) => {
-	try {
-			const whereClause = {};
+    try {
+        const whereClause = {};
 
-			if (filters.nombre_producto) {
-					whereClause.nombre_producto = { [Op.like]: `%${filters.nombre_producto}%` };
-			}
-			if (filters.nombre_categoria) {
+        if (filters.product_name) {
+            whereClause.product_name = { [Op.like]: `%${filters.product_name}%` };
+        }
+        if (filters.category_name) {
+            const category = await Category.findOne({
+                where: { category_name: { [Op.like]: `%${filters.category_name}%` } }
+            });
+            if (category) {
+                whereClause.category_id = category.category_id;
+            } else {
+                return [];
+            }
+        }
+        if (filters.material) {
+            whereClause.material = { [Op.like]: `%${filters.material}%` };
+        }
+        if (filters.capacity) {
+            whereClause.capacity = { [Op.like]: `%${filters.capacity}%` };
+        }
+        if (filters.size) {
+            whereClause.size = { [Op.like]: `%${filters.size}%` };
+        }
 
-					const categoria = await Category.findOne({
-							where: { nombre_categoria: { [Op.like]: `%${filters.nombre_categoria}%` } }
-					});
-					if (categoria) {
-							whereClause.id_categoria = categoria.id_categoria; 
-					} else {
-							return []; 
-					}
-			}
-			if (filters.material) {
-					whereClause.material = { [Op.like]: `%${filters.material}%` };
-			}
-			if (filters.capacidad) {
-					whereClause.capacidad = { [Op.like]: `%${filters.capacidad}%` };
-			}
-			if (filters.tamano) {
-					whereClause.tamano = { [Op.like]: `%${filters.tamano}%` };
-			}
-
-			return await Product.findAll({
-					where: whereClause,
-					include: [{
-							model: Color,
-							attributes: ['nombre_color', 'codigo_hexadecimal'], 
-							through: { attributes: [] } 
-					}]
-			});
-	} catch (error) {
-			throw error;
-	}
+        return await Product.findAll({
+            where: whereClause,
+            include: [{
+                model: Color,
+                attributes: ['color_name', 'hex_code'],
+                through: { attributes: [] }
+            }]
+        });
+    } catch (error) {
+        throw error;
+    }
 };
-
 
 const getProductById = async (id) => {
     try {
@@ -57,8 +55,8 @@ const getProductById = async (id) => {
             include: [
                 {
                     model: Color,
-                    attributes: ['nombre_color', 'codigo_hexadecimal'],
-                    through: { attributes: [] } 
+                    attributes: ['color_name', 'hex_code'],
+                    through: { attributes: [] }
                 }
             ]
         });
@@ -67,14 +65,14 @@ const getProductById = async (id) => {
     }
 };
 
-const updateProduct = async (id_producto, product) => {
+const updateProduct = async (product_id, product) => {
     try {
-        await Product.update(product, { where: { id_producto } });
-        return await Product.findByPk(id_producto, {
+        await Product.update(product, { where: { product_id } });
+        return await Product.findByPk(product_id, {
             include: [
                 {
                     model: Color,
-                    attributes: ['nombre_color', 'codigo_hexadecimal']
+                    attributes: ['color_name', 'hex_code']
                 }
             ]
         });
@@ -83,13 +81,13 @@ const updateProduct = async (id_producto, product) => {
     }
 };
 
-const deleteProduct = async (id_producto) => {
+const deleteProduct = async (product_id) => {
     try {
-        const product = await Product.findByPk(id_producto, {
+        const product = await Product.findByPk(product_id, {
             include: [
                 {
                     model: Color,
-                    attributes: ['nombre_color', 'codigo_hexadecimal']
+                    attributes: ['color_name', 'hex_code']
                 }
             ]
         });
@@ -100,24 +98,24 @@ const deleteProduct = async (id_producto) => {
     }
 };
 
-const getFilterOptionsByCategory = async (id_categoria) => {
+const getFilterOptionsByCategory = async (category_id) => {
     try {
-        const capacidades = await Product.findAll({
-            attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('capacidad')), 'capacidad']],
-            where: { id_categoria }
+        const capacities = await Product.findAll({
+            attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('capacity')), 'capacity']],
+            where: { category_id }
         });
 
-        const tamanos = await Product.findAll({
-            attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('tamano')), 'tamano']],
-            where: { id_categoria }
+        const sizes = await Product.findAll({
+            attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('size')), 'size']],
+            where: { category_id }
         });
 
         return {
-            capacidades: capacidades.map(item => item.capacidad),
-            tamanos: tamanos.map(item => item.tamano)
+            capacities: capacities.map(item => item.capacity),
+            sizes: sizes.map(item => item.size)
         };
     } catch (error) {
-        throw new Error(`Error al obtener opciones de filtrado: ${error.message}`);
+        throw new Error(`Error retrieving filter options: ${error.message}`);
     }
 };
 
@@ -125,23 +123,23 @@ const getAllCategories = async () => {
     try {
         const categories = await Product.findAll({
             attributes: [
-                [Sequelize.fn('DISTINCT', Sequelize.col('Product.id_categoria')), 'id_categoria'],
-                [Sequelize.fn('MAX', Sequelize.col('Product.url_imagen')), 'url_imagen']
+                [Sequelize.fn('DISTINCT', Sequelize.col('Product.category_id')), 'category_id'],
+                [Sequelize.fn('MAX', Sequelize.col('Product.image_url')), 'image_url']
             ],
             include: [{
                 model: Category,
-                attributes: ['nombre_categoria']
+                attributes: ['category_name']
             }],
-            group: ['Product.id_categoria', 'Category.id_categoria']
+            group: ['Product.category_id', 'Category.category_id']
         });
 
         return categories.map(cat => ({
-            id_categoria: cat.id_categoria,
-            nombre_categoria: cat.Category.nombre_categoria,
-            url_imagen: cat.url_imagen
+            category_id: cat.category_id,
+            category_name: cat.Category.category_name,
+            image_url: cat.image_url
         }));
     } catch (error) {
-        throw new Error(`Error al obtener las categorías: ${error.message}`);
+        throw new Error(`Error retrieving categories: ${error.message}`);
     }
 };
 
@@ -149,34 +147,33 @@ const getCategoriesByKeyword = async (keyword) => {
     try {
         const categories = await Product.findAll({
             attributes: [
-                [Sequelize.fn('DISTINCT', Sequelize.col('Category.id_categoria')), 'id_categoria'],
-                [Sequelize.col('Category.nombre_categoria'), 'nombre_categoria'],
-                [Sequelize.fn('MAX', Sequelize.col('Product.url_imagen')), 'url_imagen']
+                [Sequelize.fn('DISTINCT', Sequelize.col('Category.category_id')), 'category_id'],
+                [Sequelize.col('Category.category_name'), 'category_name'],
+                [Sequelize.fn('MAX', Sequelize.col('Product.image_url')), 'image_url']
             ],
             include: [
                 {
                     model: Category,
-                    attributes: [], // No traer más atributos aparte de los seleccionados
+                    attributes: [],
                     where: {
-                        nombre_categoria: {
+                        category_name: {
                             [Sequelize.Op.like]: `%${keyword}%`
                         }
                     }
                 }
             ],
-            group: ['Category.id_categoria', 'Category.nombre_categoria']
+            group: ['Category.category_id', 'Category.category_name']
         });
 
         return categories.map(cat => ({
-            id_categoria: cat.id_categoria,
-            nombre_categoria: cat.nombre_categoria,
-            url_imagen: cat.url_imagen
+            category_id: cat.category_id,
+            category_name: cat.category_name,
+            image_url: cat.image_url
         }));
     } catch (error) {
-        throw new Error(`Error al obtener las categorías: ${error.message}`);
+        throw new Error(`Error retrieving categories: ${error.message}`);
     }
 };
-
 
 export default {
     createProduct,
