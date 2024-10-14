@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import { db } from '../database/config.js';
 
 const Quote = db.define('Quote', {
-    quotation_id: {
+    quotation_id: {  
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
@@ -43,12 +43,12 @@ const Quote = db.define('Quote', {
         type: DataTypes.STRING(50),
         allowNull: false
     },
-    productId: {
+    product_id: {  
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'products', 
-            key: 'id'
+            model: 'Products', 
+            key: 'product_id'  
         }
     },
     quote_status: {
@@ -56,7 +56,7 @@ const Quote = db.define('Quote', {
         allowNull: false
     }
 }, {
-    tableName: 'quotes',
+    tableName: 'Quotes',  
     timestamps: false 
 });
 
