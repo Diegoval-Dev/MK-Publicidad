@@ -2,7 +2,7 @@ import { DataTypes } from 'sequelize';
 import { db } from '../database/config.js';
 
 const Customer = db.define('Customer', {
-    Customer_ID: {
+    customer_id: {  
         type: DataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true,
@@ -21,14 +21,14 @@ const Customer = db.define('Customer', {
         type: DataTypes.STRING(15),
         allowNull: false
     },
-    customer_address: {
+    customer_address: {  
         type: DataTypes.STRING(255),
         allowNull: false
     }
 }, {
     tableName: 'Customers', 
-    paranoid: true, 
-    timestamps: false 
+    paranoid: true,  
+    timestamps: false  
 });
 
 export default Customer;
