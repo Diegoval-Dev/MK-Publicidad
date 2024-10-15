@@ -5,6 +5,7 @@ import { dirname, join } from 'path'
 import { testConnection } from '../database/config.js';
 import adminRoutes from '../api/routes/admin.routes.js';
 import userRoutes from '../api/routes/user.routes.js';
+import quoteRoutes from '../api/routes/api.routes.js'; // Importa las rutas de cotización
 //import corsOprions from '../config/config.js';
 
 import swaggerDocs from '../api/swagger.js'
@@ -17,6 +18,7 @@ class Server{
         this.port = process.env.PORT;
         this.adminPath='/admin'
         this.userPath='/user',
+        this.apiPath='/api',
         this.middlewares();
         this.routes();
         
@@ -34,6 +36,7 @@ class Server{
     routes(){
         this.app.use(this.adminPath, adminRoutes);
         this.app.use(this.userPath, userRoutes);
+        this.app.use(this.apiPath, quoteRoutes); // Registra las rutas de cotización
         swaggerDocs(this.app) 
     }
 

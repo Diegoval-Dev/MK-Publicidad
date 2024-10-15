@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
  *   post:
  *     tags:
  *       - Admin
- *     summary: Registra un nuevo usuario
+ *     summary: Registers a new user
  *     requestBody:
  *       required: true
  *       content:
@@ -38,13 +38,13 @@ import jwt from 'jsonwebtoken';
  *                 example: '0987654321'
  *     responses:
  *       201:
- *         description: Usuario registrado exitosamente
+ *         description: User successfully registered
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/User'
  *       500:
- *         description: Error en el servidor
+ *         description: Server error
  */
 const register = async (req, res) => {
     console.log(req.body);
@@ -62,7 +62,7 @@ const register = async (req, res) => {
  *   post:
  *     tags:
  *       - Admin
- *     summary: Inicia sesión
+ *     summary: Log in
  *     requestBody:
  *       required: true
  *       content:
@@ -78,7 +78,7 @@ const register = async (req, res) => {
  *                 example: Password123!
  *     responses:
  *       200:
- *         description: Inicio de sesión exitoso
+ *         description: Login successful
  *         content:
  *           application/json:
  *             schema:
@@ -86,14 +86,14 @@ const register = async (req, res) => {
  *               properties:
  *                 message:
  *                   type: string
- *                   example: Inicio de sesión exitoso
+ *                   example: Login successful
  *                 user:
  *                   $ref: '#/components/schemas/User'
  *                 token:
  *                   type: string
  *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
  *       401:
- *         description: Credenciales inválidas
+ *         description: Invalid credentials
  *         content:
  *           application/json:
  *             schema:
@@ -101,9 +101,9 @@ const register = async (req, res) => {
  *               properties:
  *                 message:
  *                   type: string
- *                   example: Credenciales inválidas
+ *                   example: Invalid credentials
  *       500:
- *         description: Error en el servidor
+ *         description: Server error
  */
 const login = async (req, res) => {
     try {
@@ -111,13 +111,13 @@ const login = async (req, res) => {
         const authResult = await adminService.authenticateUser(user_email, user_password);
         if (authResult) {
             const token = jwt.sign(
-                { userId: authResult.user.id, role: authResult.user.user_role }, // Agregar rol al payload
+                { userId: authResult.user.id, role: authResult.user.user_role }, // Add role to the payload
                 process.env.JWT_SECRET,
-                { expiresIn: '1h' }  // Duración del token
+                { expiresIn: '1h' }  // Token expiration
             );
-            res.status(200).json({ message: "Inicio de sesión exitoso", token }); // Enviar token en la respuesta
+            res.status(200).json({ message: "Login successful", token }); // Send token in the response
         } else {
-            res.status(401).json({ message: "Credenciales inválidas" });
+            res.status(401).json({ message: "Invalid credentials" });
         }
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -131,14 +131,14 @@ const login = async (req, res) => {
  *   put:
  *     tags:
  *       - Admin
- *     summary: Actualiza un usuario existente
+ *     summary: Updates an existing user
  *     parameters:
  *       - in: path
  *         name: user_email
  *         schema:
  *           type: string
  *         required: true
- *         description: El correo electrónico del usuario a actualizar
+ *         description: The email of the user to update
  *     requestBody:
  *       required: true
  *       content:
@@ -166,15 +166,15 @@ const login = async (req, res) => {
  *                 example: '1234567890'
  *     responses:
  *       200:
- *         description: Usuario actualizado exitosamente
+ *         description: User successfully updated
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/User'
  *       404:
- *         description: Usuario no encontrado
+ *         description: User not found
  *       500:
- *         description: Error en el servidor
+ *         description: Server error
  */
 const updateUser = async (req, res) => {
     try {
@@ -182,7 +182,7 @@ const updateUser = async (req, res) => {
         const updatedUser = await adminService.updateUser(user_email, req.body);
 
         if (!updatedUser) {
-            return res.status(404).json({ message: "Usuario no encontrado" });
+            return res.status(404).json({ message: "User not found" });
         }
 
         res.status(200).json(updatedUser);
@@ -197,17 +197,17 @@ const updateUser = async (req, res) => {
  *   delete:
  *     tags:
  *       - Admin
- *     summary: Elimina un usuario existente
+ *     summary: Deletes an existing user
  *     parameters:
  *       - in: path
  *         name: user_email
  *         schema:
  *           type: string
  *         required: true
- *         description: El correo electrónico del usuario a eliminar
+ *         description: The email of the user to delete
  *     responses:
  *       200:
- *         description: Usuario eliminado exitosamente
+ *         description: User successfully deleted
  *         content:
  *           application/json:
  *             schema:
@@ -215,9 +215,9 @@ const updateUser = async (req, res) => {
  *               properties:
  *                 message:
  *                   type: string
- *                   example: Usuario eliminado exitosamente
+ *                   example: User successfully deleted
  *       404:
- *         description: Usuario no encontrado
+ *         description: User not found
  *         content:
  *           application/json:
  *             schema:
@@ -225,9 +225,9 @@ const updateUser = async (req, res) => {
  *               properties:
  *                 message:
  *                   type: string
- *                   example: Usuario no encontrado
+ *                   example: User not found
  *       500:
- *         description: Error en el servidor
+ *         description: Server error
  */
 const deleteUser = async (req, res) => {
     try {
@@ -235,10 +235,10 @@ const deleteUser = async (req, res) => {
         const deletedUser = await adminService.deleteUser(user_email);
 
         if (!deletedUser) {
-            return res.status(404).json({ message: "Usuario no encontrado" });
+            return res.status(404).json({ message: "User not found" });
         }
 
-        res.status(200).json({ message: "Usuario eliminado exitosamente" });
+        res.status(200).json({ message: "User successfully deleted" });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -248,5 +248,5 @@ export default {
     register,
     login,
     updateUser,
-    deleteUser  // método para eliminar usuarios
+    deleteUser  // Method to delete users
 };

@@ -4,21 +4,21 @@ import jwt from 'jsonwebtoken';
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
-// Autenticar usuario (login)
+// Authenticate user (login)
 const authenticateUser = async (email, password) => {
     const user = await userModel.findOne({ where: { user_email: email } });
     if (user && await bcrypt.compare(password, user.user_password)) {
         const token = jwt.sign(
             { email: user.user_email, role: user.user_role },
             SECRET_KEY,
-            { expiresIn: '1h' }  // El token expira en 1 hora
+            { expiresIn: '1h' }  // The token expires in 1 hour
         );
         return { user, token };
     }
     return null;
 };
 
-// Registrar un nuevo usuario
+// Register a new user
 const registerUser = async (userData) => {
     const hashedPassword = await bcrypt.hash(userData.user_password, 10);
     const newUser = {
@@ -28,33 +28,33 @@ const registerUser = async (userData) => {
     return await userModel.create(newUser);
 };
 
-// Actualizar usuario
+// Update user
 const updateUser = async (email, userData) => {
     const user = await userModel.findOne({ where: { user_email: email } });
     
     if (!user) {
-        return null;  // Usuario no encontrado
+        return null;  // User not found
     }
 
-    // Si la contraseña es proporcionada, la encriptamos
+    // If the password is provided, encrypt it
     if (userData.user_password) {
         userData.user_password = await bcrypt.hash(userData.user_password, 10);
     }
 
-    // Actualizamos el usuario
+    // Update the user
     await user.update(userData);
     return user;
 };
 
-// Eliminar usuario
+// Delete user
 const deleteUser = async (email) => {
     const user = await userModel.findOne({ where: { user_email: email } });
     
     if (!user) {
-        return null;  // Usuario no encontrado
+        return null;  // User not found
     }
 
-    await user.destroy();  // Eliminar el usuario
+    await user.destroy();  // Delete the user
     return user;
 };
 
@@ -62,5 +62,5 @@ export default {
     registerUser,
     authenticateUser,
     updateUser,
-    deleteUser  //  método de eliminación de usuarios
+    deleteUser  // method to delete users
 };

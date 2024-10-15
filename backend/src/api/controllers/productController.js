@@ -6,7 +6,7 @@ import productService from '../services/productService.js';
  *   post:
  *     tags:
  *       - Products
- *     summary: Crea un nuevo producto
+ *     summary: Creates a new product
  *     requestBody:
  *       required: true
  *       content:
@@ -14,38 +14,38 @@ import productService from '../services/productService.js';
  *           schema:
  *             type: object
  *             properties:
- *               nombre_producto:
+ *               product_name:
  *                 type: string
- *               id_categoria:
+ *               category_id:
  *                 type: integer
- *               capacidad:
+ *               capacity:
  *                 type: string
- *               tamano:
+ *               size:
  *                 type: string
- *               url_imagen:
+ *               image_url:
  *                 type: string
  *                 format: binary
  *     responses:
  *       201:
- *         description: Producto creado exitosamente
+ *         description: Product successfully created
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Product'
  *       500:
- *         description: Error en el servidor
+ *         description: Server error
  */
 const createProduct = async (req, res) => {
     try {
-        const { nombre_producto, id_categoria, capacidad, tamano } = req.body;
+        const { product_name, product_code, category_id, capacity, size } = req.body;
 
-        // Verifica si hay un archivo de imagen cargado
-        let url_imagen = null;
+        // Check if an image file is uploaded
+        let image_url = null;
         if (req.file) {
-            url_imagen = req.file.path;
+            image_url = req.file.path;
         }
 
-        const product = { nombre_producto, id_categoria, capacidad, tamano, url_imagen };
+        const product = { product_name, product_code, category_id, capacity, size, image_url };
 
         const newProduct = await productService.createProduct(product);
         res.status(201).json(newProduct);
@@ -60,31 +60,31 @@ const createProduct = async (req, res) => {
  *   get:
  *     tags:
  *       - Products
- *     summary: Obtiene todos los productos con filtros opcionales
+ *     summary: Retrieves all products with optional filters
  *     parameters:
  *       - in: query
- *         name: nombre_producto
+ *         name: product_name
  *         schema:
  *           type: string
- *         description: Nombre del producto
+ *         description: Product name
  *       - in: query
- *         name: id_categoria
+ *         name: category_id
  *         schema:
  *           type: integer
- *         description: ID de la categoría del producto
+ *         description: Category ID of the product
  *       - in: query
- *         name: capacidad
+ *         name: capacity
  *         schema:
  *           type: string
- *         description: Capacidad del producto
+ *         description: Product capacity
  *       - in: query
- *         name: tamano
+ *         name: size
  *         schema:
  *           type: string
- *         description: Tamaño del producto
+ *         description: Product size
  *     responses:
  *       200:
- *         description: Lista de productos obtenida exitosamente
+ *         description: List of products successfully retrieved
  *         content:
  *           application/json:
  *             schema:
@@ -98,42 +98,42 @@ const createProduct = async (req, res) => {
  *                   items:
  *                     type: object
  *                     properties:
- *                       id_producto:
+ *                       product_id:
  *                         type: integer
- *                       nombre_producto:
+ *                       product_name:
  *                         type: string
- *                       codigo_producto:
+ *                       product_code:
  *                         type: string
- *                       categoria:
+ *                       category:
  *                         type: string
- *                       capacidad:
+ *                       capacity:
  *                         type: string
- *                       tamano:
+ *                       size:
  *                         type: string
- *                       url_imagen:
+ *                       image_url:
  *                         type: string
- *                       colores:
+ *                       colors:
  *                         type: array
  *                         items:
  *                           type: object
  *                           properties:
- *                             nombre_color:
+ *                             color_name:
  *                               type: string
- *                             codigo_hex:
+ *                             hex_code:
  *                               type: string
  *       500:
- *         description: Error en el servidor
+ *         description: Server error
  */
 const getAllProducts = async (req, res) => {
     try {
         const filters = {
-            nombre_producto: req.query.name || undefined,
-            nombre_categoria: req.query.categoria || undefined, // Cambiar para buscar por nombre de categoría
+            product_name: req.query.name || undefined,
+            category_name: req.query.category || undefined, // Changed to search by category name
             material: req.query.material || undefined,
-            capacidad: req.query.capacity || undefined,
-            tamano: req.query.size || undefined
+            capacity: req.query.capacity || undefined,
+            size: req.query.size || undefined
         };
-        console.log("FILTROS DEL BACKEND", filters);
+        console.log("BACKEND FILTERS", filters);
         const products = await productService.getProducts(filters);
         res.status(200).json({
             status: 'OK',
@@ -144,56 +144,53 @@ const getAllProducts = async (req, res) => {
     }
 };
 
-
-
-
 /**
  * @openapi
  * /api/products/{id}:
  *   get:
  *     tags:
  *       - Products
- *     summary: Obtiene un producto por su ID
+ *     summary: Retrieves a product by its ID
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: integer
  *         required: true
- *         description: ID del producto
+ *         description: Product ID
  *     responses:
  *       200:
- *         description: Producto encontrado
+ *         description: Product found
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 id_producto:
+ *                 product_id:
  *                   type: integer
- *                 nombre_producto:
+ *                 product_name:
  *                   type: string
- *                 codigo_producto:
+ *                 product_code:
  *                   type: string
- *                 id_categoria:
+ *                 category_id:
  *                   type: integer
- *                 capacidad:
+ *                 capacity:
  *                   type: string
- *                 tamano:
+ *                 size:
  *                   type: string
- *                 url_imagen:
+ *                 image_url:
  *                   type: string
- *                 colores:
+ *                 colors:
  *                   type: array
  *                   items:
  *                     type: object
  *                     properties:
- *                       nombre_color:
+ *                       color_name:
  *                         type: string
- *                       codigo_hex:
+ *                       hex_code:
  *                         type: string
  *       404:
- *         description: Producto no encontrado
+ *         description: Product not found
  *         content:
  *           application/json:
  *             schema:
@@ -201,9 +198,9 @@ const getAllProducts = async (req, res) => {
  *               properties:
  *                 message:
  *                   type: string
- *                   example: Producto no encontrado
+ *                   example: Product not found
  *       500:
- *         description: Error en el servidor
+ *         description: Server error
  *         content:
  *           application/json:
  *             schema:
@@ -211,7 +208,7 @@ const getAllProducts = async (req, res) => {
  *               properties:
  *                 error:
  *                   type: string
- *                   example: Error en el servidor
+ *                   example: Server error
  */
 const getProductById = async (req, res) => {
     try {
@@ -220,13 +217,12 @@ const getProductById = async (req, res) => {
         if (product) {
             res.status(200).json(product);
         } else {
-            res.status(404).json({ message: 'Producto no encontrado' });
+            res.status(404).json({ message: 'Product not found' });
         }
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
-
 
 /**
  * @openapi
@@ -234,14 +230,14 @@ const getProductById = async (req, res) => {
  *   put:
  *     tags:
  *       - Products
- *     summary: Actualiza un producto existente
+ *     summary: Updates an existing product
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: integer
  *         required: true
- *         description: ID del producto
+ *         description: Product ID
  *     requestBody:
  *       required: true
  *       content:
@@ -250,21 +246,21 @@ const getProductById = async (req, res) => {
  *             $ref: '#/components/schemas/Product'
  *     responses:
  *       200:
- *         description: Producto actualizado exitosamente
+ *         description: Product successfully updated
  *         content:
  *           application/json:
  *             schema:
  *               $ref: '#/components/schemas/Product'
  *       404:
- *         description: Producto no encontrado
+ *         description: Product not found
  *       500:
- *         description: Error en el servidor
+ *         description: Server error
  */
 const updateProduct = async (req, res) => {
     try {
         const id = req.params.id;
-        const { nombre_producto, id_categoria, capacidad, tamano, url_imagen } = req.body;
-        const updatedProduct = await productService.updateProduct(id, { nombre_producto, id_categoria, capacidad, tamano, url_imagen });
+        const { product_name, category_id, capacity, size, image_url } = req.body;
+        const updatedProduct = await productService.updateProduct(id, { product_name, category_id, capacity, size, image_url });
         res.status(200).json(updatedProduct);
     } catch (error) {
         res.status(500).json({ error: error.message });
@@ -277,21 +273,21 @@ const updateProduct = async (req, res) => {
  *   delete:
  *     tags:
  *       - Products
- *     summary: Elimina un producto
+ *     summary: Deletes a product
  *     parameters:
  *       - in: path
  *         name: id
  *         schema:
  *           type: integer
  *         required: true
- *         description: ID del producto
+ *         description: Product ID
  *     responses:
  *       200:
- *         description: Producto eliminado exitosamente
+ *         description: Product successfully deleted
  *       404:
- *         description: Producto no encontrado
+ *         description: Product not found
  *       500:
- *         description: Error en el servidor
+ *         description: Server error
  */
 const deleteProduct = async (req, res) => {
     try {
@@ -309,37 +305,37 @@ const deleteProduct = async (req, res) => {
  *   get:
  *     tags:
  *       - Products
- *     summary: Obtiene las opciones de filtrado para una categoría específica
+ *     summary: Retrieves filtering options for a specific category
  *     parameters:
  *       - in: path
- *         name: id_categoria
+ *         name: category_id
  *         schema:
  *           type: integer
  *         required: true
- *         description: ID de la categoría
+ *         description: Category ID
  *     responses:
  *       200:
- *         description: Opciones de filtrado obtenidas exitosamente
+ *         description: Filtering options successfully retrieved
  *         content:
  *           application/json:
  *             schema:
  *               type: object
  *               properties:
- *                 capacidades:
+ *                 capacities:
  *                   type: array
  *                   items:
  *                     type: string
- *                 tamanos:
+ *                 sizes:
  *                   type: array
  *                   items:
  *                     type: string
  *       500:
- *         description: Error en el servidor
+ *         description: Server error
  */
 const getFilterOptionsByCategory = async (req, res) => {
     try {
-        const id_categoria = req.params.id_categoria;
-        const filters = await productService.getFilterOptionsByCategory(id_categoria);
+        const category_id = req.params.category_id;
+        const filters = await productService.getFilterOptionsByCategory(category_id);
 
         res.status(200).json(filters);
     } catch (error) {
@@ -353,10 +349,10 @@ const getFilterOptionsByCategory = async (req, res) => {
  *   get:
  *     tags:
  *       - Products
- *     summary: Obtiene todas las categorías disponibles
+ *     summary: Retrieves all available categories
  *     responses:
  *       200:
- *         description: Categorías obtenidas exitosamente
+ *         description: Categories successfully retrieved
  *         content:
  *           application/json:
  *             schema:
@@ -364,12 +360,12 @@ const getFilterOptionsByCategory = async (req, res) => {
  *               items:
  *                 type: object
  *                 properties:
- *                   id_categoria:
+ *                   category_id:
  *                     type: integer
- *                   url_imagen:
+ *                   image_url:
  *                     type: string
  *       500:
- *         description: Error en el servidor
+ *         description: Server error
  */
 const getAllCategories = async (req, res) => {
     try {
@@ -386,18 +382,18 @@ const getAllCategories = async (req, res) => {
  *   get:
  *     tags:
  *       - Products
- *     summary: Obtiene categorías de productos que coinciden con una palabra clave
+ *     summary: Retrieves product categories that match a keyword
  *     parameters:
  *       - in: query
  *         name: keyword
  *         schema:
  *           type: string
  *         required: false
- *         description: Palabra clave para buscar categorías
- *         example: "camisetas"
+ *         description: Keyword to search for categories
+ *         example: "t-shirts"
  *     responses:
  *       200:
- *         description: Categorías encontradas
+ *         description: Categories found
  *         content:
  *           application/json:
  *             schema:
@@ -405,16 +401,16 @@ const getAllCategories = async (req, res) => {
  *               items:
  *                 type: object
  *                 properties:
- *                   id_categoria:
+ *                   category_id:
  *                     type: integer
- *                   url_imagen:
+ *                   image_url:
  *                     type: string
  *       500:
- *         description: Error en el servidor
+ *         description: Server error
  */
 const getCategoriesByKeyword = async (req, res) => {
     try {
-        const keyword = req.query.keyword || ''; // Toma la palabra clave desde los parámetros de consulta
+        const keyword = req.query.keyword || ''; // Retrieve the keyword from query parameters
         const categories = await productService.getCategoriesByKeyword(keyword);
 
         res.status(200).json(categories);

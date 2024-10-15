@@ -10,7 +10,7 @@ const User = db.define(
             primaryKey: true,
             validate: {
                 isEmail: {
-                    msg: "Debe proporcionar un correo electrónico válido."
+                    msg: "You must provide a valid email address."
                 }
             }
         },
@@ -20,11 +20,11 @@ const User = db.define(
             validate: {
                 len: {
                     args: [8, 150],
-                    msg: "La contraseña debe tener al menos 8 caracteres."
+                    msg: "The password must be at least 8 characters long."
                 },
                 is: {
                     args: /[!@#$%^&*(),.?":{}|<>]/g,
-                    msg: "La contraseña debe incluir al menos un símbolo."
+                    msg: "The password must include at least one symbol."
                 }
             }
         },
@@ -33,8 +33,8 @@ const User = db.define(
             allowNull: false,
             validate: {
                 isIn: {
-                    args: [['admin', 'contador', 'diseñadora', 'administrador de contenido']],
-                    msg: "El rol especificado no es válido."
+                    args: [['admin', 'accountant', 'designer', 'content manager']],  // Translated roles
+                    msg: "The specified role is not valid."
                 }
             }
         },
@@ -51,11 +51,11 @@ const User = db.define(
             allowNull: false,
             validate: {
                 isNumeric: {
-                    msg: "El teléfono debe contener solo números."
+                    msg: "The phone number must contain only numbers."
                 },
                 len: {
                     args: [8, 15],
-                    msg: "El número de teléfono debe tener entre 8 y 15 dígitos."
+                    msg: "The phone number must be between 8 and 15 digits."
                 }
             }
         },
