@@ -1,4 +1,4 @@
-import Quote from '../models/quotesModel.js'; 
+import Quote from '../../models/quotesModel.js'; 
 
 export const createQuote = async (quoteData) => {
   // Validación de los datos

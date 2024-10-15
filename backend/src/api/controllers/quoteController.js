@@ -1,4 +1,4 @@
-import { createQuote } from '../services/quoteService'; // Importar el servicio de cotización
+import { createQuote } from '../services/quoteService.js'; // Importar el servicio de cotización
 
 export const createQuoteController = async (req, res) => {
   const {
