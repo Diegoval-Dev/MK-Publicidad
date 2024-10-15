@@ -1,32 +1,12 @@
 import express from 'express';
 import authMiddleware from '../middlewares/authMiddleware.js';
 import verifyAdminRole from '../middlewares/verifyAdminRole.js';
+import verifyRoles from '../middlewares/verifyRoles.js';
 import productController from '../controllers/productController.js';
 import adminController from '../controllers/AdminController.js';
 import parser from '../middlewares/imagesMiddleware.js';
 
 const adminRouter = express.Router();
-
-adminRouter.post(
-  '/products', 
-  authMiddleware,   // Verifica si el token es válido
-  verifyAdminRole,  // Verifica si el rol es admin
-  (req, res) => {
-      console.log(req.body); // <-- Verificar qué datos está recibiendo
-      parser.single('image')(req, res, (err) => {
-          if (err) {
-              console.error(err);
-              res.status(500).json({ error: err });
-          } else {
-              productController.createProduct(req, res);
-          }
-      });
-  }
-);
-
-
-adminRouter.put('/products/:id', authMiddleware, verifyAdminRole, productController.updateProduct);
-adminRouter.delete('/products/:id', authMiddleware, verifyAdminRole, productController.deleteProduct);
 
 // RUTAS PROTEGIDAS
 // Estas rutas requieren autenticación con JWT
@@ -72,6 +52,22 @@ adminRouter.delete('/products/:id', authMiddleware, verifyAdminRole, productCont
  *         description: Error en el servidor
  */
 
+adminRouter.post(
+  '/products', 
+  authMiddleware,   // Verifica si el token es válido
+  verifyAdminRole,  // Verifica si el rol es admin  verifyRoles('admin') daria lo mismo,
+  (req, res) => {
+      console.log(req.body); // <-- Verificar qué datos está recibiendo
+      parser.single('image')(req, res, (err) => {
+          if (err) {
+              console.error(err);
+              res.status(500).json({ error: err });
+          } else {
+              productController.createProduct(req, res);
+          }
+      });
+  }
+);
 
 // Ruta para actualizar un producto existente
 /**
@@ -111,6 +107,13 @@ adminRouter.delete('/products/:id', authMiddleware, verifyAdminRole, productCont
  *         description: Error en el servidor
  */
 
+adminRouter.put(
+    '/products/:id', 
+    authMiddleware,              // Valida el token JWT
+    verifyRoles('admin'),        // Solo los administradores pueden actualizar productos
+    productController.updateProduct
+);
+
 
 // Ruta para eliminar un producto
 /**
@@ -139,6 +142,14 @@ adminRouter.delete('/products/:id', authMiddleware, verifyAdminRole, productCont
  *       500:
  *         description: Error en el servidor
  */
+
+
+adminRouter.delete(
+    '/products/:id', 
+    authMiddleware,              // Valida el token JWT
+    verifyRoles('admin'),        // Solo los administradores pueden eliminar productos
+    productController.deleteProduct
+);
 
 
 // Ruta para actualizar un usuario (requiere autenticación con JWT)
@@ -237,6 +248,8 @@ adminRouter.delete('/users/:user_email', authMiddleware, adminController.deleteU
  *         description: Error en el servidor
  */
 adminRouter.post('/register', adminController.register);
+//EN UN FUTURO PROBABLEMENTE TENEMOS QUE PROTEGER REGISTER, YA QUE EN TEORIA SOLO UN ADMIN PODRIA CREAR USUARIOS...
+//PERO COMO HAY QUE HACER MIL PRUEBAS MEJOR SEGUIRE CREANDO USUARIOS EN REGISTER!! (MIENTRAS TANTO)
 
 // Inicio de sesión
 /**
