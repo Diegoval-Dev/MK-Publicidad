@@ -1,4 +1,4 @@
-import './globals.css';
+import '@styles/globals.css';girt 
 import { AuthProvider } from '@context/AuthContext';
 
 export default function RootLayout({ children }) {
