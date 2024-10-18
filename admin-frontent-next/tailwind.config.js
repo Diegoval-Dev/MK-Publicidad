@@ -12,6 +12,7 @@ module.exports = {
         'color-symbols': '#262932',
         'calendar-days': '#716A6E',
         'calendar-selectday': '#6FB74B',
+        'ligth-green': '#AEDF95',
         'color-tittlesAdmin': '#3B6B27',
         'color-prices':'#426B1F',
         'top-banners': '#B8B3B6',

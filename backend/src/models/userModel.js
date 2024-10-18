@@ -59,12 +59,12 @@ const User = db.define(
                 }
             }
         },
-        user_officePhone: {
+        user_office_phone: {
             type: DataTypes.STRING(50),
             allowNull: false
         }
     }, {
-        tableName: 'users',
+        tableName: 'Users',
         timestamps: false,
     }
 );

@@ -6,10 +6,17 @@ import { useRouter } from 'next/navigation';
 
 const Login = () => {
 
+  const router = useRouter();
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    router.push('/dashboard');
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-color-backgroundText">
-      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold text-center text-color-tittlesAdmin mb-6">MK Publicidad - Iniciar Sesión</h1>
+    <div className="flex min-h-screen  items-center justify-center bg-ligth-green">
+      <div className="w-full max-w-md bg-calendar-selectday p-8 rounded-lg shadow-lg">
+        <h1 className="text-2xl font-bold text-center color-text mb-6">MK Publicidad - Iniciar Sesión</h1>
 
         <form>
           {/* Email */}
@@ -37,6 +44,7 @@ const Login = () => {
           {/* Login Button */}
           <button
             type="submit"
+            onAbort={handleLogin}
             className="w-full bg-color-button text-white font-bold py-2 px-4 rounded-lg hover:bg-color-symbols"
           >
             Iniciar Sesión
