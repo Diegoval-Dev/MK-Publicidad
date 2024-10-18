@@ -1,14 +1,17 @@
+-- Creación de la tabla Categories
 CREATE TABLE Categories (
     category_id INT AUTO_INCREMENT PRIMARY KEY,
     category_name VARCHAR(100) NOT NULL
 );
 
+-- Creación de la tabla Colors
 CREATE TABLE Colors (
     color_id INT AUTO_INCREMENT PRIMARY KEY,
     color_name VARCHAR(50) NOT NULL,
     hex_code VARCHAR(7) NOT NULL
 );
 
+-- Creación de la tabla Products
 CREATE TABLE Products (
     product_id INT AUTO_INCREMENT PRIMARY KEY,
     product_name VARCHAR(255) NOT NULL,
@@ -20,6 +23,7 @@ CREATE TABLE Products (
     FOREIGN KEY (category_id) REFERENCES Categories(category_id)
 );
 
+-- Creación de la tabla Product_Colors
 CREATE TABLE Product_Colors (
     product_color_id INT AUTO_INCREMENT PRIMARY KEY,
     product_id INT NOT NULL,
@@ -28,6 +32,7 @@ CREATE TABLE Product_Colors (
     FOREIGN KEY (color_id) REFERENCES Colors(color_id)
 );
 
+-- Inserción de datos en la tabla Categories
 INSERT INTO Categories (category_name) VALUES
 ('Cerámica'),
 ('Peltre'),
@@ -44,6 +49,7 @@ INSERT INTO Categories (category_name) VALUES
 ('Letras recortadas, placas, acrílico y PVC'),
 ('Display');
 
+-- Inserción de datos en la tabla Colors
 INSERT INTO Colors (color_name, hex_code) VALUES
 ('White', '#FFFFFF'),
 ('Black', '#000000'),
@@ -58,6 +64,7 @@ INSERT INTO Colors (color_name, hex_code) VALUES
 ('Beige', '#F5F5DC'),
 ('Multicolor', '#FFD700');
 
+<<<<<<< HEAD
 INSERT INTO Productos (nombre_producto, codigo_producto, id_categoria, capacidad, tamano, url_imagen) VALUES
 ('Taza Blanca', 'T-0001', 1, '11 onz', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236003/img53_cvy7ki.jpg"),
 ('Taza con Interior', 'T-0002', 1, '11 onz', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236003/img54_xgk6bi.jpg"),
@@ -348,7 +355,19 @@ INSERT INTO Productos_Colores (id_producto, id_color) VALUES
 (118, 1),
 (119, 7),
 (120, 7);
+=======
+-- Inserción de datos en la tabla Products
+INSERT INTO Products (product_name, product_code, category_id, capacity, size, image_url) VALUES
+('White Mug', 'T-0001', 1, '11 oz', '', 'https://res.cloudinary.com/dw1cyckty/image/upload/v1723236003/img53_cvy7ki.jpg'),
+('Mug with Interior', 'T-0002', 1, '11 oz', '', 'https://res.cloudinary.com/dw1cyckty/image/upload/v1723236003/img54_xgk6bi.jpg');
 
+-- Inserción de datos en la tabla Product_Colors (verifica que existan los productos y colores)
+INSERT INTO Product_Colors (product_id, color_id) VALUES
+(1, 1),
+(2, 1);
+>>>>>>> 7a1352c92dd759b17a5d1aad6631ed2b33a8f935
+
+-- Creación de la tabla Users
 CREATE TABLE Users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
     user_email VARCHAR(50) NOT NULL,
@@ -362,6 +381,7 @@ CREATE TABLE Users (
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+-- Creación de la tabla Quotes
 CREATE TABLE Quotes (
     quotation_id INT AUTO_INCREMENT PRIMARY KEY,
     customer_nit INT NOT NULL,
@@ -378,6 +398,7 @@ CREATE TABLE Quotes (
     FOREIGN KEY (product_id) REFERENCES Products(product_id)
 );
 
+-- Creación de la tabla Customers
 CREATE TABLE Customers (
     customer_id INT AUTO_INCREMENT PRIMARY KEY,
     customer_company VARCHAR(50) NOT NULL,
