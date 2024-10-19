@@ -148,13 +148,12 @@ const getCategoriesByKeyword = async (keyword) => {
         const categories = await Product.findAll({
             attributes: [
                 [Sequelize.fn('DISTINCT', Sequelize.col('Category.category_id')), 'category_id'],
-                [Sequelize.col('Category.category_name'), 'category_name'],
                 [Sequelize.fn('MAX', Sequelize.col('Product.image_url')), 'image_url']
             ],
             include: [
                 {
                     model: Category,
-                    attributes: [],
+                    attributes: ['category_id', 'category_name'], // Incluye los atributos de la categoría
                     where: {
                         category_name: {
                             [Sequelize.Op.like]: `%${keyword}%`
@@ -165,15 +164,25 @@ const getCategoriesByKeyword = async (keyword) => {
             group: ['Category.category_id', 'Category.category_name']
         });
 
+        // Imprime los resultados para depuración
+        console.log("###########categories", categories);
+        categories.forEach(cat => {
+            console.log("###########cat", cat);
+            console.log("###########cat.Category.category_name", cat.Category.category_name); // Cambiado aquí
+        });
+
+        // Mapea los resultados correctamente
         return categories.map(cat => ({
-            category_id: cat.category_id,
-            category_name: cat.category_name,
+            category_id: cat.Category.category_id,  // Acceder desde cat.Category
+            category_name: cat.Category.category_name, // Acceder desde cat.Category
             image_url: cat.image_url
         }));
     } catch (error) {
         throw new Error(`Error retrieving categories: ${error.message}`);
     }
 };
+
+
 
 export default {
     createProduct,

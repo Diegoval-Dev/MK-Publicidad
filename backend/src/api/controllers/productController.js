@@ -412,7 +412,7 @@ const getCategoriesByKeyword = async (req, res) => {
     try {
         const keyword = req.query.keyword || ''; // Retrieve the keyword from query parameters
         const categories = await productService.getCategoriesByKeyword(keyword);
-
+        console.log("###########categories RESPUESTA", categories);
         res.status(200).json(categories);
     } catch (error) {
         res.status(500).json({ error: error.message });

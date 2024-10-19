@@ -64,8 +64,7 @@ INSERT INTO Colors (color_name, hex_code) VALUES
 ('Beige', '#F5F5DC'),
 ('Multicolor', '#FFD700');
 
-<<<<<<< HEAD
-INSERT INTO Productos (nombre_producto, codigo_producto, id_categoria, capacidad, tamano, url_imagen) VALUES
+INSERT INTO Products (product_name, product_code, category_id, capacity, size, image_url) VALUES
 ('Taza Blanca', 'T-0001', 1, '11 onz', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236003/img53_cvy7ki.jpg"),
 ('Taza con Interior', 'T-0002', 1, '11 onz', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236003/img54_xgk6bi.jpg"),
 ('Taza Mágica Negra', 'T-0003', 1, '11 onz', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723236003/img52_jxmgot.jpg"),
@@ -190,7 +189,7 @@ INSERT INTO Productos (nombre_producto, codigo_producto, id_categoria, capacidad
 ('Mesas Promocionales', 'M-0007', 14, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723237159/img423_rnqobb.jpg"),
 ('Podium Informativo', 'P-0017', 14, '', '', "https://res.cloudinary.com/dw1cyckty/image/upload/v1723237146/img415_qhd8lc.jpg");
 
-INSERT INTO Productos_Colores (id_producto, id_color) VALUES
+INSERT INTO Product_Colors (product_id, color_id) VALUES
 (1, 1),
 (2, 1),
 (3, 2),
@@ -355,17 +354,6 @@ INSERT INTO Productos_Colores (id_producto, id_color) VALUES
 (118, 1),
 (119, 7),
 (120, 7);
-=======
--- Inserción de datos en la tabla Products
-INSERT INTO Products (product_name, product_code, category_id, capacity, size, image_url) VALUES
-('White Mug', 'T-0001', 1, '11 oz', '', 'https://res.cloudinary.com/dw1cyckty/image/upload/v1723236003/img53_cvy7ki.jpg'),
-('Mug with Interior', 'T-0002', 1, '11 oz', '', 'https://res.cloudinary.com/dw1cyckty/image/upload/v1723236003/img54_xgk6bi.jpg');
-
--- Inserción de datos en la tabla Product_Colors (verifica que existan los productos y colores)
-INSERT INTO Product_Colors (product_id, color_id) VALUES
-(1, 1),
-(2, 1);
->>>>>>> 7a1352c92dd759b17a5d1aad6631ed2b33a8f935
 
 -- Creación de la tabla Users
 CREATE TABLE Users (
