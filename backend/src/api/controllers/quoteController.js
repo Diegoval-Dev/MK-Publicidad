@@ -1,6 +1,7 @@
-import { createQuote } from '../services/quoteService.js'; // Importar el servicio de cotización
+import { createQuote } from '../services/quoteService.js'; // Importar el servicio de cotización 
 import { v2 as cloudinary } from 'cloudinary';
 import multer from 'multer'; // Importar multer para manejar la subida de archivos
+import Joi from 'joi'; // Importar Joi para la validación
 
 // Configurar Cloudinary
 cloudinary.config({
@@ -11,6 +12,24 @@ cloudinary.config({
 
 // Middleware de multer para manejar la subida de archivos (imágenes)
 const upload = multer({ dest: 'uploads/' });
+
+// Definir el esquema de validación con Joi
+const quoteSchema = Joi.object({
+  customer_nit: Joi.number().required().messages({
+    'number.base': 'customer_nit debe ser un número.',
+    'any.required': 'customer_nit es requerido.',
+  }),
+  customer_company: Joi.string().optional(),
+  customer_email: Joi.string().email().optional(),
+  customer_contact: Joi.string().optional(),
+  customer_address: Joi.string().optional(),
+  product_id: Joi.number().required().messages({
+    'number.base': 'product_id debe ser un número.',
+    'any.required': 'product_id es requerido.',
+  }),
+  quote_quantity: Joi.number().optional(),
+  quote_details: Joi.string().optional(),
+});
 
 export const createQuoteController = async (req, res) => {
   const {
@@ -24,6 +43,12 @@ export const createQuoteController = async (req, res) => {
     quote_details,
   } = req.body;
 
+  // Validar los datos con Joi
+  const { error } = quoteSchema.validate(req.body);
+  if (error) {
+    return res.status(400).json({ message: error.details[0].message });
+  }
+
   const quote_sellerId = "1"; // Se asume que el vendedor es el usuario con ID 1
   const quote_validityTill = new Date();
   const quote_shippingTime = "1-2 días";
@@ -33,13 +58,6 @@ export const createQuoteController = async (req, res) => {
   const quote_credit = false;
   const quote_payForm = "Por definir";
   const quote_status = "pendiente";
-
-  // Validar campos obligatorios
-  if (!customer_nit || !product_id) {
-    return res.status(400).json({
-      message: 'Faltan datos obligatorios. Asegúrate de enviar customer_nit y product_id.',
-    });
-  }
 
   try {
     // Subir la imagen a Cloudinary si existe
