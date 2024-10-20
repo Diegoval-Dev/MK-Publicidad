@@ -19,19 +19,19 @@ const Quote = db.define('Quote', {
         type: DataTypes.DATE,
         allowNull: false
     },
-    quote_sellerId: {
+    quote_seller_id: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
-    quote_validityTill: {
+    quote_validity_till: {
         type: DataTypes.DATE,
         allowNull: false
     },
-    quote_shippingTime: {
+    quote_shipping_time: {
         type: DataTypes.STRING(50),
         allowNull: true
     },
-    quote_payMethod: {
+    quote_pay_method: {
         type: DataTypes.STRING(50),
         allowNull: false
     },
@@ -39,7 +39,7 @@ const Quote = db.define('Quote', {
         type: DataTypes.BOOLEAN,
         allowNull: false
     },
-    quote_payForm: {
+    quote_pay_form: {
         type: DataTypes.STRING(50),
         allowNull: false
     },

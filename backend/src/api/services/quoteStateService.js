@@ -1,4 +1,4 @@
-export const updateQuoteState = async (quoteId, newState) => {
+export const updateQuoteState = async (quotation_id, newState) => {
     // Definir los estados válidos
     const validStates = ['pendiente', 'aprobado', 'rechazado'];
 
@@ -8,7 +8,7 @@ export const updateQuoteState = async (quoteId, newState) => {
     }
 
     // Buscar la cotización en la base de datos
-    const quote = await Quote.findByPk(quoteId);
+    const quote = await Quote.findByPk(quotation_id);
     if (!quote) {
         throw new Error('Cotización no encontrada.');
     }

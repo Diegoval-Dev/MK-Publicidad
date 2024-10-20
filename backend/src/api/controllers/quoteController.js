@@ -27,12 +27,15 @@ const quoteSchema = Joi.object({
     'number.base': 'product_id debe ser un número.',
     'any.required': 'product_id es requerido.',
   }),
-  quote_quantity: Joi.number().optional(),
+  quote_quantity: Joi.number().required(), 
   quote_details: Joi.string().optional(),
+  quote_img_url: Joi.string().uri(),
 });
 
 export const createQuoteController = async (req, res) => {
+  console.log(req.body);
   const {
+    quotation_id, 
     customer_company,
     customer_email,
     customer_contact,
@@ -49,14 +52,14 @@ export const createQuoteController = async (req, res) => {
     return res.status(400).json({ message: error.details[0].message });
   }
 
-  const quote_sellerId = "1"; // Se asume que el vendedor es el usuario con ID 1
-  const quote_validityTill = new Date();
-  const quote_shippingTime = "1-2 días";
-  quote_validityTill.setDate(quote_validityTill.getDate() + 15); // Validez de la cotización
-  const quote_date = new Date();
-  const quote_payMethod = "Por definir";
+  const quote_seller_id = "1"; // Se asume que el vendedor es el usuario con ID 1
+  const quote_no = quotation_id; 
+  const quote_validity_till = new Date();
+  const quote_shipping_time = "1-2 días";
+  quote_validity_till.setDate(quote_validity_till.getDate() + 15); // Validez de la cotización
+  const quote_pay_method = "Por definir";
   const quote_credit = false;
-  const quote_payForm = "Por definir";
+  const quote_pay_form = "Por definir";
   const quote_status = "pendiente";
 
   try {
@@ -72,17 +75,19 @@ export const createQuoteController = async (req, res) => {
     // Crear la cotización
     const newQuote = await createQuote({
       customer_nit,
-      quote_date,
-      quote_sellerId,
-      quote_validityTill,
-      quote_shippingTime,
-      quote_payMethod,
+      quote_seller_id,
+      quote_validity_till,
+      quote_shipping_time,
+      quote_pay_method,
       quote_credit,
-      quote_payForm,
+      quote_pay_form,
       product_id,
-      quote_status,
-      quote_img_url, // Enviar la URL de la imagen a la base de datos
+      quote_status: quote_status || 'pendiente',
+      quote_quantity,
+      quote_details,
+      quote_img_url,
     });
+    
 
     return res.status(201).json({
       message: 'Cotización creada con éxito.',

@@ -3,7 +3,7 @@ import Joi from 'joi'; // Importar Joi para la validación
 
 // Esquema de validación para el estado de la cotización
 const updateQuoteSchema = Joi.object({
-  quoteId: Joi.number().required().messages({
+  quotation_id: Joi.number().required().messages({
     'number.base': 'quoteId debe ser un número.',
     'any.required': 'quoteId es requerido.',
   }),
@@ -16,17 +16,17 @@ const updateQuoteSchema = Joi.object({
 
 // Controlador para actualizar el estado de la cotización
 export const updateQuoteController = async (req, res) => {
-  const { quoteId, newState } = req.body;
+  const { quotation_id, newState } = req.body;
 
   // Validar los datos con Joi
-  const { error } = updateQuoteSchema.validate({ quoteId, newState });
+  const { error } = updateQuoteSchema.validate({ quotation_id, newState });
   if (error) {
     return res.status(400).json({ message: error.details[0].message });
   }
 
   try {
     // Llamar al servicio para actualizar el estado de la cotización
-    const updatedQuote = await updateQuoteState(quoteId, newState);
+    const updatedQuote = await updateQuoteState(quotation_id, newState);
 
     return res.status(200).json({
       message: 'Estado de la cotización actualizado con éxito.',

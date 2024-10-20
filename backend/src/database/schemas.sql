@@ -373,7 +373,7 @@ CREATE TABLE Users (
 CREATE TABLE Quotes (
     quotation_id INT AUTO_INCREMENT PRIMARY KEY,
     customer_nit INT NOT NULL,
-    quote_no INT AUTO_INCREMENT NOT NULL,
+    quote_no INT NOT NULL,
     quote_date DATE NOT NULL,
     quote_seller_id INT NOT NULL,
     quote_validity_till DATE NOT NULL,
@@ -396,5 +396,5 @@ CREATE TABLE Customers (
     customer_email VARCHAR(50) NOT NULL,
     customer_contact VARCHAR(15) NOT NULL,
     customer_address VARCHAR(255) NOT NULL,
-    customer_nit INT NOT NULL,
+    customer_nit INT NOT NULL
 );

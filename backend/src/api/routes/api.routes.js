@@ -7,6 +7,6 @@ const router = express.Router();
 
 
 router.post('/quote', createQuoteController);
-quoteRouter.put('/quote/status', authMiddleware, updateQuoteController);
+router.put('/quote/status', authMiddleware, updateQuoteController);
 
 export default router;
