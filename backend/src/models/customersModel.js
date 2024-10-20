@@ -24,6 +24,10 @@ const Customer = db.define('Customer', {
     customer_address: {  
         type: DataTypes.STRING(255),
         allowNull: false
+    },
+    customer_nit: {
+        type: DataTypes.STRING(15),
+        allowNull: false
     }
 }, {
     tableName: 'Customers', 

@@ -12,8 +12,8 @@ const Quote = db.define('Quote', {
         allowNull: false
     },
     quote_no: {
-        type: DataTypes.STRING(50),
-        allowNull: false
+        type: DataTypes.INTEGER,
+        allowNull: true,
     },
     quote_date: {
         type: DataTypes.DATE,
@@ -29,7 +29,7 @@ const Quote = db.define('Quote', {
     },
     quote_shippingTime: {
         type: DataTypes.STRING(50),
-        allowNull: false
+        allowNull: true
     },
     quote_payMethod: {
         type: DataTypes.STRING(50),
@@ -53,6 +53,18 @@ const Quote = db.define('Quote', {
     },
     quote_status: {
         type: DataTypes.STRING(50),
+        allowNull: false
+    },
+    quote_img_url: {
+        type: DataTypes.STRING(255),
+        allowNull: false
+    },
+    quote_quantity: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    quote_details: {
+        type: DataTypes.STRING(255),
         allowNull: false
     }
 }, {

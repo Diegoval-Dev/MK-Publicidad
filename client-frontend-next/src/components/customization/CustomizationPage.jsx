@@ -76,17 +76,15 @@ const CustomizationPage = () => {
       screenshot: screenshotData,
     });
 
-    // Guardar la categoría y otros datos en localStorage
     const customizationData = {
-      funciona: "Aún no funciona",
       category: product.nombre_categoria, // Guardar la categoría
-      productId: product.id_producto,
+      productId: product.product_id,
       screenshot: screenshotData,
       color,
       size,
       quantity,
       description,
-      name: product.nombre_producto,
+      name: product.product_name,
     };
     localStorage.setItem('customizationData', JSON.stringify(customizationData));
 
@@ -128,7 +126,7 @@ const CustomizationPage = () => {
     <div className="min-h-screen flex flex-col items-center bg-white">
       {/* Sección del título */}
       <div className="w-full text-center py-4">
-        <h1 className="text-4xl font-semibold text-gray-900">{product.nombre_producto}</h1>
+        <h1 className="text-4xl font-semibold text-gray-900">{product.product_name}</h1>
         <div className="mt-2 mx-auto w-80 border-b-2 border-green-600"></div>
       </div>
 
@@ -141,7 +139,7 @@ const CustomizationPage = () => {
       <div className="flex justify-center items-start w-full max-w-4xl px-4 mt-8">
         <div className="flex-1">
           <FabricCanvas
-            backgroundImageUrl={product.url_imagen}
+            backgroundImageUrl={product.image_url}
             images={memoizedImages}
             texts={memoizedTexts}
             fabricCanvasRef={fabricCanvasRef}
@@ -201,6 +199,37 @@ const CustomizationPage = () => {
                 onChange={(e) => setQuantity(e.target.value)}
               />
             </div>
+            {product.colors && (
+              <div className="form-group">
+                <label htmlFor="color" className="block text-sm font-medium text-gray-700">
+                  Color:
+                </label>
+                {color && (
+                  <div className="flex items-center space-x-2 mb-2">
+                    <span
+                      className="w-6 h-6 rounded-full border border-gray-300"
+                      style={{ backgroundColor: product.colors.find((col) => col.color_name === color)?.hex_code }}
+                    ></span>
+                    <span>{color}</span>
+                  </div>
+                )}
+                <select
+                  id="color"
+                  name="color"
+                  className="form-field"
+                  value={color}
+                  onChange={(e) => setColor(e.target.value)}
+                >
+                  <option value="">Selecciona un color</option>
+                  {product.colors.map((color) => (
+                    <option key={color.color_name} value={color.color_name}>
+                      {color.color_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
             <div className="form-group">
               <label
                 htmlFor="additional-description"

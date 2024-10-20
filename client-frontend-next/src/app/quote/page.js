@@ -78,7 +78,7 @@ export default function Quote() {
                   <th className="font-bold px-1 py-1 border-b border-color-prices">PRODUCTO</th>
                   <th className="font-bold px-1 py-1 border-b border-color-prices">ID</th>
                   <th className="font-bold px-1 py-1 border-b border-color-prices">COLOR</th>
-                  <th className="font-bold px-1 py-1 border-b border-color-prices">TALLA</th>
+                  {size && <th className="font-bold px-1 py-1 border-b border-color-prices">TALLA</th>}
                   <th className="font-bold px-1 py-1 border-b border-color-prices">CANTIDAD</th>
                 </tr>
               </thead>
@@ -92,7 +92,7 @@ export default function Quote() {
                   </td>
                   <td className="px-1 py-1">{productId}</td>
                   <td className="px-1 py-1">{color}</td>
-                  <td className="px-1 py-1">{size}</td>
+                  {size && <td className="px-1 py-1">{size}</td>}
                   <td className="px-1 py-1">{quantity}</td>
                 </tr>
                 <tr>

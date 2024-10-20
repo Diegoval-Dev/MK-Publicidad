@@ -214,8 +214,21 @@ const getProductById = async (req, res) => {
     try {
         const id = req.params.id;
         const product = await productService.getProductById(id);
+        
         if (product) {
-            res.status(200).json(product);
+            res.status(200).json({
+                product_id: product.product_id,
+                product_name: product.product_name,
+                product_code: product.product_code,
+                category_name: product.Category ? product.Category.category_name : null,
+                capacity: product.capacity,
+                size: product.size,
+                image_url: product.image_url,
+                colors: product.Colors.map(color => ({
+                    color_name: color.color_name,
+                    hex_code: color.hex_code
+                }))
+            });
         } else {
             res.status(404).json({ message: 'Product not found' });
         }
@@ -223,6 +236,8 @@ const getProductById = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+
+
 
 /**
  * @openapi

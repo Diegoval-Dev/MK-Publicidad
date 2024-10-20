@@ -15,10 +15,10 @@ function ProductList({ category, products }) {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
         {products.map((product) => (
           <div
-            key={product.id_producto}
+            key={product.product_id}
             onClick={() =>
               router.push(
-                `/categorias/${encodeURIComponent(category)}/${product.id_producto}`
+                `/categorias/${encodeURIComponent(category)}/${product.product_id}`
               )
             }
             className="cursor-pointer"

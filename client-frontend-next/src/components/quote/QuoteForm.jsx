@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import validationUtils from './ValidationUtils';
-import quoteSending from './QuoteSending';
+import { quoteSending, quoteCreation } from './QuoteSending';
+import { useRouter } from 'next/navigation';
 import '@styles/quote/QuoteForm.css';
 
 function QuoteForm(quotationDetails) {
@@ -17,6 +18,7 @@ function QuoteForm(quotationDetails) {
     const [direccion, setDireccion] = useState('');
     
     const [hovered, setHovered] = useState(false);
+    const router = useRouter();
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -46,7 +48,8 @@ function QuoteForm(quotationDetails) {
         }
 
         if (quoteSending(email, nit, compania, contacto, phoneNumber, direccion, quotationDetails)) {
-            console.log('Todo cristalino');
+            quoteCreation(email, nit, compania, contacto, phoneNumber, direccion, quotationDetails);
+            //router.push('/quote-sent');
         }
     };
 
