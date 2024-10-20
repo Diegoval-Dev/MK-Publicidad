@@ -40,6 +40,10 @@ export const createQuote = async (quoteData) => {
       quote_details,
     } = value;
 
+      // Generar manualmente el quote_no basado en el último valor en la base de datos
+    const lastQuote = await Quote.findOne({ order: [['quote_no', 'DESC']] });
+    const quote_no = lastQuote ? lastQuote.quote_no + 1 : 1; // Asignar el siguiente número disponible
+
     // Crear la cotización en la base de datos
     const newQuote = await Quote.create({
       customer_nit,
@@ -55,6 +59,7 @@ export const createQuote = async (quoteData) => {
       quote_img_url,
       quote_quantity,
       quote_details,
+      quote_no,
     });
 
     return newQuote;
