@@ -1,3 +1,5 @@
+import Quote from '../../models/quotesModel.js'; 
+
 export const updateQuoteState = async (quotation_id, newState) => {
     // Definir los estados válidos
     const validStates = ['pendiente', 'aprobado', 'rechazado'];
