@@ -1,20 +1,24 @@
+export async function login(user_email, user_password) {
+  const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
-export async function login(email, password) {
-  const response = await fetch('/api/login', {
+  const response = await fetch(`${baseURL}admin/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email, password }),
+    body: JSON.stringify({ user_email, user_password }), 
   });
 
   if (!response.ok) {
-    throw new Error('Error en la autenticación');
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Error en la autenticación');
   }
 
   return await response.json();
 }
 
 export async function register(userData) {
-  const response = await fetch('/api/register', {
+  const baseURL = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+  const response = await fetch(`${baseURL}/admin/register`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(userData),
