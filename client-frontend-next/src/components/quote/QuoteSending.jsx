@@ -1,35 +1,35 @@
-const quoteCreation = async (customer_nit, quote_no, quote_date, quote_sellerId, quote_validityTill, quote_shippingTime, quote_payMethod, quote_credit, quote_payForm, productDetails, quote_status) => {
+const quoteCreation = async (
+    customer_nit,
+    customer_company,
+    customer_email,
+    customer_contact,
+    customer_address,
+    product_id,
+    quote_quantity,
+    quote_details,
+    quote_img 
+) => {
     const apiURL = `http://localhost:3000/api/quote`;
 
-    const payload = {
-        customer_nit,            
-        quote_no,                
-        quote_date,              
-        quote_sellerId,          
-        quote_validityTill,      
-        quote_shippingTime,      
-        quote_payMethod,         
-        quote_credit,            
-        quote_payForm,           
-        product_id: productDetails.name, 
-        quote_status,            
-        product: {
-            name: productDetails.name,
-            description: productDetails.description,
-            quantity: productDetails.quantity,
-            unitPrice: productDetails.unitPrice,
-            total: productDetails.total,
-            image: productDetails.image 
-        }
-    };
+    // Usamos FormData para enviar los datos y la imagen
+    const formData = new FormData();
+    formData.append('customer_nit', customer_nit);
+    formData.append('customer_company', customer_company);
+    formData.append('customer_email', customer_email);
+    formData.append('customer_contact', customer_contact);
+    formData.append('customer_address', customer_address);
+    formData.append('product_id', product_id);
+    formData.append('quote_quantity', quote_quantity);
+    formData.append('quote_details', quote_details);
+
+    if (quote_img) {
+        formData.append('quote_img', quote_img); 
+    }
 
     try {
         const response = await fetch(apiURL, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
+            body: formData
         });
 
         if (response.ok) {
@@ -41,6 +41,7 @@ const quoteCreation = async (customer_nit, quote_no, quote_date, quote_sellerId,
         console.error("Ocurrió un error al solicitar la cotización:", error);
     }
 };
+
 
 
 const quoteSending = async (email, nit, compania, contacto, phoneNumber, direccion, quotationDetails) => {

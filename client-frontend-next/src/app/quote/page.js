@@ -50,6 +50,7 @@ export default function Quote() {
     unitPrice,
     total,
     image: screenshot,
+    id: productId,
   };
 
   return (

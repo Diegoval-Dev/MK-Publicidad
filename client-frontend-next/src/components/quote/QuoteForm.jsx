@@ -20,6 +20,7 @@ function QuoteForm(quotationDetails) {
     const [hovered, setHovered] = useState(false);
     const router = useRouter();
 
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -48,8 +49,9 @@ function QuoteForm(quotationDetails) {
         }
 
         if (quoteSending(email, nit, compania, contacto, phoneNumber, direccion, quotationDetails)) {
-            quoteCreation(email, nit, compania, contacto, phoneNumber, direccion, quotationDetails);
-            //router.push('/quote-sent');
+            if(quoteCreation(nit,compania,email,contacto,direccion,quotationDetails.id,quotationDetails.quantity,quotationDetails.description, quotationDetails.image)){
+                router.push('/quote-sent');
+            }
         }
     };
 

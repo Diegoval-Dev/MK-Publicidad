@@ -3,7 +3,6 @@ import Quote from '../../models/quotesModel.js';
 
 // Esquema de validación usando Joi
 const quoteSchema = Joi.object({
-  customer_nit: Joi.number().required(),
   quote_seller_id: Joi.number().required(),
   quote_validity_till: Joi.date().required(),
   quote_shipping_time: Joi.string().allow(null, '').optional(),
@@ -20,10 +19,6 @@ const quoteSchema = Joi.object({
 export const createQuote = async (quoteData) => {
   try {
     // Validar los datos usando Joi
-    const { error, value } = quoteSchema.validate(quoteData);
-    if (error) {
-      throw new Error(`Datos inválidos: ${error.details[0].message}`);
-    }
 
     const {
       customer_nit,
@@ -38,7 +33,7 @@ export const createQuote = async (quoteData) => {
       quote_img_url,
       quote_quantity,
       quote_details,
-    } = value;
+    } = quoteData;
 
       // Generar manualmente el quote_no basado en el último valor en la base de datos
     const lastQuote = await Quote.findOne({ order: [['quote_no', 'DESC']] });
@@ -65,5 +60,17 @@ export const createQuote = async (quoteData) => {
     return newQuote;
   } catch (error) {
     throw new Error(`Error al crear la cotización: ${error.message}`);
+  }
+};
+
+export const getQuotesByStatusService = async (status) => {
+  try {
+    const quotes = await Quote.findAll({
+      where: { quote_status: status },
+    });
+    
+    return quotes; 
+  } catch (error) {
+    throw new Error(`Error al obtener las cotizaciones: ${error.message}`);
   }
 };
