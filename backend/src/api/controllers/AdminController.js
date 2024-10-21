@@ -107,24 +107,29 @@ const register = async (req, res) => {
  */
 const login = async (req, res) => {
     try {
-        const { user_email, user_password } = req.body;
+        // Acceder directamente a las propiedades
+        const user_email = req.body.user_email.user_email || req.body.user_email;
+        const user_password = req.body.user_email.user_password || req.body.user_password;
+        
+        console.log("########## Email:", user_email, "Password:", user_password);
+        
         const authResult = await adminService.authenticateUser(user_email, user_password);
+        
         if (authResult) {
             const token = jwt.sign(
-                { userId: authResult.user.id, role: authResult.user.user_role }, // Add role to the payload
+                { userId: authResult.user.id, role: authResult.user.user_role }, 
                 process.env.JWT_SECRET,
-                { expiresIn: '1h' }  // Token expiration
+                { expiresIn: '1h' }
             );
-            res.status(200).json({ message: "Login successful", token }); // Send token in the response
+            res.status(200).json({ message: "Login successful", token });
         } else {
             res.status(401).json({ message: "Invalid credentials" });
         }
     } catch (error) {
+        console.error("Error during login:", error.message);  // Para depuración
         res.status(500).json({ error: error.message });
     }
 };
-
-
 /**
  * @openapi
  * /api/admin/update/{user_email}:
