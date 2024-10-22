@@ -304,15 +304,16 @@ const updateProduct = async (req, res) => {
  *       500:
  *         description: Server error
  */
-const deleteProduct = async (req, res) => {
+const disableProduct = async (req, res) => {
     try {
         const id = req.params.id;
-        const product = await productService.deleteProduct(id);
+        const product = await productService.disableProduct(id);  // Llama al servicio para deshabilitar el producto
         res.status(200).json(product);
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 };
+
 
 /**
  * @openapi
@@ -439,7 +440,7 @@ export default {
     getProductById,
     createProduct,
     updateProduct,
-    deleteProduct,
+    disableProduct,
     getFilterOptionsByCategory,
     getAllCategories,
     getCategoriesByKeyword

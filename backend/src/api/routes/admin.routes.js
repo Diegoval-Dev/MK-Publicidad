@@ -115,14 +115,14 @@ adminRouter.put(
 );
 
 
-// Ruta para eliminar un producto
+// Ruta para deshabilitar un producto
 /**
  * @openapi
- * /api/admin/products/{id}:
- *   delete:
+ * /api/admin/products/{id}/disable:
+ *   put:
  *     tags:
  *       - Admin
- *     summary: Elimina un producto
+ *     summary: Deshabilita un producto (eliminación lógica)
  *     security:
  *       - bearerAuth: []  # Indica que esta ruta necesita autenticación JWT
  *     parameters:
@@ -134,22 +134,23 @@ adminRouter.put(
  *         description: ID del producto
  *     responses:
  *       200:
- *         description: Producto eliminado exitosamente
- *       404:
- *         description: Producto no encontrado
- *       401:
- *         description: Token faltante o inválido
- *       500:
- *         description: Error en el servidor
- */
-
-
-adminRouter.delete(
-    '/products/:id', 
+ *         description: Producto deshabilitado exitosamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example
+*/
+adminRouter.put(
+    '/products/:id/disable', 
     authMiddleware,              // Valida el token JWT
-    verifyRoles('admin'),        // Solo los administradores pueden eliminar productos
-    productController.deleteProduct
+    verifyRoles('admin'),        // Solo los administradores pueden deshabilitar productos
+    productController.disableProduct // Controlador que actualiza el estado del producto
 );
+
 
 
 // Ruta para actualizar un usuario (requiere autenticación con JWT)
