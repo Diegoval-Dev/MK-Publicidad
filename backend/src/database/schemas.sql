@@ -20,6 +20,7 @@ CREATE TABLE Products (
     capacity VARCHAR(50),
     size VARCHAR(50),
     image_url VARCHAR(255),
+    is_enabled BOOLEAN DEFAULT TRUE,  
     FOREIGN KEY (category_id) REFERENCES Categories(category_id)
 );
 

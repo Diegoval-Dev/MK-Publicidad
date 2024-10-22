@@ -86,7 +86,7 @@ const updateProduct = async (product_id, product) => {
   }
 };
 
-const deleteProduct = async (product_id) => {
+const disableProduct = async (product_id) => {
   try {
     const product = await Product.findByPk(product_id, {
       include: [
@@ -96,12 +96,20 @@ const deleteProduct = async (product_id) => {
         }
       ]
     });
-    await product.destroy();
+
+    if (!product) {
+      throw new Error('Producto no encontrado');
+    }
+
+    product.is_enabled = false;  // Cambiar el estado a deshabilitado
+    await product.save();  // Guardar los cambios
+
     return product;
   } catch (error) {
     throw error;
   }
 };
+
 
 const getFilterOptionsByCategory = async (category_id) => {
   try {
@@ -186,7 +194,7 @@ export default {
   getProducts,
   getProductById,
   updateProduct,
-  deleteProduct,
+  disableProduct,
   getFilterOptionsByCategory,
   getAllCategories,
   getCategoriesByKeyword
