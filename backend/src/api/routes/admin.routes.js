@@ -142,7 +142,6 @@ adminRouter.put(
  *               properties:
  *                 message:
  *                   type: string
- *                   example
 */
 adminRouter.put(
     '/products/:id/disable', 

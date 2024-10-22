@@ -46,9 +46,9 @@ const Product = db.define('Product', {
 });
 
 // relación entre Product y Category
-Product.belongsTo(Category, { foreignKey: 'category_id' });  // Cambiado foreignKey de id_categoria a category_id
+Product.belongsTo(Category, { foreignKey: 'category_id',  timestamps: false });  // Cambiado foreignKey de id_categoria a category_id
 
 // Relación entre Product y Color a través de la tabla intermedia Product_Colors
-Product.belongsToMany(Color, { through: 'Product_Colors', foreignKey: 'product_id', otherKey: 'color_id' });  // Cambiado a nombres en inglés
+Product.belongsToMany(Color, { through: 'Product_Colors', foreignKey: 'product_id', otherKey: 'color_id',  timestamps: false  });  // Cambiado a nombres en inglés
 
 export { Product, Category, Color };
