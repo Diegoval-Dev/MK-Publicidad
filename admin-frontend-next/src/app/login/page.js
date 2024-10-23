@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { login } from '@api/auth';
+import Image from 'next/image';
+import MKLogo from "../imags/image.png";
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -30,11 +32,16 @@ const Login = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-ligth-green">
-      <div className="w-full max-w-md bg-calendar-selectday p-8 rounded-lg shadow-lg">
-        <h1 className="text-2xl font-bold text-center color-text mb-6">MK Publicidad - Iniciar Sesión</h1>
-
+    <div className="flex min-h-screen items-center justify-center bg-lime-700">
+      <div className="w-[80%] rounded-lg shadow-2xl">
         <form onSubmit={handleLogin}>
+          <Image
+            src={MKLogo}
+            width={200}
+            height={200}
+            alt="MK Logo"
+            className='justify-self-center'
+          />
           {/* Email */}
           <div className="mb-4">
             <label htmlFor="email" className="block text-color-text mb-2">Correo Electrónico</label>
@@ -44,7 +51,7 @@ const Login = () => {
               placeholder="Ingresa tu correo"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 border border-color-contorno rounded-lg focus:outline-none focus:ring-2 focus:ring-color-symbols"
+              className="w-full p-2 border border-color-contorno rounded-lg focus:outline-none focus:ring-2 focus:ring-color-symbols hover:border-color-prices transition-colors"
               required
             />
           </div>
@@ -58,7 +65,7 @@ const Login = () => {
               placeholder="Ingresa tu contraseña"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 border border-color-contorno rounded-lg focus:outline-none focus:ring-2 focus:ring-color-symbols"
+              className="w-full p-2 border border-color-contorno rounded-lg focus:outline-none focus:ring-2 focus:ring-color-symbols hover:border-color-prices transition-colors"
               required
             />
           </div>
@@ -69,7 +76,7 @@ const Login = () => {
           {/* Login Button */}
           <button
             type="submit"
-            className="w-full bg-color-button text-white font-bold py-2 px-4 rounded-lg hover:bg-color-symbols"
+            className="w-full bg-color-button text-white font-bold py-2 px-4 rounded-lg hover:bg-color-symbols transition-colors"
           >
             Iniciar Sesión
           </button>
