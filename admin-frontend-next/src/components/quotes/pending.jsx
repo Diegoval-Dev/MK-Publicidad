@@ -83,12 +83,21 @@ const Pending = () => {
                   </tbody>
                 </table>
               </div>
-                  <h1>Método de pago: {quote.quote_pay_method}</h1>
-                  <h1>Forma de pago: {quote.quote_pay_form}</h1>
+              <div className=' flex flex-column justify-between'>
+                    <div>
+                        <h1>Método de pago: {quote.quote_pay_method}</h1>
+                        <h1>Forma de pago: {quote.quote_pay_form}</h1>
+                    </div>
+                  <h1>Estado: {quote.quote_status}</h1>
+                </div>
             </div>
           )
         })
       )}
+      <div className='flex flex-column justify-self-center'>
+        <button className="w-full bg-color-button text-white font-bold py-2 px-4 rounded-lg hover:bg-color-symbols transition-colors mx-5">Aceptar</button>
+        <button className="w-full bg-color-button text-white font-bold py-2 px-4 rounded-lg hover:bg-color-symbols transition-colors">Rechazar</button>
+      </div>
     </div>
   )
 }
