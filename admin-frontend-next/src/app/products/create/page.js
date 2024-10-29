@@ -9,7 +9,7 @@ const CreateProductPage = () => {
     category_id: '',
     capacity: '',
     size: '',
-    image_url: '',
+    image_url: null,
   });
 
   const handleInputChange = (e) => {
@@ -20,10 +20,48 @@ const CreateProductPage = () => {
     });
   };
 
+  const handleFileChange = (e) => {
+    setFormData({
+      ...formData,
+      image_url: e.target.files[0],
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    
+    const form = new FormData();
+    form.append("product_name", formData.product_name);
+    form.append("product_code", formData.product_code);
+    form.append("category_id", formData.category_id);
+    form.append("capacity", formData.capacity);
+    form.append("size", formData.size);
+    form.append("image", formData.image_url);
+  
+    try {
+      // Recupera el token JWT almacenado (asumiendo que está en localStorage)
+      const token = localStorage.getItem("token");
+  
+      const response = await fetch("http://localhost:3000/admin/products", {
+        method: "POST",
+        body: form,
+        headers: {
+          "Authorization": `Bearer ${token}`,  // Añade el token en el encabezado
+        },
+      });
+  
+      if (response.ok) {
+        alert("Producto creado exitosamente");
+      } else {
+        const errorData = await response.json();
+        alert(`Error al crear producto: ${errorData.error}`);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error al crear producto");
+    }
   };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -33,9 +71,7 @@ const CreateProductPage = () => {
       >
         <h2 className="text-2xl font-bold text-center text-black mb-6">Crear Producto</h2>
 
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Nombre del Producto */}
           <div>
             <label htmlFor="product_name" className="block text-gray-700 mb-1">Nombre del Producto</label>
             <input
@@ -50,7 +86,6 @@ const CreateProductPage = () => {
             />
           </div>
 
-          {/* Código del Producto */}
           <div>
             <label htmlFor="product_code" className="block text-gray-700 mb-1">Código del Producto</label>
             <input
@@ -65,7 +100,6 @@ const CreateProductPage = () => {
             />
           </div>
 
-          {/* Categoría */}
           <div>
             <label htmlFor="category_id" className="block text-gray-700 mb-1">Categoría</label>
             <input
@@ -80,7 +114,6 @@ const CreateProductPage = () => {
             />
           </div>
 
-          {/* Capacidad */}
           <div>
             <label htmlFor="capacity" className="block text-gray-700 mb-1">Capacidad</label>
             <input
@@ -94,7 +127,6 @@ const CreateProductPage = () => {
             />
           </div>
 
-          {/* Tamaño */}
           <div>
             <label htmlFor="size" className="block text-gray-700 mb-1">Tamaño</label>
             <input
@@ -108,33 +140,20 @@ const CreateProductPage = () => {
             />
           </div>
 
-          {/* URL de la Imagen */}
           <div>
-            <label htmlFor="image_url" className="block text-gray-700 mb-1">URL de la Imagen</label>
+            <label htmlFor="image_url" className="block text-gray-700 mb-1">Imagen del Producto</label>
             <input
-              type="text"
+              type="file"
               name="image_url"
               id="image_url"
               className="w-full border-gray-300 p-2 rounded focus:border-blue-500"
-              placeholder="https://ejemplo.com/imagen.jpg"
-              value={formData.image_url}
-              onChange={handleInputChange}
+              onChange={handleFileChange}
+              required
             />
           </div>
         </div>
 
-        {/* Previsualización de Imagen */}
-        {formData.image_url && (
-          <div className="mt-6 text-center">
-            <img src={formData.image_url} alt="Preview" className="inline-block w-32 h-32 object-cover rounded-md shadow-lg" />
-          </div>
-        )}
-
-        {/* Botón de Envío */}
-        <button
-          type="submit"
-          className="mt-8 w-full bg-[#65a30d] hover:bg-[#4CAF50] text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
-        >
+        <button type="submit" className="mt-8 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
           Crear Producto
         </button>
       </form>
