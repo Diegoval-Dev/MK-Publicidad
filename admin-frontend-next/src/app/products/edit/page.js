@@ -1,3 +1,5 @@
+"use client";
+
 // /pages/products/create.js
 import React, { useState } from 'react';
 const CreateProductPage = () => {
@@ -27,7 +29,7 @@ const CreateProductPage = () => {
         className="form bg-white p-8 rounded shadow-md"
         onSubmit={handleSubmit}
       >
-        <h2 className="centered-title mb-6">Crear Producto</h2>
+        <h2 className="centered-title mb-6">Modificar Producto</h2>
         <div>
           <label htmlFor="product_name" className="text-balance">Nombre del Producto</label>
           <input
@@ -104,7 +106,7 @@ const CreateProductPage = () => {
           />
         </div>
         <button type="submit" className="button mt-4">
-          Crear Producto
+          Modificar Producto
         </button>
       </form>
     </div>
