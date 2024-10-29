@@ -15,14 +15,16 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
   params: (req, file) => {
-    const public_id = req.body.name.trim();
+    const public_id = req.body.name ? req.body.name.trim() : 'default_name';
+    const folder = req.body.category ? req.body.category : 'default_category';
     return {
-      folder: req.body.category,
+      folder: folder,
       format: 'png', 
       public_id: public_id,
-    }
+    };
   },
 });
+
 
 const parser = multer({ storage: storage });
 

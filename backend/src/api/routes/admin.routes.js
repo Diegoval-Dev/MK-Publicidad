@@ -5,6 +5,7 @@ import verifyRoles from '../middlewares/verifyRoles.js';
 import productController from '../controllers/productController.js';
 import adminController from '../controllers/AdminController.js';
 import parser from '../middlewares/imagesMiddleware.js';
+import { fetchCategories } from '../controllers/categoryController.js';
 
 const adminRouter = express.Router();
 
@@ -290,5 +291,9 @@ adminRouter.post('/register', adminController.register);
  *         description: Error en el servidor
  */
 adminRouter.post('/login', adminController.login);
+
+
+//Ruta no protegida solo para mostrar categorias
+adminRouter.get('/categories', fetchCategories);
 
 export default adminRouter;
