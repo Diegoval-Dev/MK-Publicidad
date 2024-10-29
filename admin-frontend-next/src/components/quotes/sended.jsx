@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 
-const Accepted = () => {
+const Sended = () => {
   
   const example = {
         "quotation_id": 1,
@@ -16,7 +16,7 @@ const Accepted = () => {
         "quote_credit": false,
         "quote_pay_form": "Por definir",
         "product_id": 1,
-        "quote_status": "aceptada",
+        "quote_status": "enviada",
         "quote_img_url": "https://res.cloudinary.com/dmafdgdz3/image/upload/v1729461952/quotes/mpvmua1fzfybyxwnz1yz.png",
         "quote_quantity": 3,
         "quote_details": "Dfnjehnvseijfnvejilkgnvjseirngveijsbnvjeisvneijnvejskvnjefskvbn dfjskvbndfjhsbvkdse"
@@ -25,8 +25,8 @@ const Accepted = () => {
   const [quotes, setQuotes] = useState([example]);
   console.log(quotes)
   
-  async function  getAcceptedQuotes() {
-    const response = await fetch(`http://localhost:3000/api/quote/aceptado`, {
+  async function  getSendedQuotes() {
+    const response = await fetch(`http://localhost:3000/api/quote/enviado`, {
       method: 'GET',
       headers: { 'Content-type': 'application/json' }
     })
@@ -43,7 +43,7 @@ const Accepted = () => {
   return (
     <div className='py-8'>
       {quotes.length === 0 ? (
-        <p>No hay cotizaciones aceptadas</p>
+        <p>No hay cotizaciones enviadas</p>
       ) : (
         quotes.map((quote, index) => {
           return(
@@ -98,4 +98,4 @@ const Accepted = () => {
   )
 }
 
-export default Accepted
+export default Sended
