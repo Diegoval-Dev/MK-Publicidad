@@ -1,115 +1,178 @@
 "use client";
 
-// /pages/products/create.js
-import React, { useState } from 'react';
-const CreateProductPage = () => {
-  const [formData, setFormData] = useState({
+import React, { useEffect, useState } from 'react';
+import { useRouter, useParams } from 'next/navigation';
+
+const EditProductPage = () => {
+  const router = useRouter();
+  const { id } = useParams(); // Obtener el ID del producto desde la URL
+  const [productData, setProductData] = useState({
     product_name: '',
     product_code: '',
     category_id: '',
     capacity: '',
     size: '',
-    image_url: '',
+    image_url: ''
   });
+
+  useEffect(() => {
+    const productId = sessionStorage.getItem('editProductId'); // Obtén el ID de sessionStorage
+  
+    if (!productId) {
+      // Si no hay ID, redirige al usuario (quizás a la lista de productos)
+      router.push('/products');
+      return;
+    }
+  
+    const fetchProductData = async () => {
+      try {
+        const token = localStorage.getItem("token");
+  
+        const response = await fetch(`http://localhost:3000/user/products/${productId}`);
+  
+        if (response.ok) {
+          const data = await response.json();
+          setProductData(data); // Cargar los datos actuales en el estado
+        } else {
+          console.error("Error al cargar los datos del producto");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    fetchProductData();
+  }, [router]);
+  
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setProductData({
+      ...productData,
       [name]: value,
     });
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí puedes añadir la lógica para enviar la data al backend
-    console.log(formData);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await fetch(`http://localhost:3000/admin/products/${id}`, {
+        method: "PUT",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(productData),
+      });
+
+      if (response.ok) {
+        alert("Producto actualizado exitosamente");
+        router.push("/products"); // Redirige a la lista de productos después de actualizar
+      } else {
+        alert("Error al actualizar el producto");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Error al actualizar el producto");
+    }
   };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <form
-        className="form bg-white p-8 rounded shadow-md"
+        className="bg-white p-8 rounded-lg shadow-lg max-w-2xl w-full"
         onSubmit={handleSubmit}
       >
-        <h2 className="centered-title mb-6">Modificar Producto</h2>
+        <h2 className="text-3xl font-extrabold text-center text-gray-800 mb-6 underline">
+          Editar Producto
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label htmlFor="product_name" className="text-balance">Nombre del Producto</label>
+          <label htmlFor="product_name" className="block text-gray-700 mb-1">Nombre del Producto</label>
           <input
             type="text"
             name="product_name"
             id="product_name"
-            className="form-input"
-            placeholder="Ejemplo: Taza personalizada"
-            value={formData.product_name}
+            className="w-full border-gray-300 p-2 rounded focus:border-green-500"
+            value={productData.product_name}
             onChange={handleInputChange}
             required
           />
         </div>
+
         <div>
-          <label htmlFor="product_code" className="text-balance">Código del Producto</label>
+          <label htmlFor="product_code" className="block text-gray-700 mb-1">Código del Producto</label>
           <input
             type="text"
             name="product_code"
             id="product_code"
-            className="form-input"
-            placeholder="Ejemplo: TAZ-001"
-            value={formData.product_code}
+            className="w-full border-gray-300 p-2 rounded focus:border-green-500"
+            value={productData.product_code}
             onChange={handleInputChange}
             required
           />
         </div>
+
         <div>
-          <label htmlFor="category_id" className="text-balance">Categoría</label>
+          <label htmlFor="category_id" className="block text-gray-700 mb-1">Categoría</label>
           <input
-            type="number"
+            type="text"
             name="category_id"
             id="category_id"
-            className="form-input"
-            placeholder="Ejemplo: 1"
-            value={formData.category_id}
+            className="w-full border-gray-300 p-2 rounded focus:border-green-500"
+            value={productData.category_id}
             onChange={handleInputChange}
-            required
           />
         </div>
+
         <div>
-          <label htmlFor="capacity" className="text-balance">Capacidad</label>
+          <label htmlFor="capacity" className="block text-gray-700 mb-1">Capacidad</label>
           <input
             type="text"
             name="capacity"
             id="capacity"
-            className="form-input"
-            placeholder="Ejemplo: 300ml"
-            value={formData.capacity}
+            className="w-full border-gray-300 p-2 rounded focus:border-green-500"
+            value={productData.capacity}
             onChange={handleInputChange}
           />
         </div>
+
         <div>
-          <label htmlFor="size" className="text-balance">Tamaño</label>
+          <label htmlFor="size" className="block text-gray-700 mb-1">Tamaño</label>
           <input
             type="text"
             name="size"
             id="size"
-            className="form-input"
-            placeholder="Ejemplo: 10cm x 10cm"
-            value={formData.size}
+            className="w-full border-gray-300 p-2 rounded focus:border-green-500"
+            value={productData.size}
             onChange={handleInputChange}
           />
         </div>
+
         <div>
-          <label htmlFor="image_url" className="text-balance">URL de la Imagen</label>
+          <label htmlFor="image_url" className="block text-gray-700 mb-1">URL de la Imagen</label>
           <input
             type="text"
             name="image_url"
             id="image_url"
-            className="form-input"
-            placeholder="https://ejemplo.com/imagen.jpg"
-            value={formData.image_url}
+            className="w-full border-gray-300 p-2 rounded focus:border-green-500"
+            value={productData.image_url}
             onChange={handleInputChange}
           />
         </div>
-        <button type="submit" className="button mt-4">
-          Modificar Producto
-        </button>
+      </div>
+
+      <button type="submit" className="mt-8 w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">
+        Guardar Cambios
+      </button>
+
       </form>
     </div>
   );
 };
-export default CreateProductPage;
+
+export default EditProductPage;

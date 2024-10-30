@@ -14,11 +14,7 @@ const ProductListPage = () => {
       try {
         const token = localStorage.getItem("token");
 
-        const response = await fetch("http://localhost:3000/admin/products/list", {
-          headers: {
-            "Authorization": `Bearer ${token}`,
-          },
-        });
+        const response = await fetch("http://localhost:3000/admin/products/list");
         
         if (response.ok) {
           const data = await response.json();
@@ -39,7 +35,8 @@ const ProductListPage = () => {
   );
 
   const handleEditClick = (productId) => {
-    router.push(`/products/edit/${productId}`);
+    sessionStorage.setItem('editProductId', productId); // Guarda el ID en sessionStorage
+    router.push('/products/edit'); // Redirige a la página de edición sin el ID en la URL
   };
 
   const handleDeleteClick = async (productId) => {
