@@ -13,6 +13,31 @@ const ProductListPage = () => {
     const fetchProducts = async () => {
       try {
         const token = localStorage.getItem("token");
+  
+        const response = await fetch("http://localhost:3000/admin/products/list", {
+          headers: {
+            "Authorization": `Bearer ${token}`,
+          },
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          setProducts(data);
+        } else {
+          console.error("Error al cargar productos");
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    };
+  
+    fetchProducts();
+  }, []); // Asegúrate de que este useEffect se ejecute cada vez que se monte el componente
+  
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const token = localStorage.getItem("token");
 
         const response = await fetch("http://localhost:3000/admin/products/list");
         
