@@ -26,7 +26,7 @@ const ProductsPage = () => {
             Crear Producto
           </button>
           <button
-            onClick={() => router.push('/products/edit')}
+            onClick={() => router.push('/products/list')}
             className="bg-[#ff5722] hover:bg-[#ff7043] active:bg-[#bf360c] text-white font-bold py-2 px-4 rounded-full shadow-md transition duration-200 ease-in-out transform hover:scale-105"
           >
             Modificar Producto

@@ -293,7 +293,8 @@ adminRouter.post('/register', adminController.register);
 adminRouter.post('/login', adminController.login);
 
 
-//Ruta no protegida solo para mostrar categorias
+//Ruta no protegida solo para mostrar categorias y productos
 adminRouter.get('/categories', fetchCategories);
+adminRouter.get('/products/list', productController.listProducts);
 
 export default adminRouter;

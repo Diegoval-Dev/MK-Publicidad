@@ -1,6 +1,19 @@
 import { Product, Category, Color } from "../../models/productModel.js";
 import { Op, Sequelize } from "sequelize";
 
+export const getAllProductsForListing = async () => {
+  try {
+    return await Product.findAll({
+      attributes: ['product_id', 'product_name', 'image_url'],
+      where: {
+        is_enabled : true // Solo productos no deshabilitados
+      } // Selecciona solo los campos necesarios
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
 const createProduct = async (product) => {
   try {
     return await Product.create(product);
@@ -197,5 +210,6 @@ export default {
   disableProduct,
   getFilterOptionsByCategory,
   getAllCategories,
-  getCategoriesByKeyword
+  getCategoriesByKeyword,
+  getAllProductsForListing,
 };

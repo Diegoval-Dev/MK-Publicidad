@@ -1,5 +1,16 @@
 import productService from '../services/productService.js';
 
+export const listProducts = async (req, res) => {
+  try {
+    const products = await productService.getAllProductsForListing();
+    res.json(products);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al obtener la lista de productos" });
+  }
+};
+
+
 /**
  * @openapi
  * /api/admin/products:
@@ -438,6 +449,7 @@ const getCategoriesByKeyword = async (req, res) => {
 export default {
     getAllProducts,
     getProductById,
+    listProducts,
     createProduct,
     updateProduct,
     disableProduct,
