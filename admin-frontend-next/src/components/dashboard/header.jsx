@@ -15,7 +15,7 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-gray-800 p-4 text-white flex justify-between items-center">
+    <header className="bg-green-700 p-4 text-white flex justify-between items-center">
       <h1 className="text-xl font-bold tracking-wide">MK Publicidad - Admin</h1>
       <nav className="flex space-x-4 items-center">
         <button 
