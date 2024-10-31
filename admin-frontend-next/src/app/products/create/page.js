@@ -86,23 +86,23 @@ const CreateProductPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-[#e6f4e7]">
       <form
         className="bg-white p-8 rounded-lg shadow-lg max-w-2xl w-full"
         onSubmit={handleSubmit}
       >
-        <h2 className="text-3xl font-extrabold text-center text-gray-800 mb-6 underline">
-          Crear Producto
+        <h2 className="text-3xl font-extrabold text-center text-[#3b6b27] mb-6 underline">
+          CREAR PRODUCTO
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="product_name" className="block text-gray-700 mb-1">Nombre del Producto</label>
+            <label htmlFor="product_name" className="block text-gray-900 mb-1">Nombre del Producto</label>
             <input
               type="text"
               name="product_name"
               id="product_name"
-              className="w-full border-gray-300 p-2 rounded focus:border-green-500"
+              className="w-full border-gray-300 p-2 rounded focus:border-[#60a917]"
               placeholder="Ejemplo: Taza personalizada"
               value={formData.product_name}
               onChange={handleInputChange}
@@ -111,12 +111,12 @@ const CreateProductPage = () => {
           </div>
 
           <div>
-            <label htmlFor="product_code" className="block text-gray-700 mb-1">Código del Producto</label>
+            <label htmlFor="product_code" className="block text-gray-900 mb-1">Código del Producto</label>
             <input
               type="text"
               name="product_code"
               id="product_code"
-              className="w-full border-gray-300 p-2 rounded focus:border-green-500"
+              className="w-full border-gray-300 p-2 rounded focus:border-[#60a917]"
               placeholder="Ejemplo: TAZ-001"
               value={formData.product_code}
               onChange={handleInputChange}
@@ -125,11 +125,11 @@ const CreateProductPage = () => {
           </div>
 
           <div>
-            <label htmlFor="category_id" className="block text-gray-700 mb-1">Categoría</label>
+            <label htmlFor="category_id" className="block text-gray-900 mb-1">Categoría</label>
             <select
             name="category_id"
             id="category_id"
-            className="w-full border-gray-300 p-2 rounded focus:border-green-500"
+            className="w-full border-gray-300 p-2 rounded focus:border-[#60a917]"
             value={formData.category_id}
             onChange={handleInputChange}
             required
@@ -145,12 +145,12 @@ const CreateProductPage = () => {
           </div>
 
           <div>
-            <label htmlFor="capacity" className="block text-gray-700 mb-1">Capacidad</label>
+            <label htmlFor="capacity" className="block text-gray-900 mb-1">Capacidad</label>
             <input
               type="text"
               name="capacity"
               id="capacity"
-              className="w-full border-gray-300 p-2 rounded focus:border-green-500"
+              className="w-full border-gray-300 p-2 rounded focus:border-[#60a917]"
               placeholder="Ejemplo: 300ml"
               value={formData.capacity}
               onChange={handleInputChange}
@@ -158,12 +158,12 @@ const CreateProductPage = () => {
           </div>
 
           <div>
-            <label htmlFor="size" className="block text-gray-700 mb-1">Tamaño</label>
+            <label htmlFor="size" className="block text-gray-900 mb-1">Tamaño</label>
             <input
               type="text"
               name="size"
               id="size"
-              className="w-full border-gray-300 p-2 rounded focus:border-green-500"
+              className="w-full border-gray-300 p-2 rounded focus:border-[#60a917]"
               placeholder="Ejemplo: 10cm x 10cm"
               value={formData.size}
               onChange={handleInputChange}
@@ -171,19 +171,19 @@ const CreateProductPage = () => {
           </div>
 
           <div>
-            <label htmlFor="image_url" className="block text-gray-700 mb-1">Imagen del Producto</label>
+            <label htmlFor="image_url" className="block text-gray-900 mb-1">Imagen del Producto</label>
             <input
               type="file"
               name="image_url"
               id="image_url"
-              className="w-full border-gray-300 p-2 rounded focus:border-green-500"
+              className="w-full border-gray-300 p-2 rounded focus:border-[#60a917]"
               onChange={handleFileChange}
               required
             />
           </div>
         </div>
 
-        <button type="submit" className="mt-8 w-full bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out">
+        <button type="submit" className="mt-8 w-full bg-[#65a30d] hover:bg-[#57a914] active:bg-[#4e8c14] text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out">
           Crear Producto
         </button>
       </form>
