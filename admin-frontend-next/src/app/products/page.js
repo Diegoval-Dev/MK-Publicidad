@@ -6,7 +6,7 @@ const ProductsPage = () => {
   const router = useRouter();
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center h-screen bg-green-50">
       <div className="bg-white p-8 shadow-lg rounded-lg text-center max-w-md">
         {/* Logo */}
         <img src="/image.png" alt="MK Publicidad Logo" className="mx-auto mb-4" style={{ maxWidth: '150px', borderRadius: '10px' }} />
@@ -21,13 +21,13 @@ const ProductsPage = () => {
         <div className="flex justify-center space-x-4">
           <button
             onClick={() => router.push('/products/create')}
-            className="bg-[#65a30d] hover:bg-[#4CAF50] active:bg-[#426b1f] text-white font-bold py-2 px-4 rounded-full shadow-md transition duration-200 ease-in-out transform hover:scale-105"
+            className="bg-[#cf4f4d] hover:bg-[#b84745] active:bg-[#a33e3b] text-white font-bold py-2 px-4 rounded-full shadow-md transition duration-200 ease-in-out transform hover:scale-105"
           >
             Crear Producto
           </button>
           <button
             onClick={() => router.push('/products/list')}
-            className="bg-[#ff5722] hover:bg-[#ff7043] active:bg-[#bf360c] text-white font-bold py-2 px-4 rounded-full shadow-md transition duration-200 ease-in-out transform hover:scale-105"
+            className="bg-[#78a866] hover:bg-[#628753] active:bg-[#506d44] text-white font-bold py-2 px-4 rounded-full shadow-md transition duration-200 ease-in-out transform hover:scale-105"
           >
             Modificar Producto
           </button>

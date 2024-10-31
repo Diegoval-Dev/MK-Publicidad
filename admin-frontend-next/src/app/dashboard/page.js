@@ -20,11 +20,6 @@ export default function Dashboard() {
     <div className="min-h-screen bg-green-50">
       <Header />
       <main className="container mx-auto p-8">
-        {/* Header Section */}
-        <div className="flex items-center justify-center mb-12">
-          <Image src={MKLogo} width={150} height={150} alt="MK Logo" />
-        </div>
-
         {/* Dashboard Title */}
         <h1 className="text-center text-4xl font-bold text-green-800 mb-12">DASHBOARD</h1>
 

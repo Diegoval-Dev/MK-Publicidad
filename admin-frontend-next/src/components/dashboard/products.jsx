@@ -33,7 +33,7 @@ export default function ProductManagement() {
 
         <button
           onClick={handleCreateProduct}
-          className="p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          className="button agregar-diseno-button"
         >
           Crear Producto
         </button>
