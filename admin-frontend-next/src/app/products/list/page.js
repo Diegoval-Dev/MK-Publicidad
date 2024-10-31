@@ -91,36 +91,36 @@ const ProductListPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100">
-      <h2 className="text-3xl font-bold text-black mb-6">Lista de Productos</h2>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#e6f4e7]">
+      <h2 className="text-4xl font-extrabold text-[#3b6b27] mb-8 underline">Lista de Productos</h2>
       
       <input
         type="text"
         placeholder="Buscar producto..."
-        className="mb-4 p-2 border rounded w-full max-w-md"
+        className="mb-6 p-4 border border-gray-300 rounded-lg w-full max-w-md focus:border-[#60a917] focus:ring-2 focus:ring-[#60a917]"
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {filteredProducts.map(product => (
           <div
             key={product.product_id}
-            className="bg-white p-4 rounded-lg shadow flex flex-col justify-between cursor-pointer hover:shadow-lg transition"
+            className="bg-white p-6 rounded-lg shadow-lg flex flex-col justify-between cursor-pointer hover:shadow-xl transition duration-300 ease-in-out transform hover:scale-105"
           >
             <img
               src={product.image_url}
               alt={product.product_name}
-              className="w-full h-40 object-cover rounded-md mb-4"
+              className="w-full h-56 object-cover rounded-md mb-4"
             />
             
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold">{product.product_name}</h3>
+              <h3 className="text-xl font-semibold text-gray-900">{product.product_name}</h3>
               
-              <div className="flex space-x-2">
+              <div className="flex space-x-4">
                 <button
                   onClick={() => handleEditClick(product.product_id)}
-                  className="text-blue-500 hover:text-blue-700"
+                  className="text-blue-500 hover:text-blue-700 transition duration-200 ease-in-out"
                   aria-label="Editar producto"
                 >
                   <FaEdit />
@@ -128,7 +128,7 @@ const ProductListPage = () => {
                 
                 <button
                   onClick={() => handleDeleteClick(product.product_id)}
-                  className="text-red-500 hover:text-red-700"
+                  className="text-red-500 hover:text-red-700 transition duration-200 ease-in-out"
                   aria-label="Eliminar producto"
                 >
                   <FaTrash />
