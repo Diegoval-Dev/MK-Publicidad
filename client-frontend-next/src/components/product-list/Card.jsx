@@ -35,11 +35,19 @@ function Card({ product_name, product_code, material, image_url, capacity, size,
 
 
 Card.propTypes = {
-  nombre_producto: PropTypes.string.isRequired,
-  codigo_producto: PropTypes.string,
+  product_name: PropTypes.string.isRequired,
+  product_code: PropTypes.string,
   material: PropTypes.string,
-  description: PropTypes.string,
-  url_imagen: PropTypes.string.isRequired,
+  image_url: PropTypes.string.isRequired,
+  capacity: PropTypes.string,
+  size: PropTypes.string,
+  Colors: PropTypes.arrayOf(
+    PropTypes.shape({
+      color_name: PropTypes.string,
+      hex_code: PropTypes.string,
+    })
+  ),
 };
+
 
 export default Card;

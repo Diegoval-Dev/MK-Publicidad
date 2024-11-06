@@ -21,6 +21,7 @@ function ProductList({ category, products }) {
                 `/categorias/${encodeURIComponent(category)}/${product.product_id}`
               )
             }
+            
             className="cursor-pointer"
           >
             <Card {...product} />
@@ -32,7 +33,24 @@ function ProductList({ category, products }) {
 }
 
 ProductList.propTypes = {
-  category: PropTypes.string.isRequired,
+  category: PropTypes.string.isRequired, // Puedes cambiarlo a category_id si es necesario
+  products: PropTypes.arrayOf(
+    PropTypes.shape({
+      product_id: PropTypes.number.isRequired,
+      product_name: PropTypes.string.isRequired,
+      product_code: PropTypes.string,
+      material: PropTypes.string,
+      image_url: PropTypes.string.isRequired,
+      capacity: PropTypes.string,
+      size: PropTypes.string,
+      Colors: PropTypes.arrayOf(
+        PropTypes.shape({
+          color_name: PropTypes.string,
+          hex_code: PropTypes.string,
+        })
+      ),
+    })
+  ).isRequired,
 };
 
 export default ProductList;

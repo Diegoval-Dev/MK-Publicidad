@@ -9,7 +9,7 @@ import FilterControls from '@components/product-list/FilterControls';
 import { fetchProductsByCategory } from '@api/products';
 
 function Catalogue() {
-  const { nombre_categoria } = useParams();
+  const { category_id } = useParams(); // Solo obtenemos category_id
   const router = useRouter(); 
 
   const [isFilterVisible, setIsFilterVisible] = useState(false);
@@ -23,23 +23,21 @@ function Catalogue() {
   const [filteredProducts, setFilteredProducts] = useState([]); 
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
-    if (nombre_categoria) {
-      loadProductsByCategory(nombre_categoria);
+    if (category_id) {
+      loadProductsByCategory(category_id);
     }
-  }, [nombre_categoria]);
+  }, [category_id]);
 
-  const loadProductsByCategory = async (category) => {
-    if (!category) {
-      console.error('Category is undefined');
+  const loadProductsByCategory = async (categoryId) => {
+    if (!categoryId) {
+      console.error('Category ID is undefined');
       return;
     }
-
+  
     try {
-      const data = await fetchProductsByCategory(category);
-      
-      const productArray = Array.isArray(data.data) ? data.data : [];
+      const data = await fetchProductsByCategory(categoryId);
+      const productArray = Array.isArray(data) ? data : data.data || []; // Ajusta según el formato de respuesta
       setProducts(productArray);
       setFilteredProducts(productArray);
     } catch (error) {
@@ -95,8 +93,6 @@ function Catalogue() {
     setIsFilterVisible(!isFilterVisible);
   };
 
-
-
   return (
     <div className="flex flex-col items-center">
       <div className="container flex justify-between w-full p-4">
@@ -108,13 +104,13 @@ function Catalogue() {
           setTempFilters={setAppliedFilters}
           handleApplyFilters={handleApplyFilters}
           handleClearFilters={handleClearFilters}
-          selectedCategory={nombre_categoria}
+          selectedCategory={category_id} // Cambiado para usar category_id
         />
       </div>
       {loading ? (
         <p className='text-color-text'>Cargando productos...</p>
       ) : filteredProducts.length > 0 ? (
-        <ProductList products={filteredProducts} category={nombre_categoria} />
+        <ProductList products={filteredProducts} category={category_id} />
       ) : (
         <p className='text-color-text'>No se encontraron productos para la categoría seleccionada.</p>
       )}

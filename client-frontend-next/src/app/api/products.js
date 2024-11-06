@@ -1,10 +1,10 @@
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export async function fetchProductsByCategory(categoryName) {
+export async function fetchProductsByCategory(categoryId) {
   try {
     const response = await fetch(
-      `${API_URL}/products?categoria=${encodeURIComponent(categoryName)}`
+      `${API_URL}/products/category/${encodeURIComponent(categoryId)}`
     );
     if (!response.ok) {
       throw new Error('Error al obtener productos');
@@ -15,6 +15,7 @@ export async function fetchProductsByCategory(categoryName) {
     throw error;
   }
 }
+
 
 export async function fetchProductById(productId) {
   try {

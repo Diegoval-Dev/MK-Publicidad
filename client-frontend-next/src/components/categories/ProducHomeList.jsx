@@ -11,7 +11,7 @@ function ProducHomeList({ categories = [] }) {
         ) : (
           categories.map((category, index) => (
             <div key={index} className="cursor-pointer w-64 mx-4 my-4">
-              <Link href={`categorias/${encodeURIComponent(category.category_name)}`}>
+              <Link href={`categorias/${encodeURIComponent(category.category_id)}`}>
                   <ProductCategory
                     image={category.image_url	|| ''}
                     category={category.category_name}
