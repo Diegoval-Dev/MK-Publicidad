@@ -1,11 +1,12 @@
 'use client';
-
+import Image from 'next/image';
 import { useState, useCallback } from 'react';
 import NavigationButtons from '@components/utils/NavigationButtons';
 import '@styles/contact/ContactForm.css';
 import facebookIcon from "@assets/imgs/facebook_icon.png";
 import instagramIcon from "@assets/imgs/instagram_icon.png";
 import mkLogo from "@assets/imgs/mk_logo.png";
+
 
 function Contact() {
     const [formData, setFormData] = useState({
@@ -100,13 +101,13 @@ function Contact() {
 
                 <div className='grid grid-cols-3 gap-9 mt-5'>
                     <div>
-                        <img src={mkLogo} alt="Logo de MK"/>
+                        <Image src={mkLogo} alt="Logo de MK" width={125} height={125} />
                         <div className=' flex w-[25%]'>
                                 <a href="https://m.facebook.com/people/MK-Publicidad-SA/100063825709539/" target='_blank' rel="noopener noreferrer">
-                                    <img src={facebookIcon} alt="Página de Facebook"/>
+                                    <Image src={facebookIcon} alt="Página de Facebook"/>
                                 </a>
                                 <a href="https://www.instagram.com/mkpublicidad?igsh=cnF3aW55OGp5dHNt" target='_blank' rel="noopener noreferrer">
-                                     <img src={instagramIcon} alt="Página de Instagram"/>
+                                     <Image src={instagramIcon} alt="Página de Instagram"/>
                                 </a>
                         </div>
                     </div>
