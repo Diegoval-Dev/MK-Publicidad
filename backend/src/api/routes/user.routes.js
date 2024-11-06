@@ -24,6 +24,8 @@ const resend = new Resend(process.env.RESEND_KEY);
  */
 router.get('/products', productController.getAllProducts);
 
+router.get('/products/category/:category_id', productController.getProductsByCategory);
+
 /**
  * @openapi
  * /send-email:

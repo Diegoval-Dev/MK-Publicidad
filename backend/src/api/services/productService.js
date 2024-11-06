@@ -14,6 +14,32 @@ export const getAllProductsForListing = async () => {
   }
 };
 
+const getProductsByCategory = async (category_id) => {
+  try {
+    const products = await Product.findAll({
+      where: { category_id },
+      include: [{
+        model: Category,
+        attributes: ['category_name'],
+      }],
+      attributes: ['product_id', 'product_name', 'product_code', 'capacity', 'size', 'image_url'],
+    });
+
+    return products.map(product => ({
+      product_id: product.product_id,
+      product_name: product.product_name,
+      product_code: product.product_code,
+      capacity: product.capacity,
+      size: product.size,
+      image_url: product.image_url,
+      category_name: product.Category.category_name,
+    }));
+  } catch (error) {
+    throw new Error(`Error retrieving products by category: ${error.message}`);
+  }
+};
+
+
 const createProduct = async (product) => {
   try {
     return await Product.create(product);
@@ -204,6 +230,7 @@ const getCategoriesByKeyword = async (keyword) => {
 
 export default {
   createProduct,
+  getProductsByCategory,
   getProducts,
   getProductById,
   updateProduct,

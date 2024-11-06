@@ -370,6 +370,18 @@ const getFilterOptionsByCategory = async (req, res) => {
     }
 };
 
+const getProductsByCategory = async (req, res) => {
+    try {
+      const category_id = req.params.category_id;
+      const products = await productService.getProductsByCategory(category_id);
+  
+      res.status(200).json(products);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  };
+
+  
 /**
  * @openapi
  * /api/products/categories:
@@ -448,6 +460,7 @@ const getCategoriesByKeyword = async (req, res) => {
 
 export default {
     getAllProducts,
+    getProductsByCategory,
     getProductById,
     listProducts,
     createProduct,
