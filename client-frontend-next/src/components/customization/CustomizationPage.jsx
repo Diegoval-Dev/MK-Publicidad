@@ -20,13 +20,10 @@ const CustomizationPage = () => {
   const [color, setColor] = useState('');
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const [errorMessage, setErrorMessage] = useState('');
   const fabricCanvasRef = useRef(null);
-
   const router = useRouter();
   const { nombre_categoria, productId } = useParams();
-
-  // Llamadas a hooks deben estar antes de cualquier retorno condicional
   const memoizedImages = useMemo(() => images, [images]);
   const memoizedTexts = useMemo(() => texts, [texts]);
 
@@ -46,7 +43,6 @@ const CustomizationPage = () => {
     }
   }, [productId]);
 
-  // Retornos condicionales después de los hooks
   if (loading) {
     return <p>Cargando producto...</p>;
   }
@@ -67,17 +63,18 @@ const CustomizationPage = () => {
   };
 
   const handleCustomizationClick = (e) => {
-
     e.preventDefault();
-    console.log('Customization data:', product);
+    
+    if (quantity < 1) {
+      setErrorMessage('La cantidad de artículos debe ser mayor o igual a 1.');
+      return;
+    }
+
+    setErrorMessage('');
+
     const screenshotData = takeScreenshot();
-
-    console.log('Customization data:', {
-      screenshot: screenshotData,
-    });
-
     const customizationData = {
-      category: product.nombre_categoria, // Guardar la categoría
+      category: product.nombre_categoria,
       productId: product.product_id,
       screenshot: screenshotData,
       color,
@@ -95,7 +92,7 @@ const CustomizationPage = () => {
     setTexts([
       ...texts,
       {
-        id: Date.now(), // Asegúrate de que cada texto tenga un ID único
+        id: Date.now(),
         text: '',
         fontFamily: 'Arial',
         fontSize: 16,
@@ -124,16 +121,13 @@ const CustomizationPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-white">
-      {/* Sección del título */}
       <div className="w-full text-center py-4">
         <h1 className="text-4xl font-semibold text-gray-900">{product.product_name}</h1>
         <div className="mt-2 mx-auto w-80 border-b-2 border-green-600"></div>
       </div>
 
       <div className="container flex justify-between items-center p-4">
-        <NavigationButtons
-          className="ml-4"
-        />
+        <NavigationButtons className="ml-4" />
       </div>
 
       <div className="flex justify-center items-start w-full max-w-4xl px-4 mt-8">
@@ -177,12 +171,7 @@ const CustomizationPage = () => {
               Añadir Texto
             </SubtleButton>
           )}
-          {editorVisible && (
-            <ImageUploader
-              images={images}
-              setImages={setImages}
-            />
-          )}
+          {editorVisible && <ImageUploader images={images} setImages={setImages} />}
           <form className="bg-white shadow-md rounded px-4 pt-4 pb-2">
             <div className="form-group">
               <label htmlFor="quantity" className="block text-sm font-medium text-gray-700">
@@ -198,7 +187,11 @@ const CustomizationPage = () => {
                 value={quantity}
                 onChange={(e) => setQuantity(e.target.value)}
               />
+              {errorMessage && (
+                <p className="text-red-500 text-sm mt-1">{errorMessage}</p>
+              )}
             </div>
+
             {product.colors && (
               <div className="form-group">
                 <label htmlFor="color" className="block text-sm font-medium text-gray-700">
@@ -208,7 +201,11 @@ const CustomizationPage = () => {
                   <div className="flex items-center space-x-2 mb-2">
                     <span
                       className="w-6 h-6 rounded-full border border-gray-300"
-                      style={{ backgroundColor: product.colors.find((col) => col.color_name === color)?.hex_code }}
+                      style={{
+                        backgroundColor: product.colors.find(
+                          (col) => col.color_name === color
+                        )?.hex_code,
+                      }}
                     ></span>
                     <span>{color}</span>
                   </div>
@@ -231,10 +228,7 @@ const CustomizationPage = () => {
             )}
 
             <div className="form-group">
-              <label
-                htmlFor="additional-description"
-                className="block text-sm font-medium text-gray-700"
-              >
+              <label htmlFor="additional-description" className="block text-sm font-medium text-gray-700">
                 Descripción Adicional:
               </label>
               <textarea
