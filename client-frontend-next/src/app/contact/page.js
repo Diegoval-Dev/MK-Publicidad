@@ -12,14 +12,13 @@ import { useRouter } from 'next/navigation';
 
 function Contact() {
     const router = useRouter();
-
     const [formData, setFormData] = useState({
         nombre: '',
         correo: '',
         comentario: ''
     });
-
     const [hovered, setHovered] = useState(false);
+    const [userEmail, setUserEmail] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -29,8 +28,12 @@ function Contact() {
         
     };
 
+    const handleSubscription = (e) => {
+        console.log(userEmail);
+    }
+
     const handleInputChange = useCallback((e) => {
-        const { name, value } = e.target;
+        const { name, value } = e.target.value;
         setFormData((prevData) => ({
             ...prevData,
             [name]: value
@@ -93,13 +96,16 @@ function Contact() {
                     </div>
                     <div className='flex items-center justify-center'>
                         <input 
-                            className='input'
+                            className='input text-black'
                             type="text"
                             name='emailBoard'
                             placeholder='Correo electrónico'
+                            value={userEmail}
+                            onChange={(e) => setUserEmail(e.target.value)}
                         />
                         <button
                             type='submit'
+                            onClick={handleSubscription}
                             className={`font-bold bg-${hovered ? 'color' : 'lime'}-500 text-${hovered ? 'componentes' : 'color-text'} rounded hover:bg-color-prices hover:text-color-componentes transition-colors ml-2 w-48 h-12`}
                             >¡Estoy dentro!</button>
                     </div>
