@@ -46,7 +46,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-green-600">
+    <div className="flex items-center justify-center min-h-screen" style={{ backgroundColor: '#3D6720' }}>
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
         <div className="flex justify-center mb-6">
           <img src="/image.png" alt="Logo" className="h-16" />
@@ -128,6 +128,7 @@ const RegisterPage = () => {
           <button
             type="submit"
             className="w-full py-3 bg-green-600 text-white rounded-md hover:bg-green-700 transition-all duration-300 font-bold text-lg"
+            style={{ backgroundColor: '#65A30D', hover: { backgroundColor: '#4B8510' } }}
           >
             Registrar
           </button>
@@ -138,3 +139,4 @@ const RegisterPage = () => {
 };
 
 export default RegisterPage;
+
