@@ -104,6 +104,56 @@ router.post("/send-email", async (req, res) => {
   res.status(200).json({ data });
 });
 
+/**
+ paths:
+  /feedback:
+    post:
+      summary: Envía un comentario de usuario a través de correo electrónico
+      description: Esta ruta permite que los usuarios envíen un comentario, el cual es recibido por correo electrónico.
+      tags:
+        - Feedback
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                customer_name:
+                  type: string
+                  description: Nombre del usuario que envía el comentario
+                  example: "Juan Pérez"
+                customer_email:
+                  type: string
+                  format: email
+                  description: Correo electrónico del usuario
+                  example: "juanperez@example.com"
+                customer_comment:
+                  type: string
+                  description: Comentario del usuario
+                  example: "Estoy muy satisfecho con el servicio."
+      responses:
+        '200':
+          description: Comentario enviado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    description: Detalles de la respuesta del servicio de correo
+        '400':
+          description: Error al enviar el comentario
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Descripción del error
+ */
 router.post("/feedback", async (req, res) => {
   const { customer_name, customer_email, customer_comment } = req.body;
   console.log(req.body)
