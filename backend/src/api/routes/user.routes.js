@@ -104,7 +104,24 @@ router.post("/send-email", async (req, res) => {
   res.status(200).json({ data });
 });
 
+router.post("/feedback", async (req, res) => {
+  const { customer_name, customer_email, customer_comment } = req.body;
+  console.log(req.body)
+  const { data, error } = await resend.emails.send({
+    from: `${customer_name} <onboarding@diegovalenzuela.me>`,
+    to: ["danielpenedo2@gmail.com"],
+    subject: "Nuevo comentario de usuario",
+    html: `<p><strong>Nombre:</strong> ${customer_name}</p>
+          <p><strong>Email:</strong> ${customer_email}</p>
+          <p><strong>Mensaje:</strong> ${customer_comment}</p>`,
+  });
 
+  if (error) {
+    return res.status(400).json({ error });
+  }
+
+  res.status(200).json({ data });
+});
 // Ruta para obtener los filtros posibles por categoria
 /**
  * @openapi

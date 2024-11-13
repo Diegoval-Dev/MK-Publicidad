@@ -5,10 +5,14 @@ import NavigationButtons from '@components/utils/NavigationButtons';
 import '@styles/contact/ContactForm.css';
 import facebookIcon from "@assets/imgs/facebook_icon.png";
 import instagramIcon from "@assets/imgs/instagram_icon.png";
+import { contact } from '../api/contact';
 import mkLogo from "@assets/imgs/mk_logo.png";
+import { useRouter } from 'next/navigation';
 
 
 function Contact() {
+    const router = useRouter();
+
     const [formData, setFormData] = useState({
         nombre: '',
         correo: '',
@@ -19,8 +23,10 @@ function Contact() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        console.log('Datos del formulario:', formData);
+        console.log(formData)
+        contact(formData.nombre, formData.correo, formData.comentario)
+        router.push('/categorias')
+        
     };
 
     const handleInputChange = useCallback((e) => {
@@ -44,7 +50,7 @@ function Contact() {
                     <label htmlFor="nombre" className="font-bold flex justify-start items-center text-sm">Nombre completo:</label>
                     <input 
                         type="text"
-                        name='nombre'  // Asegúrate de que el nombre coincida con la clave de formData
+                        name='nombre'
                         placeholder='Nombre completo'
                         value={formData.nombre}
                         onChange={handleInputChange}
@@ -80,7 +86,7 @@ function Contact() {
                     </button>
                 </form>
 
-                <div className='container border border-black-300 p-3 mt-5 shadow-md rounded-lg text-[white] mt-8 w-[100%] justify-between items-center text-left bg-[#388E3C] flex'>
+                <div className='container border border-black-300 p-3 shadow-md rounded-lg text-[white] mt-8 w-[100%] justify-between items-center text-left bg-[#388E3C] flex'>
                     <div>
                         <h1 className='boardTitle'>Boletín</h1>
                         <p>Recibe nuestras novedades, promociones y recomendaciones</p>
@@ -94,7 +100,7 @@ function Contact() {
                         />
                         <button
                             type='submit'
-                            className={`font-bold bg-${hovered ? 'color-prices' : 'lime'}-500 text-${hovered ? 'componentes' : 'color-text'} rounded hover:bg-color-prices hover:text-color-componentes transition-colors ml-2 w-48 h-12`}
+                            className={`font-bold bg-${hovered ? 'color' : 'lime'}-500 text-${hovered ? 'componentes' : 'color-text'} rounded hover:bg-color-prices hover:text-color-componentes transition-colors ml-2 w-48 h-12`}
                             >¡Estoy dentro!</button>
                     </div>
                 </div>
