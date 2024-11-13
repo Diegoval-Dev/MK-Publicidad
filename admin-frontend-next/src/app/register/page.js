@@ -46,83 +46,93 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className="register-container" style={{ maxWidth: '500px', margin: '0 auto', padding: '20px', backgroundColor: 'var(--color-componentes)', borderRadius: '10px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)' }}>
-      <h1 className="centered-title">Registro de Usuario</h1>
-      <form onSubmit={handleRegister}>
-        <div className="form-group">
-          <label>Correo Electrónico:</label>
-          <input
-            type="email"
-            value={userEmail}
-            onChange={(e) => setUserEmail(e.target.value)}
-            className="input-field"
-            required
-          />
+    <div className="flex items-center justify-center min-h-screen bg-green-600">
+      <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+        <div className="flex justify-center mb-6">
+          <img src="/image.png" alt="Logo" className="h-16" />
         </div>
-        <div className="form-group">
-          <label>Contraseña:</label>
-          <input
-            type="password"
-            value={userPassword}
-            onChange={(e) => setUserPassword(e.target.value)}
-            className="input-field"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Rol de Usuario:</label>
-          <input
-            type="text"
-            value={userRole}
-            onChange={(e) => setUserRole(e.target.value)}
-            className="input-field"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Nombre Completo:</label>
-          <input
-            type="text"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-            className="input-field"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Posición:</label>
-          <input
-            type="text"
-            value={position}
-            onChange={(e) => setPosition(e.target.value)}
-            className="input-field"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Teléfono Personal:</label>
-          <input
-            type="text"
-            value={userPhone}
-            onChange={(e) => setUserPhone(e.target.value)}
-            className="input-field"
-            required
-          />
-        </div>
-        <div className="form-group">
-          <label>Teléfono de Oficina:</label>
-          <input
-            type="text"
-            value={userOfficePhone}
-            onChange={(e) => setUserOfficePhone(e.target.value)}
-            className="input-field"
-            required
-          />
-        </div>
-        <button type="submit" className="button" style={{ width: '100%' }}>
-          Registrar
-        </button>
-      </form>
+        <h1 className="text-center text-2xl font-semibold text-gray-800 mb-6">
+          Registro de Usuario
+        </h1>
+        <form onSubmit={handleRegister}>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-semibold mb-2">Correo Electrónico:</label>
+            <input
+              type="email"
+              value={userEmail}
+              onChange={(e) => setUserEmail(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-semibold mb-2">Contraseña:</label>
+            <input
+              type="password"
+              value={userPassword}
+              onChange={(e) => setUserPassword(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-semibold mb-2">Rol de Usuario:</label>
+            <input
+              type="text"
+              value={userRole}
+              onChange={(e) => setUserRole(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-semibold mb-2">Nombre Completo:</label>
+            <input
+              type="text"
+              value={userName}
+              onChange={(e) => setUserName(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-semibold mb-2">Posición:</label>
+            <input
+              type="text"
+              value={position}
+              onChange={(e) => setPosition(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-semibold mb-2">Teléfono Personal:</label>
+            <input
+              type="text"
+              value={userPhone}
+              onChange={(e) => setUserPhone(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 font-semibold mb-2">Teléfono de Oficina:</label>
+            <input
+              type="text"
+              value={userOfficePhone}
+              onChange={(e) => setUserOfficePhone(e.target.value)}
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            className="w-full py-3 bg-green-600 text-white rounded-md hover:bg-green-700 transition-all duration-300 font-bold text-lg"
+          >
+            Registrar
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
