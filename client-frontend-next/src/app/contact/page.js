@@ -1,14 +1,13 @@
 'use client';
 import Image from 'next/image';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import NavigationButtons from '@components/utils/NavigationButtons';
 import '@styles/contact/ContactForm.css';
 import facebookIcon from "@assets/imgs/facebook_icon.png";
 import instagramIcon from "@assets/imgs/instagram_icon.png";
-import { contact } from '../api/contact';
+import { contact, subscribe } from '../api/contact';
 import mkLogo from "@assets/imgs/mk_logo.png";
 import { useRouter } from 'next/navigation';
-
 
 function Contact() {
     const router = useRouter();
@@ -18,7 +17,15 @@ function Contact() {
         comentario: ''
     });
     const [hovered, setHovered] = useState(false);
+    const [bulletinHovered, setBulletinHovered] = useState(false);
     const [userEmail, setUserEmail] = useState("");
+    const [isOpen, setIsOpen] = useState(false);
+    const [isError, setIsError] = useState(false);
+    
+    const openError = () => setIsError(true);
+    const closeError = () => setIsError(false);
+    const openModal = () => setIsOpen(true);
+    const closeModal = () => setIsOpen(false);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -28,8 +35,83 @@ function Contact() {
         
     };
 
-    const handleSubscription = (e) => {
-        console.log(userEmail);
+    const Modal = () => {
+        return (
+          <>
+            {isOpen && (
+              <div
+                className="fixed inset-0 z-[999] flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm"
+                onClick={closeModal}
+              >
+                <div
+                  onClick={(e) => e.stopPropagation()}
+                  className="relative m-4 p-4 w-2/5 min-w-[40%] max-w-[40%] rounded-lg bg-white shadow-sm"
+                >
+                  <div className="flex items-center pb-4 text-xl font-medium text-slate-800">
+                    Suscripción exitosa
+                  </div>
+                  <div className="border-t border-slate-200 py-4 leading-normal text-slate-600 font-light">
+                    Se ha suscrito correctamente a nuestro boletín de novedades.
+                  </div>
+                  <div className="flex items-center pt-4 justify-end">
+                    <button
+                      onClick={closeModal}
+                      className={`font-bold bg-${hovered ? 'color' : 'lime'}-500 text-${hovered ? 'componentes' : 'color-text'} rounded hover:bg-color-prices hover:text-color-componentes transition-colors ml-2 w-20 h-10`}
+                      type="button"
+                    >
+                      Volver
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
+        );
+    };
+
+    const ErrorModal = () => {
+        return (
+          <>
+            {isError && (
+              <div
+                className="fixed inset-0 z-[999] flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm"
+                onClick={closeError}
+              >
+                <div
+                  onClick={(e) => e.stopPropagation()}
+                  className="relative m-4 p-4 w-2/5 min-w-[40%] max-w-[40%] rounded-lg bg-white shadow-sm"
+                >
+                  <div className="flex items-center pb-4 text-xl font-medium text-slate-800">
+                    Suscripción fallida
+                  </div>
+                  <div className="border-t border-slate-200 py-4 leading-normal text-slate-600 font-light">
+                    Ha ocurrido un error al realizar la suscripción. Inténtalo de nuevo más tarde.
+                  </div>
+                  <div className="flex items-center pt-4 justify-end">
+                    <button
+                      onClick={closeError}
+                      className={`font-bold bg-${hovered ? 'color' : 'red'}-500 text-${hovered ? 'componentes' : 'color-text'} rounded hover:bg-red-800 hover:text-color-componentes transition-colors ml-2 w-20 h-10`}
+                      type="button"
+                    >
+                      Volver
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+          </>
+        );
+    };
+
+    const handleSubscription = async () => {
+        const response = await subscribe(userEmail);
+
+        if (response) {
+            openModal();
+
+        } else {
+            openError();
+        }
     }
 
     const handleInputChange = useCallback((e) => {
@@ -42,6 +124,8 @@ function Contact() {
 
     return (
         <div style={{ display: "flex", alignItems: "center", flexDirection: "column" }}>
+            <Modal />
+            <ErrorModal />
             <div className="container flex justify-between w-full p-4">
                 <NavigationButtons/>
             </div>
@@ -105,8 +189,10 @@ function Contact() {
                         />
                         <button
                             type='submit'
+                            onMouseEnter={() => setBulletinHovered(true)}
+                            onMouseLeave={() => setBulletinHovered(false)}
                             onClick={handleSubscription}
-                            className={`font-bold bg-${hovered ? 'color' : 'lime'}-500 text-${hovered ? 'componentes' : 'color-text'} rounded hover:bg-color-prices hover:text-color-componentes transition-colors ml-2 w-48 h-12`}
+                            className={`font-bold bg-${bulletinHovered ? 'color' : 'lime'}-500 text-${bulletinHovered ? 'componentes' : 'color-text'} rounded hover:bg-color-prices hover:text-color-componentes transition-colors ml-2 w-48 h-12`}
                             >¡Estoy dentro!</button>
                     </div>
                 </div>
