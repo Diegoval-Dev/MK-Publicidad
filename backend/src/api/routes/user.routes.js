@@ -172,6 +172,7 @@ router.post("/feedback", async (req, res) => {
 
   res.status(200).json({ data });
 });
+
 // Ruta para obtener los filtros posibles por categoria
 /**
  * @openapi
