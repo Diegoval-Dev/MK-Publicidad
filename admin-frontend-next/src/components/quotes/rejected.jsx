@@ -22,7 +22,7 @@ const Rejected = () => {
         "quote_details": "Dfnjehnvseijfnvejilkgnvjseirngveijsbnvjeisvneijnvejskvnjefskvbn dfjskvbndfjhsbvkdse"
       }
 
-  const [quotes, setQuotes] = useState([example]);
+  const [quotes, setQuotes] = useState([]);
   console.log(quotes)
   
   async function  getRejectedQuotes() {
@@ -39,6 +39,10 @@ const Rejected = () => {
       throw new Error("Ocurrió un error al obtener las cotizaciones.")
     }
   }
+
+  useEffect(() => {
+    getRejectedQuotes();
+  }, []);
 
   return (
     <div className='py-8'>

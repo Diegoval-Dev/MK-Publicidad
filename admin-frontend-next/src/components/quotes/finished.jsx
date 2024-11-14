@@ -22,7 +22,7 @@ const Finished = () => {
         "quote_details": "Dfnjehnvseijfnvejilkgnvjseirngveijsbnvjeisvneijnvejskvnjefskvbn dfjskvbndfjhsbvkdse"
       }
 
-  const [quotes, setQuotes] = useState([example]);
+  const [quotes, setQuotes] = useState([]);
   console.log(quotes)
   
   async function  getFinishedQuotes() {
@@ -39,6 +39,10 @@ const Finished = () => {
       throw new Error("Ocurrió un error al obtener las cotizaciones.")
     }
   }
+
+  useEffect(() => {
+    getFinishedQuotes();
+  }, []);
 
   return (
     <div className='py-8'>
@@ -98,4 +102,4 @@ const Finished = () => {
   )
 }
 
-export default Sended
+export default Finished
