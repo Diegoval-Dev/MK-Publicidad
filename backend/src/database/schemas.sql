@@ -33,6 +33,12 @@ CREATE TABLE Product_Colors (
     FOREIGN KEY (color_id) REFERENCES Colors(color_id)
 );
 
+-- Creación de tabla para usuarios suscritos a novedades y promociones
+CREATE TABLE Susbscripted_Users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_email VARCHAR(255)
+);
+
 -- Inserción de datos en la tabla Categories
 INSERT INTO Categories (category_name) VALUES
 ('Cerámica'),
