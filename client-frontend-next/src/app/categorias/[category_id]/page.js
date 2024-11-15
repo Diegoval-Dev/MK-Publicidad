@@ -110,7 +110,7 @@ function Catalogue() {
       {loading ? (
         <p className='text-color-text'>Cargando productos...</p>
       ) : filteredProducts.length > 0 ? (
-        <ProductList products={filteredProducts} category={category_id} />
+        <ProductList products={filteredProducts} category={category_id} categoryName={filteredProducts[0].category_name}/>
       ) : (
         <p className='text-color-text'>No se encontraron productos para la categoría seleccionada.</p>
       )}
