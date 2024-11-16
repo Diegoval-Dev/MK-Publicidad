@@ -17,7 +17,7 @@ export const getAllProductsForListing = async () => {
 const getProductsByCategory = async (category_id) => {
   try {
     const products = await Product.findAll({
-      where: { category_id },
+      where: { category_id, is_enabled : true  },
       include: [{
         model: Category,
         attributes: ['category_name'],
