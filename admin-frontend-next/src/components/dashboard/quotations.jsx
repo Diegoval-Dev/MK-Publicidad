@@ -1,3 +1,4 @@
+'use client'
 import Image from "next/image";
 import Accepted from "../quotes/accepted";
 import { useState } from "react";
