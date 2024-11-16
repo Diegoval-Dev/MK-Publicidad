@@ -1,9 +1,19 @@
 import Image from "next/image";
+import Accepted from "../quotes/accepted";
+import { useState } from "react";
+import Finished from "../quotes/finished";
+import Rejected from "../quotes/rejected";
+import Pending from "../quotes/pending";
+import Sended from "../quotes/sended";
+// import accepted_icon from "../../../public/"
 
 export default function Quotations() {
+  const [selectedOption, setSelectedOption] = useState("accepted");
+
   const SideMenu = () => {
     return (
-      <div
+      <div className="flex flex-row justify-between">
+        <div
       class="relative flex h-[calc(100vh-20rem)] w-full max-w-[20rem] flex-col rounded-xl bg-white bg-clip-border p-4 text-gray-700 shadow-xl shadow-blue-gray-900/5">
       <div class="p-4 mb-2">
         <h5 class="block font-sans text-xl antialiased font-semibold leading-snug tracking-normal text-blue-gray-900">
@@ -12,18 +22,14 @@ export default function Quotations() {
       </div>
       <nav class="flex min-w-[240px] flex-col gap-1 p-2 font-sans text-base font-normal text-blue-gray-700">
         <div role="button"
+          onClick={() => setSelectedOption("accepted")}
           class="flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
           <div class="grid mr-4 place-items-center">
-          <Image
-            src=""
-            width={500}
-            height={500}
-            alt="Picture of the author"
-          />
           </div>
           Aceptadas
         </div>
         <div role="button"
+          onClick={() => setSelectedOption("finished")}
           class="flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
           <div class="grid mr-4 place-items-center">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
@@ -37,11 +43,12 @@ export default function Quotations() {
           <div class="grid ml-auto place-items-center justify-self-end">
             <div
               class="relative grid items-center px-2 py-1 font-sans text-xs font-bold uppercase rounded-full select-none whitespace-nowrap bg-blue-gray-500/20 text-blue-gray-900">
-              <span class="">14</span>
+              <span class=""></span>
             </div>
           </div>
         </div>
         <div role="button"
+          onClick={() => setSelectedOption("pending")}
           class="flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
           <div class="grid mr-4 place-items-center">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
@@ -54,6 +61,7 @@ export default function Quotations() {
           Pendientes
         </div>
         <div role="button"
+          onClick={() => setSelectedOption("rejected")}
           class="flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
           <div class="grid mr-4 place-items-center">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
@@ -66,6 +74,7 @@ export default function Quotations() {
           Rechazadas
         </div>
         <div role="button"
+          onClick={() => setSelectedOption("sended")}
           class="flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
           <div class="grid mr-4 place-items-center">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
@@ -78,6 +87,7 @@ export default function Quotations() {
           Enviadas
         </div>
         <div role="button"
+          onClick={console.log("Cerrando sesión...")}
           class="flex items-center w-full p-3 leading-tight transition-all rounded-lg outline-none text-start hover:bg-blue-gray-50 hover:bg-opacity-80 hover:text-blue-gray-900 focus:bg-blue-gray-50 focus:bg-opacity-80 focus:text-blue-gray-900 active:bg-blue-gray-50 active:bg-opacity-80 active:text-blue-gray-900">
           <div class="grid mr-4 place-items-center">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"
@@ -91,6 +101,31 @@ export default function Quotations() {
         </div>
       </nav>
     </div>
+    <div className="mr-20 overflow-auto">
+      {selectedOption === "accepted" ? (
+        <Accepted />
+      ) : (
+        selectedOption === "finished" ? (
+          <Finished />
+        ) : (
+          selectedOption === "rejected" ? (
+            <Rejected />
+          ) : (
+            selectedOption === "pending" ? (
+              <Pending />
+            ) : (
+              selectedOption === "sended" ? (
+                <Sended />
+              ) : (
+                <h1>Error</h1>
+              )
+            )
+          )
+        )
+      )}
+    </div>
+
+      </div>
     )
   }
   return (
