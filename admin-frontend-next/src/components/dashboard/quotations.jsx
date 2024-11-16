@@ -1,5 +1,4 @@
 import Image from "next/image";
-import accepted_icon from "../../../public/"
 
 export default function Quotations() {
   const SideMenu = () => {
